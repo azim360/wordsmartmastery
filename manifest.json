@@ -1,0 +1,21 @@
+{
+  "name": "Word Smart 1 & 2 Mastery",
+  "short_name": "Word Smart",
+  "description": "793 words across 16 study drills, presented as a library catalog of flashcards.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#12181f",
+  "theme_color": "#12181f",
+  "icons": [
+    {
+      "src": "https://www.google.com/s2/favicons?domain=github.com&sz=192",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://www.google.com/s2/favicons?domain=github.com&sz=512",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
