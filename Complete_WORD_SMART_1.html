@@ -1,0 +1,2097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>WORD SMART 1 FLASH CARDS</title>
+<meta name="description" content="793 words across 16 study drills, presented as a library catalog of flashcards.">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#12181f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   WORD SMART 1 FLASH CARDS — Vocabulary Drill Catalog
+   ============================================================ */
+
+@font-face { font-display: swap; }
+
+:root{
+  --ink:        #12181f;
+  --ink-2:      #1c2531;
+  --panel:      #1b2530;
+  --panel-2:    #232f3d;
+  --rail:       #2c3846;
+  --paper:      #f2ecda;
+  --paper-2:    #e9e1c9;
+  --paper-line: #d8cfae;
+  --brass:      #c9974c;
+  --brass-hi:   #e3b56c;
+  --sage:       #7ea083;
+  --stamp-red:  #b0463f;
+  --ink-text:   #eae6da;
+  --ink-muted:  #9aa7b4;
+  --shadow:     0 18px 40px -20px rgba(0,0,0,.55);
+
+  --serif: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono:  "IBM Plex Mono", "SFMono-Regular", Menlo, monospace;
+
+  /* Liquid-glass surface tokens */
+  --glass-bg: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
+  --glass-border: rgba(255,255,255,.16);
+  --glass-highlight: rgba(255,255,255,.5);
+  --glass-shadow: 0 8px 26px -12px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.14);
+}
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; overflow-x:hidden; touch-action:pan-y pan-x; }
+
+body{
+  margin:0;
+  min-height:100vh;
+  max-width:100vw;
+  overflow-x:hidden;
+  background:
+    radial-gradient(ellipse 1200px 600px at 15% -10%, #202c3a 0%, transparent 60%),
+    radial-gradient(ellipse 900px 700px at 110% 10%, #1a2735 0%, transparent 55%),
+    var(--ink);
+  color:var(--ink-text);
+  font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;
+}
+
+a{ color:inherit; }
+button{ font-family:inherit; }
+
+::selection{ background:var(--brass); color:var(--ink); }
+
+::-webkit-scrollbar{ width:10px; height:10px; }
+::-webkit-scrollbar-track{ background:transparent; }
+::-webkit-scrollbar-thumb{ background:var(--rail); border-radius:8px; }
+
+a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible{
+  outline:2px solid var(--brass-hi);
+  outline-offset:3px;
+  border-radius:4px;
+}
+
+.app{ max-width:1180px; margin:0 auto; padding:28px 22px 80px; }
+
+/* Block Selection/Copying on Top Bar */
+.topbar{
+  display:flex; align-items:flex-end; justify-content:space-between;
+  gap:24px; margin-bottom:12px; flex-wrap:wrap;
+  border-bottom:1px solid var(--rail);
+  padding:14px 0 22px;
+  user-select: none;
+  -webkit-user-select: none;
+  position:sticky; top:0; z-index:600;
+  background:var(--ink);
+  transition:padding .25s ease, background .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.topbar.scrolled{
+  padding-top:10px; padding-bottom:10px;
+  background:rgba(18,24,31,.88);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  backdrop-filter:blur(14px) saturate(140%);
+  box-shadow:0 12px 28px -16px rgba(0,0,0,.6);
+  border-bottom-color:var(--rail);
+}
+.brand{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+
+.brand-logo{ transition:width .25s ease, height .25s ease; flex:none; }
+.topbar.scrolled .brand-logo{ width:22px; height:22px; }
+
+.brand h1{
+  font-family:var(--serif); font-weight:600; font-optical-sizing:auto;
+  font-size:clamp(1.5rem, 3.5vw, 2.2rem); letter-spacing:.01em; margin:0;
+  line-height:1.15;
+  overflow:hidden; white-space:normal;
+  max-width:600px; max-height:3.2em; opacity:1;
+  transition:max-height .3s ease, opacity .22s ease, margin .3s ease, max-width .3s ease;
+}
+.topbar.scrolled .brand h1{
+  max-height:0; opacity:0; margin:0; pointer-events:none;
+}
+.brand h1 em{ font-style:italic; color:var(--brass-hi); font-weight:500; }
+.tagline{ font-size:.86rem; color:var(--ink-muted); margin-top:6px; max-width:46ch; }
+
+.header-actions { display:flex; align-items:center; gap:26px; flex-wrap:wrap; margin-left:auto; justify-content:flex-end; }
+.stat-strip{ display:flex; gap:26px; }
+.stat{ text-align:right; }
+.stat .n{ font-family:var(--mono); font-size:1.35rem; color:var(--paper); display:block; line-height:1.1; transition:font-size .25s ease; }
+.stat .l{ font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-muted); transition:font-size .25s ease; }
+.topbar.scrolled .stat-strip{ gap:16px; }
+.topbar.scrolled .stat .n{ font-size:1.02rem; }
+.topbar.scrolled .stat .l{ font-size:.58rem; letter-spacing:.1em; }
+
+/* ============ HERO SECTION & LOGO ============ */
+.hero-section {
+  text-align: center;
+  margin: 20px 0 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.hero-graphic {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: -10px;
+}
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 600;
+  margin: 16px 0 8px;
+  color: var(--paper);
+  will-change: transform, opacity;
+  transform: scale(var(--hero-scale, 1)) translateZ(0);
+  opacity: var(--hero-opacity, 1);
+}
+.hero-tagline {
+  font-size: .95rem;
+  color: var(--ink-muted);
+  max-width: 52ch;
+  line-height: 1.5;
+  margin: 0 auto;
+  will-change: transform, opacity;
+  transform: scale(var(--hero-scale, 1)) translateZ(0);
+  opacity: var(--hero-opacity, 1);
+}
+.dev-badge {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: .08em;
+  background: var(--stamp-red);
+  color: white;
+  padding: 3px 7px;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+/* ============ AUTHENTICATION STYLES ============ */
+.auth-strip { display: flex; align-items: center; gap: 12px; }
+.auth-overlay {
+  position: fixed; inset: 0; background: rgba(18, 24, 31, 0.85);
+  display: flex; align-items: center; justify-content: center; z-index: 1000;
+  backdrop-filter: blur(5px); transition: opacity 0.2s ease;
+}
+.auth-overlay.hidden { display: none !important; }
+.auth-box {
+  background: var(--panel); border: 1px solid var(--rail); border-radius: 14px;
+  padding: 36px 32px; width: 100%; max-width: 420px; position: relative;
+  box-shadow: var(--shadow); text-align: center;
+}
+.close-auth {
+  position: absolute; top: 16px; right: 20px; background: transparent; border: none;
+  color: var(--ink-muted); font-size: 1.8rem; cursor: pointer; line-height: 1; padding: 0;
+}
+.close-auth:hover { color: var(--brass-hi); }
+.oauth-btn {
+  width: 100%; padding: 12px; border-radius: 9px; border: 1px solid var(--rail);
+  background: var(--panel-2); color: var(--ink-text); font-size: 0.95rem; font-weight: 500;
+  display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer;
+  transition: all 0.2s ease;
+}
+.oauth-btn:hover { background: #fff; color: #000; border-color: #fff; }
+.auth-divider {
+  margin: 28px 0; border-bottom: 1px solid var(--rail); position: relative;
+}
+.auth-divider span {
+  position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+  background: var(--panel); padding: 0 14px; font-size: 0.8rem; color: var(--ink-muted);
+}
+.email-form { display: flex; flex-direction: column; gap: 14px; }
+.email-form input {
+  width: 100%; padding: 14px 16px; border-radius: 9px; border: 1px solid var(--rail);
+  background: var(--panel-2); color: var(--ink-text); font-family: var(--sans); font-size: 0.95rem;
+}
+.email-form input::placeholder { color: var(--ink-muted); }
+.email-form button {
+  width: 100%; padding: 14px; border-radius: 9px; border: none;
+  background: var(--brass); color: var(--ink); font-size: 0.95rem; font-weight: 600; cursor: pointer;
+  margin-top: 6px; transition: filter 0.2s ease;
+}
+.email-form button:hover { filter: brightness(1.1); }
+/* =============================================== */
+
+/* ============ SIDE MENU (HAMBURGER) ============ */
+/* Search + hamburger live together in one fused liquid-glass pill
+   (see .quick-actions below); .glass supplies the blurred surface. */
+.quick-actions{
+  display:flex; align-items:center; gap:2px;
+  border-radius:999px; padding:4px; flex:none;
+}
+.quick-action-btn{
+  background:transparent; border:none; color:var(--ink-text); cursor:pointer;
+  width:38px; height:38px; border-radius:50%; display:flex;
+  align-items:center; justify-content:center;
+  transition:background .2s ease, color .2s ease;
+}
+.quick-action-btn:hover{ background:rgba(255,255,255,.1); color:var(--brass-hi); }
+.quick-action-btn:active{ background:rgba(255,255,255,.16); }
+.quick-actions-divider{ width:1px; height:20px; background:var(--glass-border); flex:none; }
+.topbar.scrolled .quick-action-btn{ width:34px; height:34px; }
+
+.menu-backdrop {
+  position: fixed; inset: 0; background: rgba(18, 24, 31, 0.6); z-index: 1050;
+  backdrop-filter: blur(3px); opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.menu-backdrop.open { opacity: 1; pointer-events: auto; }
+
+.side-menu {
+  position: fixed; top: 0; right: 0; bottom: 0; width: 300px; max-width: 85vw;
+  background: var(--panel); border-left: 1px solid var(--rail); z-index: 1100;
+  box-shadow: -10px 0 40px rgba(0,0,0,0.5); transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex; flex-direction: column;
+}
+.side-menu.open { transform: translateX(0); }
+
+.side-menu .menu-content { padding: 40px 30px; display: flex; flex-direction: column; flex: 1; position: relative; }
+.nav-links { display: flex; flex-direction: column; gap: 12px; margin-top: 30px; }
+.nav-link { 
+  color: var(--ink-text); text-decoration: none; font-size: 1.1rem; font-family: var(--sans);
+  font-weight: 500; transition: color 0.2s ease, padding-left 0.2s ease; 
+  border-bottom: 1px solid var(--rail); padding: 12px 0;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-link:hover { color: var(--brass-hi); padding-left: 8px; border-color: var(--brass); }
+/* =============================================== */
+
+/* ============ SEARCH & VOICE ASSISTANT ============ */
+.search-wrap{
+  margin-bottom:46px; position:-webkit-sticky; position:sticky; top:14px; z-index:620;
+  max-width: 600px; margin-left: auto; margin-right: auto;
+  background: var(--glass-bg), var(--panel-2);
+  border-radius:14px;
+  box-shadow:var(--glass-shadow);
+  will-change:opacity, transform;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.search-wrap > svg:first-child{ position:absolute; left:16px; top:50%; transform:translateY(-50%); opacity:.5; pointer-events:none; }
+#search{
+  width:100%;
+  color:var(--ink-text); border-radius:14px; padding:15px 44px 15px 44px;
+  font-size:.95rem; font-family:var(--sans);
+  background:transparent; border:1px solid var(--glass-border);
+}
+#search::placeholder{ color:var(--ink-muted); }
+
+/* ---- Collapsed state: once the search icon in the header pill
+   takes over (page scrolled past the threshold), just fade the
+   full bar out in place instead of animating its box/position —
+   cheap opacity+transform fade instead of a layout-thrashing
+   top/left/width/height transition. Tapping the header search
+   icon scrolls back up and re-reveals it. ---- */
+.search-wrap.collapsed{
+  opacity:0;
+  transform:translateY(-6px);
+  pointer-events:none;
+}
+
+#voice-search-btn {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  background: transparent; border: none; color: var(--ink-muted);
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  transition: all 0.2s ease;
+}
+#voice-search-btn:hover { color: var(--brass-hi); background: var(--panel-2); }
+#voice-search-btn.listening {
+  color: var(--stamp-red);
+  animation: pulse-glow 1.5s infinite;
+}
+
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 0 0 rgba(176,70,63, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(176,70,63, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(176,70,63, 0); }
+}
+
+#search-results{
+  position:absolute; top:calc(100% + 8px); left:0; right:0;
+  background:var(--panel-2); border:1px solid var(--rail); border-radius:10px;
+  box-shadow:var(--shadow); max-height:340px; overflow-y:auto; z-index:40; display:none;
+}
+#search-results.open{ display:block; }
+.result-row{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:11px 16px; cursor:pointer; border-bottom:1px solid var(--rail);
+  font-size:.9rem;
+}
+.result-row:last-child{ border-bottom:none; }
+.result-row:hover, .result-row.active{ background:var(--rail); }
+.result-word{ font-family:var(--serif); font-weight:600; letter-spacing:.02em; }
+.result-meta{ font-family:var(--mono); font-size:.72rem; color:var(--brass); }
+.no-results{ padding:16px; color:var(--ink-muted); font-size:.88rem; }
+/* =================================================== */
+
+.section-label{
+  display:flex; align-items:center; gap:12px; margin:0 0 18px;
+  font-family:var(--mono); font-size:.72rem; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--ink-muted);
+}
+.section-label::after{ content:""; flex:1; height:1px; background:var(--rail); }
+
+.drawer-grid{
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(255px,1fr));
+  gap:18px;
+}
+
+.drawer{
+  position:relative; text-align:left; cursor:pointer;
+  background:linear-gradient(180deg, var(--panel-2), var(--panel));
+  border:1px solid var(--rail); border-radius:10px;
+  padding:0; overflow:hidden;
+  box-shadow:0 1px 0 rgba(255,255,255,.03) inset, var(--shadow);
+  transition:transform .18s ease, border-color .18s ease;
+}
+.drawer:hover{ transform:translateY(-3px); border-color:var(--brass); }
+.drawer:active{ transform:translateY(-1px); }
+
+.drawer-face{
+  height:8px;
+  background:repeating-linear-gradient(90deg, var(--rail) 0 2px, transparent 2px 6px);
+  opacity:.5;
+}
+
+.drawer-tag{
+  margin:16px 16px 0; background:var(--paper);
+  border-radius:6px 6px 3px 3px; padding:12px 14px 10px;
+  box-shadow:var(--shadow);
+  position:relative;
+}
+.drawer-tag::before{
+  content:""; position:absolute; top:-6px; left:50%; transform:translateX(-50%);
+  width:26px; height:10px; background:var(--brass);
+  border-radius:2px;
+  box-shadow:0 1px 2px rgba(0,0,0,.4);
+}
+.drawer-num{
+  font-family:var(--mono); font-size:.68rem; letter-spacing:.16em;
+  color:var(--stamp-red); text-transform:uppercase; font-weight:600;
+}
+.drawer-range{
+  font-family:var(--serif); font-weight:600; color:var(--ink);
+  font-size:1.06rem; line-height:1.25; margin-top:4px;
+}
+.drawer-range small{ display:block; font-family:var(--mono); font-weight:400; font-size:.68rem; color:#6b6350; letter-spacing:.06em; margin-top:2px;}
+
+.drawer-foot{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 16px 16px; gap:10px;
+}
+.drawer-count{ font-family:var(--mono); font-size:.72rem; color:var(--ink-muted); }
+.drawer-progress{ flex:1; height:4px; background:var(--rail); border-radius:2px; overflow:hidden; }
+.drawer-progress i{ display:block; height:100%; width:0%; background:var(--sage); transition:width .3s ease; }
+
+/* Locked Drawer Styles */
+.drawer.locked {
+  background: var(--panel);
+  border-color: var(--rail);
+  cursor: not-allowed;
+  opacity: 0.75;
+  transform: none !important;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+}
+.drawer.locked .drawer-tag {
+  background: var(--panel-2);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+.drawer.locked .drawer-tag::before {
+  background: var(--rail);
+}
+
+.hidden{ display:none !important; }
+
+.study-header{
+  display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+  margin-bottom:22px;
+}
+.back-btn{
+  background:var(--panel); border:1px solid var(--rail); color:var(--ink-text);
+  padding:9px 14px; border-radius:8px; font-size:.84rem; cursor:pointer;
+  display:flex; align-items:center; gap:7px;
+}
+.back-btn:hover{ border-color:var(--brass); color:var(--brass-hi); }
+
+.study-title{ flex:1; min-width:180px; }
+.study-title h2{ font-family:var(--serif); font-size:1.3rem; margin:0; font-weight:600; }
+.study-title .range{ font-family:var(--mono); font-size:.72rem; color:var(--brass); letter-spacing:.06em; }
+
+.mode-toggle{ display:flex; gap:6px; background:var(--panel); border:1px solid var(--rail); padding:4px; border-radius:9px; }
+.mode-toggle button{
+  background:transparent; border:none; color:var(--ink-muted);
+  padding:7px 13px; border-radius:6px; font-size:.8rem; cursor:pointer;
+}
+.mode-toggle button.active{ background:var(--rail); color:var(--paper); }
+
+.fullscreen-btn{
+  width:34px; height:34px; padding:0; display:flex; align-items:center; justify-content:center;
+  flex:none;
+}
+#fullscreen-btn{
+  /* Bottom-right corner keeps the control clear of the thumb-reach
+     zone at the top (address bar / notch) on phones. */
+  position:absolute; bottom:12px; right:12px; z-index:20;
+  border-radius:8px;
+}
+.fullscreen-btn.is-active{ border-color:var(--brass); color:var(--brass-hi); }
+#card-stage-wrap.is-fullscreen #fullscreen-btn{
+  bottom:calc(12px + env(safe-area-inset-bottom, 0px));
+  right:calc(12px + env(safe-area-inset-right, 0px));
+}
+
+/* html/body get this class while the CSS-fallback fullscreen mode
+   (used on browsers like iOS Safari that don't support the real
+   Fullscreen API on arbitrary elements) is active, to stop the
+   page scrolling behind the fixed card. */
+html.fs-lock, body.fs-lock{
+  overflow:hidden;
+  overscroll-behavior:none;
+  height:100%;
+}
+
+#card-stage-wrap.is-fullscreen{
+  position:fixed; inset:0; z-index:900; margin:0;
+  background:var(--ink);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  /* dvh/svh follow the real visible viewport as mobile browser
+     chrome (address bar) shows/hides, unlike plain vh. */
+  width:100vw; height:100vh; height:100dvh;
+  padding:
+    calc(16px + env(safe-area-inset-top, 0px))
+    calc(16px + env(safe-area-inset-right, 0px))
+    calc(16px + env(safe-area-inset-bottom, 0px))
+    calc(16px + env(safe-area-inset-left, 0px));
+  overflow-y:auto;
+}
+#card-stage-wrap.is-fullscreen .stage{ margin-bottom:14px; width:100%; }
+#card-stage-wrap.is-fullscreen .card-well{ max-width:480px; width:100%; }
+#card-stage-wrap.is-fullscreen .card{ height:min(62vh, 520px); height:min(62dvh, 520px); }
+
+@media (max-width: 640px){
+  #card-stage-wrap.is-fullscreen .card{ height:60vh; height:56dvh; min-height:300px; }
+}
+
+/* Landscape phones (common when a card is held up full-screen):
+   put the nav arrows beside the card instead of squeezing height. */
+@media (max-width: 900px) and (max-height: 480px) and (orientation: landscape){
+  #card-stage-wrap.is-fullscreen{ padding:10px calc(10px + env(safe-area-inset-right,0px)) 10px calc(10px + env(safe-area-inset-left,0px)); }
+  #card-stage-wrap.is-fullscreen .stage{ margin-bottom:0; gap:10px; }
+  #card-stage-wrap.is-fullscreen .card{ height:min(84dvh, 460px); min-height:0; }
+  #card-stage-wrap.is-fullscreen .card-well{ max-width:min(60vw, 480px); }
+}
+
+.progress-track{ height:5px; background:var(--panel); border-radius:3px; overflow:hidden; margin-bottom:30px; border:1px solid var(--rail); }
+.progress-fill{ height:100%; background:linear-gradient(90deg, var(--brass), var(--sage)); width:0%; transition:width .25s ease; }
+
+.stage{
+  display:flex; align-items:center; justify-content:center; gap:18px;
+  margin-bottom:22px;
+}
+.nav-btn{
+  background:var(--panel); border:1px solid var(--rail); color:var(--ink-text);
+  width:46px; height:46px; border-radius:50%; cursor:pointer; flex:none;
+  display:flex; align-items:center; justify-content:center;
+  transition:all .15s ease;
+}
+.nav-btn:hover{ border-color:var(--brass); color:var(--brass-hi); transform:scale(1.05); }
+.nav-btn:disabled{ opacity:.3; cursor:default; transform:none; }
+
+.card-well{ perspective:1600px; width:100%; max-width:440px; position:relative; }
+
+.card{
+  position:relative; width:100%; height:460px;
+  cursor:pointer;
+  touch-action:pan-y;
+}
+.card-inner{
+  position:relative; width:100%; height:100%;
+  transform-style:preserve-3d;
+  /* will-change belongs on the element that actually animates
+     (this one — .card had it before, which meant the browser never
+     promoted the real flipping element to its own compositor layer,
+     forcing a repaint on every frame of the flip = stutter). */
+  will-change:transform;
+  transition:transform .55s cubic-bezier(.4,.2,.2,1);
+}
+.card.flipped .card-inner{ transform:rotateY(180deg); }
+
+.card-face{
+  position:absolute; inset:0; backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  transform:translateZ(0);
+  border-radius:14px; overflow:hidden;
+  box-shadow:var(--shadow);
+  display:flex; flex-direction:column;
+}
+
+.card-front{
+  background:
+    linear-gradient(var(--paper-line), var(--paper-line) 1px, transparent 1px) 0 46px / 100% 34px,
+    var(--paper);
+  border:1px solid var(--paper-line);
+  color:var(--ink);
+  justify-content:center; align-items:center;
+  padding:30px;
+}
+.card-front::before{
+  content:""; position:absolute; left:52px; top:0; bottom:0; width:1px; background:rgba(176,70,63,.28);
+}
+.card-tab{
+  position:absolute; top:0; left:24px; width:64px; height:22px;
+  background:var(--brass); border-radius:0 0 6px 6px;
+  box-shadow:0 2px 4px rgba(0,0,0,.3);
+}
+.card-seq{
+  position:absolute; top:16px; right:18px;
+  font-family:var(--mono); font-size:.75rem; color:var(--stamp-red);
+  border:1px solid rgba(176,70,63,.4); padding:3px 9px; border-radius:20px;
+  letter-spacing:.04em;
+}
+.card-word{
+  font-family:var(--serif); font-weight:600; font-size:clamp(1.9rem, 6vw, 2.7rem);
+  text-align:center; letter-spacing:.01em; word-break:break-word;
+}
+.card-hint{
+  position:absolute; bottom:18px; left:0; right:0; text-align:center;
+  font-family:var(--mono); font-size:.68rem; letter-spacing:.1em;
+  text-transform:uppercase; color:#8a8062;
+}
+.card-status-dot{
+  position:absolute; top:18px; left:18px; width:9px; height:9px; border-radius:50%;
+  background:transparent; border:1px solid #b7ac86;
+}
+.card-status-dot.known{ background:var(--sage); border-color:var(--sage); }
+.card-status-dot.again{ background:var(--stamp-red); border-color:var(--stamp-red); }
+
+.card-back{
+  background:var(--ink-2);
+  transform:rotateY(180deg);
+  border:1px solid var(--rail);
+  align-items:center; justify-content:center;
+}
+.card-back .back-label{
+  position:absolute; top:16px; left:18px;
+  font-family:var(--mono); font-size:.66rem; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--brass);
+}
+.card-back .back-word{
+  position:absolute; top:14px; right:18px;
+  font-family:var(--serif); font-size:.95rem; color:var(--ink-muted);
+}
+.card-back img{
+  width:100%; height:100%; object-fit:contain; background:#fff;
+}
+.img-wrap{ width:100%; height:100%; }
+
+.controls{
+  display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap;
+  margin-top:6px;
+}
+.ctrl-btn{
+  background:var(--panel); border:1px solid var(--rail); color:var(--ink-text);
+  padding:10px 16px; border-radius:9px; font-size:.83rem; cursor:pointer;
+  display:flex; align-items:center; gap:7px;
+}
+.ctrl-btn:hover{ border-color:var(--brass); color:var(--brass-hi); }
+.ctrl-btn.on{ background:var(--rail); border-color:var(--brass); color:var(--brass-hi); }
+
+.judge-row{ display:flex; gap:10px; justify-content:center; margin-top:18px; }
+.judge-btn{
+  border-radius:9px; padding:11px 22px; font-size:.85rem; cursor:pointer; border:1px solid;
+  font-family:var(--sans); font-weight:600; display:flex; gap:8px; align-items:center;
+}
+.judge-again{ background:rgba(176,70,63,.12); border-color:var(--stamp-red); color:#e39089; }
+.judge-again:hover{ background:rgba(176,70,63,.22); }
+.judge-known{ background:rgba(126,160,131,.14); border-color:var(--sage); color:#a9c9ae; }
+.judge-known:hover{ background:rgba(126,160,131,.24); }
+
+.kbd-hint{ text-align:center; margin-top:16px; font-size:.74rem; color:var(--ink-muted); }
+.kbd-hint kbd{
+  font-family:var(--mono); background:var(--panel); border:1px solid var(--rail);
+  padding:1px 6px; border-radius:4px; font-size:.7rem;
+}
+
+.list-view{ background:var(--panel); border:1px solid var(--rail); border-radius:12px; overflow:hidden; }
+.list-row{
+  display:grid; grid-template-columns:48px 1fr 90px; align-items:center;
+  padding:12px 18px; border-bottom:1px solid var(--rail); cursor:pointer;
+}
+.list-row:last-child{ border-bottom:none; }
+.list-row:hover{ background:var(--panel-2); }
+.list-seq{ font-family:var(--mono); font-size:.76rem; color:var(--ink-muted); }
+.list-word{ font-family:var(--serif); font-size:1.02rem; font-weight:600; }
+.list-status{ text-align:right; font-family:var(--mono); font-size:.68rem; letter-spacing:.06em; text-transform:uppercase; }
+.list-status.known{ color:var(--sage); }
+.list-status.again{ color:#e39089; }
+.list-status.unseen{ color:var(--ink-muted); opacity:.6; }
+
+.summary{
+  max-width:480px; margin:40px auto; text-align:center;
+  background:var(--panel); border:1px solid var(--rail); border-radius:16px;
+  padding:44px 32px; box-shadow:var(--shadow);
+}
+.summary .stamp{
+  font-family:var(--mono); font-size:.7rem; letter-spacing:.2em; color:var(--brass);
+  text-transform:uppercase; margin-bottom:10px;
+}
+.summary h3{ font-family:var(--serif); font-size:1.7rem; margin:0 0 20px; }
+.summary-stats{ display:flex; justify-content:center; gap:34px; margin-bottom:30px; }
+.summary-stats div{ text-align:center; }
+.summary-stats .n{ font-family:var(--mono); font-size:1.7rem; display:block; }
+.summary-stats .n.known{ color:var(--sage); }
+.summary-stats .n.again{ color:#e39089; }
+.summary-stats .l{ font-size:.68rem; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-muted); }
+.summary-actions{ display:flex; flex-direction:column; gap:10px; }
+.summary-actions button{
+  padding:13px; border-radius:9px; border:1px solid var(--rail); cursor:pointer;
+  font-size:.88rem; font-weight:600; background:var(--panel-2); color:var(--ink-text);
+}
+.summary-actions button.primary{ background:var(--brass); border-color:var(--brass); color:var(--ink); }
+.summary-actions button:hover{ filter:brightness(1.08); }
+
+footer.site-foot{
+  text-align:center; margin-top:60px; color:var(--ink-muted);
+}
+
+.swipe-hint{
+  display:none; text-align:center; margin-top:14px;
+  font-family:var(--mono); font-size:.7rem; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ink-muted);
+}
+.swipe-hint svg{ vertical-align:-3px; margin:0 2px; opacity:.8; }
+
+.support-panel{
+  max-width:560px; margin:0 auto 26px; text-align:left;
+  display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+  background:linear-gradient(180deg, var(--panel), var(--panel-2));
+  border:1px solid var(--rail); border-radius:16px;
+  padding:22px 24px; box-shadow:var(--shadow);
+  position:relative; overflow:hidden;
+}
+.support-panel::before{
+  content:""; position:absolute; inset:0 auto 0 0; width:4px;
+  background:linear-gradient(180deg, var(--brass), var(--sage));
+}
+.support-icon{
+  flex:none; width:52px; height:52px; border-radius:50%;
+  background:rgba(201,151,76,.14); border:1px solid var(--rail);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--brass-hi);
+}
+.support-text{ flex:1; min-width:180px; }
+.support-title{
+  margin:0; font-family:var(--serif); font-weight:600; font-size:1.05rem;
+  color:var(--paper);
+}
+.support-sub{
+  margin:4px 0 0; font-size:.82rem; color:var(--ink-muted);
+}
+.support-pay{
+  flex:none; display:flex; flex-direction:column; align-items:flex-end; gap:6px;
+  margin-left:auto;
+}
+.pay-label{
+  font-family:var(--mono); font-size:.64rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--sage);
+}
+.pay-number{
+  font-family:var(--mono); font-size:.92rem; font-weight:600; letter-spacing:.03em;
+  background:var(--rail); color:var(--paper); border:1px solid var(--brass);
+  padding:8px 14px; border-radius:8px; cursor:pointer;
+  display:flex; align-items:center; gap:8px;
+  transition:all .15s ease;
+}
+.pay-number:hover{ background:var(--brass); color:var(--ink); transform:translateY(-1px); }
+.pay-number svg{ flex:none; }
+.pay-number.copied{ background:var(--sage); border-color:var(--sage); color:var(--ink); }
+
+.credit-line{
+  margin:0 0 4px; font-size:.8rem; color:var(--ink-muted);
+}
+.credit-name{ color:var(--brass-hi); font-weight:600; }
+.site-meta{
+  margin:0; font-size:.74rem; font-family:var(--mono); letter-spacing:.04em;
+  color:var(--ink-muted); opacity:.75;
+}
+
+@media (max-width:600px){
+  /* Lighter backdrop blur on phones: several overlapping
+     backdrop-filter surfaces (topbar, quick-actions pill, menus) are
+     one of the more expensive things a phone GPU has to redo every
+     scroll/paint frame. Trimming the radius keeps the liquid-glass
+     look while cutting that cost noticeably. */
+  .topbar.scrolled{ -webkit-backdrop-filter:blur(9px) saturate(140%); backdrop-filter:blur(9px) saturate(140%); }
+  .glass{ -webkit-backdrop-filter:blur(11px) saturate(150%); backdrop-filter:blur(11px) saturate(150%); }
+
+  /* Increased Flashcard size on mobile */
+  .card{ height: 65vh; min-height: 480px; max-height: 550px; }
+  .card-word { font-size: clamp(2.4rem, 8vw, 3.2rem); }
+  .stage{ gap:6px; }
+  .nav-btn{ width:38px; height:38px; }
+  .header-actions{ gap: 16px; justify-content: flex-end; }
+  .stat-strip{ gap:16px; }
+  .kbd-hint{ display:none; }
+  .swipe-hint{ display:block; }
+  .support-panel{ flex-direction:column; align-items:stretch; text-align:center; padding:20px; }
+  .support-icon{ margin:0 auto; }
+  .support-pay{ align-items:center; margin-left:0; }
+
+  /* ---- Compact header for phone screens ---- */
+  .app{
+    padding:calc(14px + env(safe-area-inset-top,0px))
+      calc(14px + env(safe-area-inset-right,0px))
+      60px
+      calc(14px + env(safe-area-inset-left,0px));
+    width:100%; max-width:100vw;
+  }
+  .topbar{ padding:8px 0 10px; gap:8px 12px; }
+  .topbar.scrolled{ padding-top:6px; padding-bottom:6px; }
+  .brand{ gap:8px; }
+  .brand-logo{ width:20px; height:20px; }
+  .topbar.scrolled .brand-logo{ width:16px; height:16px; }
+  .brand h1{ font-size:1rem; max-width:150px; line-height:1.2; max-height:2.6em; }
+  .header-actions{ gap:10px; }
+  .stat-strip{ gap:12px; }
+  .stat .n{ font-size:.86rem; }
+  .stat .l{ font-size:.52rem; letter-spacing:.08em; }
+  .topbar.scrolled .stat .n{ font-size:.7rem; }
+  .topbar.scrolled .stat .l{ font-size:.46rem; letter-spacing:.06em; }
+  .auth-strip{ gap:8px; }
+  #nav-login-btn{ padding:6px 10px; font-size:.76rem; }
+  .quick-action-btn{ width:34px; height:34px; }
+}
+
+@media (max-width:380px){
+  /* Ultra-narrow phones: keep the stats visible but tightened up */
+  .stat-strip{ gap:8px; }
+  .stat .n{ font-size:.74rem; }
+  .stat .l{ font-size:.44rem; letter-spacing:.04em; }
+  .topbar.scrolled .stat-strip{ gap:6px; }
+  .topbar.scrolled .stat .n{ font-size:.62rem; }
+  .topbar.scrolled .stat .l{ font-size:.4rem; }
+  .brand h1{ max-width:110px; }
+}
+
+/* ============ LIQUID GLASS SURFACE (Apple-style) ============ */
+/* Placed late in the cascade so it wins over earlier component
+   background/border rules of equal specificity, while :hover /
+   :active states (higher specificity) still take priority. */
+.glass{
+  background: var(--glass-bg), var(--panel);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  position: relative;
+  isolation: isolate;
+}
+.glass::before{
+  content:"";
+  position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  background: linear-gradient(115deg, var(--glass-highlight) 0%, transparent 22%, transparent 78%, rgba(255,255,255,.12) 100%);
+  opacity:.16; mix-blend-mode:overlay;
+}
+.glass:hover{ border-color:var(--brass); }
+
+@media (prefers-reduced-motion: reduce){
+  *{ transition:none !important; animation:none !important; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ SIDE MENU (HAMBURGER) ============ -->
+  <div id="menu-backdrop" class="menu-backdrop"></div>
+  <div id="side-menu" class="side-menu">
+    <div class="menu-content">
+      <button class="close-auth" id="close-menu-btn" style="position:absolute; top:24px; right:24px;">&times;</button>
+      <h2 style="font-family: var(--serif); color: var(--brass-hi); margin-top: 0; font-size: 1.5rem;">Menu</h2>
+      <nav class="nav-links">
+        <a href="#" class="nav-link" id="nav-home">Home 
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+        </a>
+        <a href="#" class="nav-link" id="nav-about">About
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        </a>
+        <a href="#" class="nav-link" id="nav-features">Features
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        </a>
+        <a href="#" class="nav-link" id="nav-suggestions">Suggestions
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+        </a>
+        <a href="#support-footer" class="nav-link" id="nav-support">Support
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        </a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ============ AUTHENTICATION MODAL ============ -->
+  <div id="auth-modal" class="auth-overlay hidden">
+    <div class="auth-box">
+      <button class="close-auth" id="close-auth-btn">&times;</button>
+      <h2 style="font-family: var(--serif); margin-top: 0;">Welcome Back</h2>
+      <p style="font-size: 0.85rem; color: var(--ink-muted); margin-bottom: 24px;">Sign in to sync your flashcard progress.</p>
+      
+      <button class="oauth-btn" id="google-login-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        Sign in with Google
+      </button>
+
+      <div class="auth-divider"><span>or continue with email</span></div>
+
+      <form id="email-login-form" class="email-form">
+        <input type="email" placeholder="Email address" required>
+        <input type="password" placeholder="Password" required>
+        <button type="submit">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="brand">
+      <!-- Inline SVG Logo -->
+      <svg class="brand-logo" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--brass)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+        <polygon points="12 2 12.5 4.5 15 5 12.5 5.5 12 8 11.5 5.5 9 5 11.5 4.5" fill="var(--brass-hi)" stroke="none" />
+      </svg>
+      <h1>Word Smart 1 &amp; 2 <em>Mastery</em></h1>
+    </div>
+    
+    <div class="header-actions">
+      <div class="stat-strip">
+        <div class="stat"><span class="n" id="stat-words">0</span><span class="l">Words</span></div>
+        <div class="stat"><span class="n" id="stat-drills">0</span><span class="l">Drills</span></div>
+        <div class="stat"><span class="n" id="stat-progress" style="color:var(--sage)">0%</span><span class="l">Mastered</span></div>
+      </div>
+      
+      <div class="auth-strip">
+        <button id="nav-login-btn" class="ctrl-btn" style="background: var(--brass); color: var(--ink); border: none; font-weight: 600;">Sign In</button>
+        <!-- Search + Hamburger fused into a single liquid-glass pill.
+             The topbar is position:sticky, so this pill stays pinned
+             to the top-right corner for the whole scroll. -->
+        <div class="quick-actions glass" id="quick-actions">
+          <button id="header-search-btn" class="quick-action-btn" aria-label="Search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+          <span class="quick-actions-divider" aria-hidden="true"></span>
+          <button id="hamburger-btn" class="quick-action-btn" aria-label="Open menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HOME ============ -->
+  <div id="home-view">
+    
+    <!-- Hero Graphic & Introduction -->
+    <div class="hero-section">
+      <svg class="hero-graphic" width="300" height="140" viewBox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Floating abstract flashcards -->
+        <rect x="150" y="50" width="100" height="130" rx="10" fill="var(--panel-2)" stroke="var(--rail)" stroke-width="4" transform="rotate(-15 200 115)"/>
+        <rect x="160" y="30" width="100" height="130" rx="10" fill="var(--paper)" stroke="var(--paper-line)" stroke-width="4" transform="rotate(8 210 95)"/>
+        <!-- Text lines on the front card -->
+        <path d="M185 65 h60 M185 90 h40 M185 115 h55" stroke="var(--stamp-red)" stroke-width="6" stroke-linecap="round" opacity="0.45" transform="rotate(8 210 95)"/>
+        <!-- Decorative accents -->
+        <circle cx="100" cy="140" r="14" fill="var(--sage)" opacity="0.8"/>
+        <path d="M310 60 l18 -18 l18 18 l-18 18 z" fill="var(--brass)" opacity="0.9"/>
+        <circle cx="280" cy="150" r="7" fill="var(--stamp-red)" opacity="0.7"/>
+        <circle cx="130" cy="40" r="5" fill="var(--brass-hi)"/>
+      </svg>
+      <h2 class="hero-title" id="hero-title">Word Smart 1 & 2 Mastery</h2>
+      <p class="hero-tagline">A working vocabulary collection, filed into sixteen drills of fifty. Pull a drawer to begin studying, or search the full index below.</p>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-wrap">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="search" class="glass" type="text" placeholder="Search all 793 words…" autocomplete="off">
+      <button id="voice-search-btn" title="Voice Search" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+          <line x1="12" y1="19" x2="12" y2="23"></line>
+          <line x1="8" y1="23" x2="16" y2="23"></line>
+        </svg>
+      </button>
+      <div id="search-results"></div>
+    </div>
+
+    <!-- Section 1: Word Smart 1 -->
+    <div class="section-label">Word Smart 1 Drawers</div>
+    <div class="drawer-grid" id="drawer-grid"></div>
+
+    <!-- Section 2: Word Smart 2 (Coming Soon) -->
+    <div class="section-label" style="margin-top: 50px;">
+      Word Smart 2 <span class="dev-badge">IN DEVELOPMENT</span>
+    </div>
+    <div class="drawer-grid" id="ws2-drawer-grid">
+       <div class="drawer locked" title="Coming Soon">
+         <div class="drawer-face"></div>
+         <div class="drawer-tag">
+           <div class="drawer-num" style="color: var(--ink-muted);">Drills 17 &ndash; 32</div>
+           <div class="drawer-range" style="color: var(--ink-muted);">A &ndash; Z <small>Expanding the catalog</small></div>
+         </div>
+         <div class="drawer-foot">
+           <div class="drawer-progress" style="background: transparent; display: flex; align-items: center;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--ink-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.6;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+           </div>
+           <div class="drawer-count" style="color: var(--ink-muted);">800+ new cards</div>
+         </div>
+       </div>
+    </div>
+
+  </div>
+
+  <!-- ============ STUDY ============ -->
+  <div id="study-view" class="hidden">
+    <div class="study-header">
+      <button class="back-btn" id="back-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        All drawers
+      </button>
+      <div class="study-title">
+        <h2 id="study-title-h2">Drill 01</h2>
+        <div class="range" id="study-title-range"></div>
+      </div>
+      <div class="mode-toggle glass">
+        <button id="card-mode-btn" class="active">Cards</button>
+        <button id="list-mode-btn">List</button>
+      </div>
+    </div>
+
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+    <div id="card-stage-wrap">
+      <div class="stage">
+        <button class="nav-btn glass" id="nav-prev" aria-label="Previous word">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+
+        <div class="card-well">
+          <div class="card" id="card-el" role="button" tabindex="0" aria-label="Flashcard, click to flip">
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <div class="card-tab"></div>
+                <span class="card-status-dot" id="card-status-dot"></span>
+                <span class="card-seq" id="card-seq">#1</span>
+                <div class="card-word" id="card-word">WORD</div>
+                <div class="card-hint">Tap to reveal definition</div>
+              </div>
+              <div class="card-face card-back">
+                <span class="back-label">Definition</span>
+                <span class="back-word" id="card-back-word"></span>
+                <div class="img-wrap">
+                  <img id="card-back-img" alt="Definition illustration" loading="lazy">
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="fullscreen-btn glass" id="fullscreen-btn" aria-label="Toggle fullscreen card view" title="Fullscreen">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/>
+            </svg>
+          </button>
+        </div>
+
+        <button class="nav-btn glass" id="nav-next" aria-label="Next word">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+
+      <div class="controls">
+        <span id="progress-counter" style="font-family:var(--mono);font-size:.78rem;color:var(--ink-muted);margin-right:8px;"></span>
+        <button class="ctrl-btn glass" id="shuffle-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg>
+          Shuffle
+        </button>
+      </div>
+
+      <div class="judge-row" id="judge-row">
+        <button class="judge-btn judge-again" id="judge-again">Study again</button>
+        <button class="judge-btn judge-known" id="judge-known">Got it</button>
+      </div>
+
+      <p class="kbd-hint">
+        <kbd>&larr;</kbd> <kbd>&rarr;</kbd> navigate &nbsp;·&nbsp; <kbd>Space</kbd> flip &nbsp;·&nbsp; <kbd>1</kbd> again &nbsp;·&nbsp; <kbd>2</kbd> got it
+      </p>
+      <p class="swipe-hint">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+        swipe &nbsp;·&nbsp; tap card to flip &nbsp;·&nbsp; swipe
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 18l6-6-6-6"/></svg>
+      </p>
+    </div>
+
+    <div id="list-stage-wrap" class="hidden"></div>
+  </div>
+
+  <!-- ============ SUMMARY ============ -->
+  <div id="summary-view" class="hidden">
+    <div class="summary">
+      <div class="stamp" id="summary-drill-label">Drill complete</div>
+      <h3>Session filed.</h3>
+      <div class="summary-stats">
+        <div><span class="n known" id="summary-known">0</span><span class="l">Got it</span></div>
+        <div><span class="n again" id="summary-again">0</span><span class="l">Again</span></div>
+        <div><span class="n" id="summary-unseen">0</span><span class="l">Unseen</span></div>
+      </div>
+      <div class="summary-actions">
+        <button class="primary" id="summary-review-btn">Review the missed words</button>
+        <button id="restart-btn">Restart this drill</button>
+        <button id="summary-back-btn">Back to all drawers</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-foot" id="support-footer">
+    <div class="support-panel">
+      <div class="support-icon" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+          <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+          <line x1="6" y1="2" x2="6" y2="4"/>
+          <line x1="10" y1="2" x2="10" y2="4"/>
+          <line x1="14" y1="2" x2="14" y2="4"/>
+        </svg>
+      </div>
+      <div class="support-text">
+        <p class="support-title">Enjoying WORD SMART 1?</p>
+        <p class="support-sub">If you like it, buy me a coffee &mdash; it keeps this project going.</p>
+      </div>
+      <div class="support-pay">
+        <span class="pay-label">Bkash / Nagad</span>
+        <button class="pay-number" id="copy-number" type="button" title="Tap to copy number">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span id="copy-number-text">01743291605</span>
+        </button>
+      </div>
+    </div>
+    <p class="credit-line">Crafted with care by <span class="credit-name">Noor-E-Azim</span></p>
+    <p class="site-meta">WORD SMART 1 FLASH CARDS &middot; 793 words &middot; 16 drills &middot; A&ndash;Z</p>
+  </footer>
+</div>
+
+<script>
+window.LEXICON_DATA = [{"drill":1,"seq":1,"word":"ABASH","id":"1jkzdBf5KuxnIGOnsK5Pa5gWKEHu4rTr3"},{"drill":1,"seq":2,"word":"ABATE","id":"1Tud6yb0inSU3WGmDGhLFTzYHeeO2BjWC"},{"drill":1,"seq":3,"word":"ABDICATE","id":"1SUIPfRYPrE62wRV5ktCaxzN141Iq-Vud"},{"drill":1,"seq":4,"word":"ABERRATION","id":"1wjIEFJacHbojInIfIXzTCQzjWKujNIUh"},{"drill":1,"seq":5,"word":"ABHOR","id":"1HAGLkK-auVcChB8XIeQuciX67PDRowVc"},{"drill":1,"seq":6,"word":"ABJECT","id":"1GvFRvOhcbA-06ArCjtupUlDrBpqX3Isg"},{"drill":1,"seq":7,"word":"ABNEGATE","id":"1Gk3jyGW3Abp4HSSOhZOzJ08EETpUjk9m"},{"drill":1,"seq":8,"word":"ABORTIVE","id":"16YXLN8QuSgvlo_HI5_6dhTFEYwBSnwxn"},{"drill":1,"seq":9,"word":"ABRIDGE","id":"1cEdIWkUW6dcMJxg_7b2OhjDOh3-NmY2C"},{"drill":1,"seq":10,"word":"ABSOLUTE","id":"1nif1aw7SXYX-z7UdGePOvXLNLQhuqIHq"},{"drill":1,"seq":11,"word":"ABSOLVE","id":"1rCXmDwEYSRspWdVnUg5DYT5Uw6VXDonG"},{"drill":1,"seq":12,"word":"ABSTINENT","id":"1fSQ8IqIQ5Dxe_SV1aq8387alkqAbnskI"},{"drill":1,"seq":13,"word":"ABSTRACT","id":"1s3vPp7Zpk8q4Cey6YAFrCDoLWhJPrHi-"},{"drill":1,"seq":14,"word":"ABSTRUSE","id":"1Zg4zxM4F6ud2dpWqBJWbYWLGVPbt1_Nr"},{"drill":1,"seq":15,"word":"ABYSMAL","id":"1WLz3LF2ZHUYzfbC1brvwbxdfDCSTlFFX"},{"drill":1,"seq":16,"word":"ACCOLADE","id":"1bqDhy6oCKPss3NUPC1MtpRcz9ouKUHqG"},{"drill":1,"seq":17,"word":"ACCOST","id":"1cN1JHWbMi3b5O6pXb65N1K6CTdWfBUVl"},{"drill":1,"seq":18,"word":"ACERBIC","id":"1rZVqSVD2dZ4D4jQMKLUqLe9b3iFt6DXE"},{"drill":1,"seq":19,"word":"ACQUIESCE","id":"1dxMMeMsb9xWAA5TVIn41u8yo5icD6On4"},{"drill":1,"seq":20,"word":"ACRID","id":"1dptjaP-DROxwu2D7M3E7yMbB2BnICCcO"},{"drill":1,"seq":21,"word":"ACRIMONIOUS","id":"1ygeGAj3QtkZ5D79hPOUzt9GTclC-bACt"},{"drill":1,"seq":22,"word":"ACUMEN","id":"1rh0a1loIW_Pz3jG6H3wRprDMfiQI71Xj"},{"drill":1,"seq":23,"word":"ACUTE","id":"1iEoMxxUHMGfMnH1YGlrZqE9N76wxFP10"},{"drill":1,"seq":24,"word":"ADAMANT","id":"1GRmBnvOp7CONlDWD1jLoVJQCLcPHjW7d"},{"drill":1,"seq":25,"word":"ADDRESS","id":"1G5vXx93Vizj1GWuSkLi-36f5-quAYfJR"},{"drill":1,"seq":26,"word":"ADHERENT","id":"1tvzACAOYpV7zdF4YF4AQGY156bra3bK3"},{"drill":1,"seq":27,"word":"ADMONISH","id":"1rezk93wXd22zYXQmCKDkDBOCTibUauyC"},{"drill":1,"seq":28,"word":"ADROIT","id":"1e-AAiTx8_5kGLnhQlBFkpkOGRgzVXT6j"},{"drill":1,"seq":29,"word":"ADULATION","id":"19AHxpTiAmU6XU9LYdoDJfFl9cHE5cKAj"},{"drill":1,"seq":30,"word":"ADULTERATE","id":"16z0aHpNB9Q5rXLovdEqFBOtxXkko9Qqs"},{"drill":1,"seq":31,"word":"ADVERSE","id":"1Oe2zLi_t9fAVlAKYFs0_215lHMruz_gC"},{"drill":1,"seq":32,"word":"AESTHETIC","id":"1MnTF8BpHmi5eykD8kCADl2zbbv214QHW"},{"drill":1,"seq":33,"word":"AFFABLE","id":"1XNKRHa0TnQBJdxuxnDbsnSB78VQQ-pC6"},{"drill":1,"seq":34,"word":"AFFECTATION","id":"16NSViVWPyzJT1xOLmoD2-2VzxE5tTUqU"},{"drill":1,"seq":35,"word":"AFFINITY","id":"14WTYSSDSogzHx5Zyuc7abQwmuecDEizN"},{"drill":1,"seq":36,"word":"AFFLUENT","id":"1iNniecX1Jl5hZ9q9nop-b78-sPq5tsiX"},{"drill":1,"seq":37,"word":"AGENDA","id":"1UMXImO2Y8KsLHwa9yP14F22JaS7esY6c"},{"drill":1,"seq":38,"word":"AGRARIAN","id":"1e91jtDfY0Squv_JJ68qHLERcgBHOwTTO"},{"drill":1,"seq":39,"word":"AGGREGATE","id":"1RNTGylwdHHSQp-TEH5fbpLkRGWdmm2Q5"},{"drill":1,"seq":40,"word":"AGNOSTIC","id":"1GGn753vpG6oijKLWHul8cGwhdZNKatZw"},{"drill":1,"seq":41,"word":"ALACRITY","id":"1Vh46CEmzb8rjhvTP3PazVgwYGprWpvqF"},{"drill":1,"seq":42,"word":"ALLEGE","id":"1dLrP4mgLDMW3SBZZFvBv3zf0Nz-eBHBe"},{"drill":1,"seq":43,"word":"ALLEVIATE","id":"1vhwAgqNTQId6Y1K_Oa8dScXMJl3oz4Pk"},{"drill":1,"seq":44,"word":"ALLOCATE","id":"1s8giifR9kgOYJvEx18A2bj1UAz5uGCPw"},{"drill":1,"seq":45,"word":"ALLOY","id":"13GRJME5R6k181qo8ihxglq6Uq59FYy1F"},{"drill":1,"seq":46,"word":"ALLUSION","id":"19p1_8Gv6MTm2H58m0THDF0XCL2D7Nved"},{"drill":1,"seq":47,"word":"ALOOF","id":"1gXV-9lSqBTqd6mqWOqadxkROxBWMieba"},{"drill":1,"seq":48,"word":"ALTRUISM","id":"1ZxL-IEmRKWtLY5xAwiMtZdmuQR78dHrf"},{"drill":1,"seq":49,"word":"AMBIENCE","id":"1EoSBT6YgrzRQYPeCqeUrKaBr5C16y-t3"},{"drill":1,"seq":50,"word":"AMBIGUOUS","id":"1cv9yxSgOh8XU9A4RQssZMp310XsmSOpF"},{"drill":2,"seq":1,"word":"AMBIVALENT","id":"17WNUJ_LRjQV3ipYFO_M2ALeUwesWYN95"},{"drill":2,"seq":2,"word":"AMELIORATE","id":"13TI3v2KglyaI-un0Emu7Dn2-VvQD6OkN"},{"drill":2,"seq":3,"word":"AMENABLE","id":"15e70_XQlKP5LqdujrAgJ0ju3fx2Gx8DC"},{"drill":2,"seq":4,"word":"AMENITY","id":"1m_VDgZ2_bJbo3HH-hhomZZECxzStMctN"},{"drill":2,"seq":5,"word":"AMIABLE","id":"1SqP_IfweILx2vm4dhDUd4oKDwsXrGVjm"},{"drill":2,"seq":6,"word":"AMNESTY","id":"1k3Yd4zQoHqHGE-ZbA3wEnCErBvLFLpP8"},{"drill":2,"seq":7,"word":"AMORAL","id":"1qQdrh9_lJtlWsjFHhw-2fKy-reTU7Rah"},{"drill":2,"seq":8,"word":"AMOROUS","id":"1ixFxk_4iCSRtQlBlInH_7O-e7_c8Btwh"},{"drill":2,"seq":9,"word":"AMORPHOUS","id":"1HK0dailypzdJsKnBnyha_uRLW_qRqMMZ"},{"drill":2,"seq":10,"word":"ANACHRONISM","id":"1uiquEm3zFlhZJxyBzAGuORKyMQwRDgRH"},{"drill":2,"seq":11,"word":"ANALOGY","id":"1sor202Hj7psbYvlgYdbwomgG-np26qmr"},{"drill":2,"seq":12,"word":"ANARCHY","id":"1sgbuaftm1DKGv19Dw33XXu1iyoWMM9bM"},{"drill":2,"seq":13,"word":"ANECDOTE","id":"1dmTekQo-KgUpcDk9Wb0wxpPshHvmRCPJ"},{"drill":2,"seq":14,"word":"ANGUISH","id":"1OFZQIp8r5WC6JHgND3WGqd54xDP-6HmW"},{"drill":2,"seq":15,"word":"ANIMOSITY","id":"1Esy_v55FpApdCzQ6O20kuSi7uQoPIT9y"},{"drill":2,"seq":16,"word":"ANOMALY","id":"1buYiCZcCuDgQ9xNIL6K_COebxZEsc3qx"},{"drill":2,"seq":17,"word":"ANTECEDENT","id":"1AHAPrUgKAjqfXJDS28bLZsw7ZeXwZlYa"},{"drill":2,"seq":18,"word":"ANTIPATHY","id":"19-qjwwgHSJzGcTsZDoCsxdrupEPXu8NZ"},{"drill":2,"seq":19,"word":"ANTITHESIS","id":"1rrfXyX4RHwZtn_fDqkHtBWEqppPq5LL1"},{"drill":2,"seq":20,"word":"APARTHEID","id":"1AWd3NpIAkhHTMQwluUNHkoOEPX4T54G_"},{"drill":2,"seq":21,"word":"APATHY","id":"1speb-gqakHWwqkZ0KTE7PwSZ9HLiU_sW"},{"drill":2,"seq":22,"word":"APHORISM","id":"1qb0f2wx1qPVsW22oCipinEPSPlueQ70s"},{"drill":2,"seq":23,"word":"APOCALYPS","id":"1ckWTulAwOFjjupT1N8ZqUkDe3Z0wzFie"},{"drill":2,"seq":24,"word":"APOCRYPHAL","id":"19UIeXF-30JgD0tecMFtDZQMpqk5KmiEr"},{"drill":2,"seq":25,"word":"APOTHEOSIS","id":"12rT9VFTzN-sSGs2MXW5Bqj3cFErmj1lH"},{"drill":2,"seq":26,"word":"APPEASE","id":"1EeObx9yHSSA8jMPvqS-Ft7WuLvvCdeCc"},{"drill":2,"seq":27,"word":"APPRECIATE","id":"1kUovWvIe-L34Rf0f8NVV9MU2-tIRN5--"},{"drill":2,"seq":28,"word":"APPREHENSIVE","id":"1JTnhkfgplnAJSP8BV6YdaQDXPjdHlMRq"},{"drill":2,"seq":29,"word":"APPROBATION","id":"1xJfpgIicMfHdJ4amoSW-x3kmSP5x7-9w"},{"drill":2,"seq":30,"word":"APPROPRIATE","id":"1H_s1HjgQ5tAVuiO2z0D0AuPPcfSAaz_3"},{"drill":2,"seq":31,"word":"APTITUDE","id":"14v8iKRHkxPC92wZE12tbr4I266SCIXcQ"},{"drill":2,"seq":32,"word":"ARBITER","id":"1mVmSrGCZQV4gZtMq8tbYEPGMYnHXTFnZ"},{"drill":2,"seq":33,"word":"ARBITRARY","id":"1JSqsGWHAvt5-oy5U8Cj8FavVDemCafMA"},{"drill":2,"seq":34,"word":"ARCANE","id":"1syBfUen_PPOWl2Cqm4Sd2O3sGlAsGO_g"},{"drill":2,"seq":35,"word":"ARCHAIC","id":"13X1X5IOq52lrUQ7IIf08QkIKWKLT30-w"},{"drill":2,"seq":36,"word":"ARCHETYPE","id":"1vYg_SACqF7BGSFzrF7PLtfsKD-tNYGjn"},{"drill":2,"seq":37,"word":"ARDENT","id":"1wSJiN_E8hHykdDWiP50QdP8Pg-_F8ezA"},{"drill":2,"seq":38,"word":"ARDUOUS","id":"1HXDu9vPYvXmppWjiB1om4soXsTvCGBno"},{"drill":2,"seq":39,"word":"ARISTOCRATIC","id":"1tpb8xHRj8hY4W5oi4NMfIRsFMSDgmKGZ"},{"drill":2,"seq":40,"word":"ARTFUL","id":"1aEgGw9syTxKM3tbTPsPyZFDrSwCKfkq8"},{"drill":2,"seq":41,"word":"ARTIFICE","id":"1wIkQoaCmn3InXhyEJDorFN3QuaTS9G08"},{"drill":2,"seq":42,"word":"ASCENDENCY","id":"1lvsWbQwnQyfHux1fIcd5ygXKRy9pvUfy"},{"drill":2,"seq":43,"word":"ASCETIC","id":"1cJO5b60teplZLhDA5S7b74ihPoTJ1vnX"},{"drill":2,"seq":44,"word":"ASSIDUOUS","id":"1i4L_j6cS_qdGIYYBRBDNKvu1RnMQOnhy"},{"drill":2,"seq":45,"word":"ASSIMILATE","id":"1ebVeclhoCjir5rJewycoWqpC3yF9VGRk"},{"drill":2,"seq":46,"word":"ASSUAGE","id":"1JWumO125YjEPkA5OOFn_O3lMZIG6oPbT"},{"drill":2,"seq":47,"word":"ASTUTE","id":"1NSXvBIUh9gjjPhuggSsw45jY_kk7G0f6"},{"drill":2,"seq":48,"word":"ATTRITION","id":"1lHuuvSwX_NWu40TBkZmjeSNZ2h4Xx1vC"},{"drill":2,"seq":49,"word":"AUDACITY","id":"1ttPLDikToLjXvjOFfO02aY-KCxinje9-"},{"drill":2,"seq":50,"word":"AUGMENT","id":"1S9417UZE16eEEZb8vn2kCnYsYAeEDGxu"},{"drill":3,"seq":1,"word":"AUSPICIOUS","id":"1x_wkAJXwYzmEqDI4mHyV2S0TtaV7xv1r"},{"drill":3,"seq":2,"word":"AUSTERE","id":"1cile9Ci4tC_dQeHPQrrJSmXTD8or7dt1"},{"drill":3,"seq":3,"word":"AUTOCRATIC","id":"1lVYJ4YZXAuw_fmHpDSy7p3n-j5WXo1CM"},{"drill":3,"seq":4,"word":"AUTONOMOUS","id":"14HSxmjV7DrAU5n9Wa8Zp209P3RtnMVzz"},{"drill":3,"seq":5,"word":"AVARICE","id":"1Qvzev5q0aE95SwwEwOh0cnMcuz91oay-"},{"drill":3,"seq":6,"word":"AVOW","id":"1IKaMhB9HtquCl_mT9bWoAarCxE8ISjNf"},{"drill":3,"seq":7,"word":"AVUNCULAR","id":"1JFa95RJIjyTO1ZB1KcyGcIh4LL5fvlg8"},{"drill":3,"seq":8,"word":"AWRY","id":"1wyRmLQa81M51Brm6NcKFNjZFti-mX9tH"},{"drill":3,"seq":9,"word":"AXIOM","id":"1W4i3Glfn_-d2xEuN-CACJXpvbA7QoreI"},{"drill":3,"seq":10,"word":"BANAL","id":"16ym2rW71Ncf3pyU7htWWHkCn6lAvKdVa"},{"drill":3,"seq":11,"word":"BANE","id":"1rB_fM50QnhamqRu9NADm9aewD3RuSFNE"},{"drill":3,"seq":12,"word":"BASTION","id":"1pHgwmE219BYSTgYMi5iWt3oA4Tct0N-j"},{"drill":3,"seq":13,"word":"BEGET","id":"1aU6YBAaQLYtX6ZoP76b48Utlvwsmgx92"},{"drill":3,"seq":14,"word":"BELABOR","id":"1U-VJ511Aqht9fvl4qnJTBqzG9Awx1nQQ"},{"drill":3,"seq":15,"word":"BELEAGUER","id":"1R3zluonVcbT8GBtbOcSnp5mrUkMSqf7e"},{"drill":3,"seq":16,"word":"BELITTLE","id":"1gqxSP2mLW5Kmyv2bzwwEhrGhaGObYCVH"},{"drill":3,"seq":17,"word":"BELLIGERENT","id":"1xFoS6AMs2Q8PMwzvmIZhsGjMIaSTBH0b"},{"drill":3,"seq":18,"word":"BEMUSED","id":"1H-nec-o4s34768NpqX2GyE4ozuHQ16KF"},{"drill":3,"seq":19,"word":"BENEFACTOR","id":"1R325kVMHte1SVcBD3A_gfTwLuNpiL591"},{"drill":3,"seq":20,"word":"BENEVOLENT","id":"1MR5_d9Oloyn5wiTzfiC7bRkfxsK4zFMO"},{"drill":3,"seq":21,"word":"BENIGN","id":"1IWCb2FeCddF8OaChzr2lpy0jSF9-b2gK"},{"drill":3,"seq":22,"word":"BEQUEST","id":"1XDZwRPzo4K5YobC5NisbxXpfjE5GSagU"},{"drill":3,"seq":23,"word":"BEREAVED","id":"1J80PxJC3unxJ9YYHCRrONrwl7e-IjPjH"},{"drill":3,"seq":24,"word":"BESET","id":"1WvybARlZHVNXEorOdk37BftJ8NJu1zLs"},{"drill":3,"seq":25,"word":"BLASPHEMY","id":"1B6SpavyoOCKq-rzRkM868ER9Ayp7Ck8J"},{"drill":3,"seq":26,"word":"BLATANT","id":"1wFFIi2Utl73oRZvV7tUT2HaOfFaW70YC"},{"drill":3,"seq":27,"word":"BLIGHT","id":"1SBxR1AAgjoKJ0eEy_yBTzdNpftDiOF05"},{"drill":3,"seq":28,"word":"BLITHE","id":"1jivjgT6xBEM8XkWn8Gpj5nSI3-WHMxIv"},{"drill":3,"seq":29,"word":"BOURGEOIS","id":"1Wec3xP7mje4EMLnD_FS_AyFBa7cTQlgR"},{"drill":3,"seq":30,"word":"BOVINE","id":"1QuWyezrKjgsaemGeVoMxak4Yaq8nTFxH"},{"drill":3,"seq":31,"word":"BROACH","id":"10my0uOh0A4vAWSqZqPPlB_WLy4BO3Bco"},{"drill":3,"seq":32,"word":"BREVITY","id":"14EMF0ktM7iFg6FPY1bW24v3Yb-HY3CrC"},{"drill":3,"seq":33,"word":"BUREAUCRACY","id":"1qJIK0gfOGyRBkSJ9OtQuynb1oWC1r7vB"},{"drill":3,"seq":34,"word":"BUCOLIC","id":"1Hc5vvz-hPhl1pvon2dkroMhYo-98wzKv"},{"drill":3,"seq":35,"word":"BURGEON","id":"1BXG7GO2sovRY3fw_LavYDDLQdsOos_Wp"},{"drill":3,"seq":36,"word":"BURLESQUE","id":"1EHinCmCjXZFLypJ5HLTCY5-WjCk2cXCH"},{"drill":3,"seq":37,"word":"CACOPHONY","id":"15jH5o9WGKZKmaIjLY_66in4u82s_Mxat"},{"drill":3,"seq":38,"word":"CADENCE","id":"1BjY18xVrm_rpWzp670Njm9KV03_Ed959"},{"drill":3,"seq":39,"word":"CAJOLE","id":"1iDxbD_jsQhBtJjVG65qowO9eSObYxjqa"},{"drill":3,"seq":40,"word":"CALLOW","id":"1TGEWr0LtuXfNA3dzCV-iQYcHQ1_7OFhY"},{"drill":3,"seq":41,"word":"CANDOR","id":"1tECbSRx71MLaD6oIoWxLFcYJ0BgnQy8N"},{"drill":3,"seq":42,"word":"CAPITALISM","id":"1oGIMvEpIac1QEMXD7UG7RcfMsKP-jZ6P"},{"drill":3,"seq":43,"word":"CAPITULATE","id":"1slPixR6yGP8uWF-1Dy5KMnzg45SP97Ts"},{"drill":3,"seq":44,"word":"CAPRICIOUS","id":"1fIWmqauWNNKTCr4fIqsz0EdH0ZU0GkBN"},{"drill":3,"seq":45,"word":"CARICATURE","id":"1Trf2hCsBPJnq9BYiygZD82WqRNbzrt5S"},{"drill":3,"seq":46,"word":"CASTIGATE","id":"1lNOvlaIxobOYcSIluNlX9FWXhrRv0tFK"},{"drill":3,"seq":47,"word":"CATEGORICAL","id":"15ph9EHcj70M4zmj21aCe1xFjYtB05uF_"},{"drill":3,"seq":48,"word":"CATHARSIS","id":"1b3L43l9blW7oLgsBlt6QwpssAyL8dSoP"},{"drill":3,"seq":49,"word":"CATHOLIC","id":"163o6KcLpgu5bfXnMV3QB7lhLmHfGDfFu"},{"drill":3,"seq":50,"word":"CAUSTIC","id":"1LL8PUrMKrbCO3BX6sELviIVjXFmGhrX3"},{"drill":4,"seq":1,"word":"CELIBACY","id":"13yurcAwGCGRtLEf7IURxlw9e1YUNPtKC"},{"drill":4,"seq":2,"word":"CENSURE","id":"1OKficM0lgI-olgm1EvwXfiw-QJabyVy1"},{"drill":4,"seq":3,"word":"CEREBRAL","id":"161xEx02Kv4fdWFUruiEDUqSS93w4yGiM"},{"drill":4,"seq":4,"word":"CHAGRIN","id":"1XrpzrlZCjjU3TftBiU2xKa-Un0XYIOGV"},{"drill":4,"seq":5,"word":"CHARISMA","id":"1NX0Z88H3dPqPlbILSV0HIPRXZr-LNrgu"},{"drill":4,"seq":6,"word":"CHARLATAN","id":"1cLpZughUJMGhEklHU9dp2OVXYJW1XN8U"},{"drill":4,"seq":7,"word":"CHASM","id":"1-nehqLVOPwZzjzNgyv57HIqjiNGWK2Ks"},{"drill":4,"seq":8,"word":"CHASTISE","id":"1sLQy0gDVyZEbd_THzqt5I_NoUDqppm-V"},{"drill":4,"seq":9,"word":"CHICANERY","id":"1nD-y21kCoXVcl6VP6keLC4k4RsRMfO_Z"},{"drill":4,"seq":10,"word":"CHIMERY","id":"1BzWnMBMw9og_ZWtXCltLfJK21gtIzZe_"},{"drill":4,"seq":11,"word":"CHIMERA","id":"1L0RJj8-oWdA7c2wgWyrohSnYiuIrFXRT"},{"drill":4,"seq":12,"word":"CHOLERIC","id":"1WSkhrZzIrWVCoTGlBIME2t4-n_RFa6VT"},{"drill":4,"seq":13,"word":"CHRONIC","id":"1B8lF--cs8tXkEVLH9ltPIILdMJO00GX-"},{"drill":4,"seq":14,"word":"CHRONICLE","id":"1bfAIT87bpsWf9Y8Uu_DGVbBBqsXtsbmN"},{"drill":4,"seq":15,"word":"CIRCUITOUS","id":"1bDsesggkv1cHAkld6WkYkv2rrlKucGxh"},{"drill":4,"seq":16,"word":"CIRCUMLOCUTION","id":"1Xlos_aEXdemcG-ZbpN0sUmnGKQOMDqAP"},{"drill":4,"seq":17,"word":"CIRCUMSCRIBE","id":"17owb9QoCOoLd2uC7wKeZRdcEKJkabQQ4"},{"drill":4,"seq":18,"word":"CIRCUMSPECT","id":"1CefCZjfDsgGNyyuTQxxEu0iNZciwFrin"},{"drill":4,"seq":19,"word":"CIRCUMVENT","id":"1vGVmiu1L_yHVamem7F3-iFFyUN_s3m9C"},{"drill":4,"seq":20,"word":"CIVIL","id":"1GaY7uXS7Rghs9sXD40ANTkJem3yL51lu"},{"drill":4,"seq":21,"word":"CLEMENCY","id":"1lwKjMyFgMp8_B7a_7jCxSXS7UwxdWFEC"},{"drill":4,"seq":22,"word":"CLICH\u00c9","id":"1BgOXJ27JmK3encXnIIYTTKs0W5F3CpZw"},{"drill":4,"seq":23,"word":"CLIQUE","id":"1IixoigIs1eSb8ypHCWfvVG_G0aSDTPqO"},{"drill":4,"seq":24,"word":"COALESCE","id":"18f4goB0lmtjXu4wzVQmmucqSgDYUU4UQ"},{"drill":4,"seq":25,"word":"COERCE","id":"1BEqpKdtRMGFAMfrkJB2NGPwVdvtI_g4K"},{"drill":4,"seq":26,"word":"COGENT","id":"1EOyLWzbu6FqAgrhFUd6O9iFBpPCIrM5a"},{"drill":4,"seq":27,"word":"COGNITIVE","id":"1_VCPeZiuVJf-L66zhOY8Neq05U9ASg-W"},{"drill":4,"seq":28,"word":"COGNIZANT","id":"1B_xSmExStSacNiLGY6IQhjzTtfGASNrA"},{"drill":4,"seq":29,"word":"COHERENT","id":"1cMvqkY_XdcbcBP4uNra76LfYx20fGz9g"},{"drill":4,"seq":30,"word":"COLLOQUIAL","id":"1CrpRmSErohou8WoJGsdVq56xKn5xRCIJ"},{"drill":4,"seq":31,"word":"COLLUSION","id":"1N_l1NPlm6LDWdDCTXDS17Pe8VakCRzt7"},{"drill":4,"seq":32,"word":"COMMENSURATE","id":"1lK_f7aczRqzpvX1Qb6FBrBZB86VoFfUf"},{"drill":4,"seq":33,"word":"COMPELLING","id":"1FUA-PDXiE7rxUyz2SVOypel0KqXk1NxQ"},{"drill":4,"seq":34,"word":"COMPENDIUM","id":"1Ypbi5m1_Ke9dJ8o3zm0BRvK_CSEckBmK"},{"drill":4,"seq":35,"word":"COMPLACENT","id":"1AfswPPSzmuJNsCxPU0hg3QIbf92a5ISs"},{"drill":4,"seq":36,"word":"COMPLEMENT","id":"1uhU-DyJ6GOef6kk2-qaxVZcJ0hCH7JGr"},{"drill":4,"seq":37,"word":"COMPLICITY","id":"1ZcegFeQMeCeCycBHfmFizb9-GWKRDeuW"},{"drill":4,"seq":38,"word":"COMPREHENSIVE","id":"1yqeOm1w4dgNlyvslU-TbrtJL1xrf4lZD"},{"drill":4,"seq":39,"word":"COMPRISE","id":"1AsGdz4tgJhGpuN486YQFTa5v6Cqfm1Gh"},{"drill":4,"seq":40,"word":"CONCILIATORY","id":"1i59NS4tCZPzH2cKvcFAvZV0xmyPbdvbA"},{"drill":4,"seq":41,"word":"CONCISE","id":"1rhvgL8F7A4GKNiax5CZEsEsvUavxHwbY"},{"drill":4,"seq":42,"word":"CONCORD","id":"1qIvEIoE7zEzG98rGZ7uuRfPhD_z5m2oI"},{"drill":4,"seq":43,"word":"CONCURRENT","id":"1L5NbC9ub_mNiQd03QA5NjgLiy8vsqjgH"},{"drill":4,"seq":44,"word":"CONDESCEND","id":"1tgH5isXRKrGvfmch32YLXvKPM1AYbbP5"},{"drill":4,"seq":45,"word":"CONDONE","id":"1C6J27xu0zaWKSKR00Z8L7-3-Jh-2szxg"},{"drill":4,"seq":46,"word":"CONDUCIVE","id":"12tDhnw-VtxY3kUbPjC8Bi0Vtkh1uv_cE"},{"drill":4,"seq":47,"word":"CONFLUENCE","id":"1duM_f8QLaN8FaQ_euDz0Vgga_f2U0IPC"},{"drill":4,"seq":48,"word":"CONGENIAL","id":"1LrJmUA7O8-kOtQwKPsHHRMP5NIx1VI6h"},{"drill":4,"seq":49,"word":"CONGENITAL","id":"1_OGNj4wo4uTQTK7u-277TY6irpOd40jP"},{"drill":4,"seq":50,"word":"CONJECTURE","id":"10hp4RJTnguTC21hKWu5IOUwhQPgQoGrw"},{"drill":5,"seq":1,"word":"CONJURE","id":"1rgumGv98r8lgEweM5aDKqSiJ5Kz5ZF0a"},{"drill":5,"seq":2,"word":"CONNOISSEUR","id":"1-vWn49SEPQwE-oGao2X05dOLWMi04wO0"},{"drill":5,"seq":3,"word":"CONSECRATE","id":"19QmQu824E4v7OVL3DLFe375AtMuzkXFv"},{"drill":5,"seq":4,"word":"CONSENSUS","id":"1f9peyg2lJlEOqMDU3BQRaRao_IHlDH0y"},{"drill":5,"seq":5,"word":"CONSONANT","id":"1p7FEeZ2fdGDIFI0Em61BIFSLiIFxSOH0"},{"drill":5,"seq":6,"word":"CONSTRUE","id":"1jHm9uEz8LYGT8WKhrI2gXnC0HOf_vP9Z"},{"drill":5,"seq":7,"word":"CONSUMMATE","id":"1xDueQzCmqFn-JTgGxn-SF2dsGu6gAVA5"},{"drill":5,"seq":8,"word":"CONTENTIOUS","id":"152AJL5ah5zeb4YYPsrd989_HJlRCiMuR"},{"drill":5,"seq":9,"word":"CONTIGUOUS","id":"1ZfwSh4k6Xx2WqiF1P2Lhwo_zQ56PieVK"},{"drill":5,"seq":10,"word":"CONTINGENT","id":"18bw8c79U3qwjNt2Z9F-hob_8hMKOySJH"},{"drill":5,"seq":11,"word":"CONTRITE","id":"1jVQNUBFUStnskeSF5JXt5kk5qvuFP8Gl"},{"drill":5,"seq":12,"word":"CONTRIVED","id":"1dZXBTm4HZnRb7MsP9uJzMenTWaDvUUp7"},{"drill":5,"seq":13,"word":"CONVENTIONAL","id":"1n76y-jOCh-51ssjvUyEBGIh71Jl6koXH"},{"drill":5,"seq":14,"word":"CONVIVIAL","id":"1ItfUXewBhYO43cLdwkU5AfMZAGAoYw-V"},{"drill":5,"seq":15,"word":"COPIOUS","id":"1d45BD0PQ-F2eQEhT-n9h5hCQG9kDSwkH"},{"drill":5,"seq":16,"word":"COROLLARY","id":"11veuCRL1VJWIUOIo0oOWhE9gjf0HesaS"},{"drill":5,"seq":17,"word":"CORROBORATE","id":"1jfc2KA5SDRAsndZLmgpF1d6F1T2R_ZzX"},{"drill":5,"seq":18,"word":"COSMOPOLITAN","id":"1yeL-UCGO9SvkgvIt_-JMBxhsgACUSjAr"},{"drill":5,"seq":19,"word":"COUNTENANCE","id":"12syTJr_7xI6rGf1NqbitUylifVhL-0gE"},{"drill":5,"seq":20,"word":"COUP","id":"1digFiZRmU5vzIddwmo3yU6v_eGmiNyBZ"},{"drill":5,"seq":21,"word":"COVENANT","id":"1HQ8LsG7yKjtGQ5h4SWU_0RUj9u_cMXew"},{"drill":5,"seq":22,"word":"COVERT","id":"1cmk8Vd4lreoINYmDMeECJm5yoeM7tm4e"},{"drill":5,"seq":23,"word":"COVET","id":"15kNapI83xlpFkDSp-AroY7f--XP0qeVN"},{"drill":5,"seq":24,"word":"CREDULOUS","id":"146su9adc-xFSbT2v_Q3JOGtgSsgK5TWj"},{"drill":5,"seq":25,"word":"CRITERION","id":"1n8wWFdomoAJ-D66Acop5IqZxR6FFvwaD"},{"drill":5,"seq":26,"word":"CRYPTIC","id":"1kV4s61x9ohPlT7diAvR9MvmEReE0vbjO"},{"drill":5,"seq":27,"word":"CULINARY","id":"18U27DGC9QvDRRA1j_tJnSO8eYLcMDvGV"},{"drill":5,"seq":28,"word":"CULMINATE","id":"1CXKfg8uqT_slzCp5bgSzUlFeG45DEj_N"},{"drill":5,"seq":29,"word":"CULPABLE","id":"1baMk9D61V6kiySYawD-4QstpktWXL3TH"},{"drill":5,"seq":30,"word":"CURSORY","id":"1iH5Y2LdGohMWu7mmk_dSjeh7GonKLvdJ"},{"drill":5,"seq":31,"word":"CURTAIL","id":"1Ot4LsIHNbxyH0LrL7-WJAW7Z3_r_X_XZ"},{"drill":5,"seq":32,"word":"CYNIC","id":"13qYI11_ZW0CiePRvDm9lbgv_LvTF-fVS"},{"drill":5,"seq":33,"word":"DAUNT","id":"1MRRr_MH3seX3wI8l7HHxFKFbNgaEsbcJ"},{"drill":5,"seq":34,"word":"DEARTH","id":"1PDnuo8-GndPZhbLUv9qIXGh-qINBnp2M"},{"drill":5,"seq":35,"word":"DEBACLE","id":"18r-3ECloDclIvP-T717WQhQuifk6rd0r"},{"drill":5,"seq":36,"word":"DEBAUCHERY","id":"13kHbxPGgbZ_znEUmEVszYV1PZy-FJqGS"},{"drill":5,"seq":37,"word":"DEBILITATE","id":"1ebocPoC6qMPrzxQ9oMUkjHMPedfXHF3P"},{"drill":5,"seq":38,"word":"DECADENT","id":"1PyB9aALmaXtnwmmunj6uGTxozxT8WRGy"},{"drill":5,"seq":39,"word":"DECIMATE","id":"1OIoJwpAa2nES4-qk9tQSYiBBXzrl10E9"},{"drill":5,"seq":40,"word":"DECOROUS","id":"1JZIH2DrtlAsQlM4BzA5nbrjmFlDQFY2_"},{"drill":5,"seq":41,"word":"DEDUCE","id":"16wl7zZF_Udp06beJdzOkwExa9pjEIQRi"},{"drill":5,"seq":42,"word":"DEFAME","id":"1m-RUAS7wwZJw4pfYcpfd9mqzWIe_dJcy"},{"drill":5,"seq":43,"word":"DEFERENCE","id":"12-ZUxnZ_DhEdFOgBmVN6k3Wv2MuLKAZs"},{"drill":5,"seq":44,"word":"DEFINITIVE","id":"12TFwRF6R9qlc6KAwYPDemkIcLBvg96uS"},{"drill":5,"seq":45,"word":"DEGENERATE","id":"1LVxO7LuPUR6j52la1R9RXPDmGjc7hg08"},{"drill":5,"seq":46,"word":"DELETERIOUS","id":"1YH1wa7LpmrDcaqwoh2GPrmamWzSwplth"},{"drill":5,"seq":47,"word":"DELINEATE","id":"1Do-IqjH61H117aE3DuCDtI4F4t8JSUn-"},{"drill":5,"seq":48,"word":"DELUDE","id":"1COwdS6OjdKHaarKoGfpuXkT5RsLsONqu"},{"drill":5,"seq":49,"word":"DELUGE","id":"18qu-bAHTUyVXhkLl2wIQT-sjzMSu2m3_"},{"drill":5,"seq":50,"word":"DEMAGOGUE","id":"1RIc8PtYhoWiBvA_0fwf6ZHZ5HUAiTE4i"},{"drill":6,"seq":1,"word":"DENIZEN","id":"1JGe8VNQtwxRmzPkS5WTjFuVP3EDr_KTm"},{"drill":6,"seq":2,"word":"DEPRAVITY","id":"1zT-ndzURRwAswocwewAim4fIpNTqaqk0"},{"drill":6,"seq":3,"word":"DEPRECATE","id":"1pOoxx6xtd1HEq1jhw2IYEf6P5J8fk11G"},{"drill":6,"seq":4,"word":"DERIDE","id":"1qqO8RDp7xkU4qWwiv4xbinvjmHe0pgtt"},{"drill":6,"seq":5,"word":"DEROGATORY","id":"1Varc8kpMT8nYT8fGInRGjizltAUhze_9"},{"drill":6,"seq":6,"word":"DESICCATE","id":"101sVjTHZpCvBVSOXRv-MIDJ_6GyQsfSE"},{"drill":6,"seq":7,"word":"DESPONDENT","id":"1QWnB7rJT_69D-OtKplf1jv80N5pkSCWf"},{"drill":6,"seq":8,"word":"DESULTORY","id":"1TQsG6uv0Ru_5CZ1U7FXWT2_hTrqOnSI_"},{"drill":6,"seq":9,"word":"DIALECTICAL","id":"1ovbUE6Jh5gPnev0F-_weKVnIo8ku3u2o"},{"drill":6,"seq":10,"word":"DESPOT","id":"1Rk8kn410UNcbVsbrmAtlBM78K9z-owhf"},{"drill":6,"seq":11,"word":"DESTITUTE","id":"1P_BtL03Bdg2CaSNbev8qbB4DV9ShgDn9"},{"drill":6,"seq":12,"word":"DICTUM","id":"194jXKZZyxhyyEPIT9qESuZSf8d6-_O3l"},{"drill":6,"seq":13,"word":"DIDACTIC","id":"1aIjf-nWpml2pgj8rrw5JcuwU83QudmXt"},{"drill":6,"seq":14,"word":"DIFFIDENT","id":"1VS2QvZlZ3ryjER6-gT-hO6f3RQm7WPJ2"},{"drill":6,"seq":15,"word":"DIGRESS","id":"1QOHLJjktDcOd2ReCBepN3ELeE3K4bEvw"},{"drill":6,"seq":16,"word":"DILETTANTE","id":"1cYCqhWq1TFR2cDBn6L6djympf80iXoIL"},{"drill":6,"seq":17,"word":"DISCERN","id":"1thgZ3sN7uUsQzSFnqh8HKSdQtKB0cAvJ"},{"drill":6,"seq":18,"word":"DISCREET","id":"1jZpX_2vISvFCBQci3qXgY-ngbK9lYKhK"},{"drill":6,"seq":19,"word":"DISCRETE","id":"1KDakWsaliL38v0DOYdaqfWEvyfe38-9e"},{"drill":6,"seq":20,"word":"DISCRIMINATE","id":"1Klinkw7MfpqNG-d1W38k4aQ_e3j9ruMm"},{"drill":6,"seq":21,"word":"DISDAIN","id":"1Hz5afrtU11AKZbmsfXvBE3Dx1Pzcyfgq"},{"drill":6,"seq":22,"word":"DISINTERESTED","id":"1myfwJGoHWBnXEb4lnNfQ6Drq7FgjL-xq"},{"drill":6,"seq":23,"word":"DISPARAGE","id":"1zwJ0qkVU-oveoz3hMCFQMjs2LTwVWLsP"},{"drill":6,"seq":24,"word":"DISPARATE","id":"1sBUCj-OLNHgfiaa-HrQAzwkOTV9RVfAY"},{"drill":6,"seq":25,"word":"DISSEMINATE","id":"1eZbYoO3kQ3VxuXTp93xmXvc0nG7Sgbs_"},{"drill":6,"seq":26,"word":"DISSIPATE","id":"1k-L-zB0N-HhL7g5bEVgI2tPZabriL9sl"},{"drill":6,"seq":27,"word":"DISSOLUTION","id":"1FwbYUa-7mcHPibouT5dacX5zmZytBn3W"},{"drill":6,"seq":28,"word":"DISTEND","id":"18KA16GLyvLyY0QWeHe9KGkDYjzZUGRfp"},{"drill":6,"seq":29,"word":"DISTINGUISH","id":"1RN-XGXP_W19dqGz8Szb3tKmYPY7Gt8Sp"},{"drill":6,"seq":30,"word":"DOCILE","id":"1RVAwWWfU3Po2WrHfoG4vZqcgB_HPg1SF"},{"drill":6,"seq":31,"word":"DOCTRINAIRE","id":"13pMgELyNVlkrn9qC5e3LXelP86DuAKda"},{"drill":6,"seq":32,"word":"DOGMATIC","id":"1si8_XI8BufRx7RNnsSacVe-hzWrZhOI_"},{"drill":6,"seq":33,"word":"DOMESTIC","id":"1y942xgszwbu6wc_bKAc8SlnW0HSICgdn"},{"drill":6,"seq":34,"word":"DORMANT","id":"16Hhs1JmWebksYUDLPgx3hFssAQjyLJgI"},{"drill":6,"seq":35,"word":"DUBIOUS","id":"16IuDg1mAZgH5nTivu3cFZ8S38VarLQ34"},{"drill":6,"seq":36,"word":"DUPLICITY","id":"1uOBe2gflAoeXLozqbh1oeMhRrD0E7Yf_"},{"drill":6,"seq":37,"word":"EBULLIENT","id":"1ZbdC2M2XJOuyYGOQ0EhotK4L8u5lFb6X"},{"drill":6,"seq":38,"word":"ECLECTIC","id":"1JWAtFjCjFtr7b1AYRDHOtmlCNisSQTci"},{"drill":6,"seq":39,"word":"EDIFY","id":"1FtAXbNKFpwtkJHqSWlqy8Apwks0Il2TF"},{"drill":6,"seq":40,"word":"ECCENTRIC","id":"1lgMhu9NESpATMwHJ4P1NEj_qahi3y9Jv"},{"drill":6,"seq":41,"word":"EFFACE","id":"1K4O2xZHKWXqHRP-dc3xwl3RfRN0AH411"},{"drill":6,"seq":42,"word":"EFFUSION","id":"1R5JkyaRzwlvLMqltRSq11LYnJ-oS_jJS"},{"drill":6,"seq":43,"word":"EGALITARIAN","id":"1VpaTASP6BUmZYWCzhppV_SCvTrQDmZ2D"},{"drill":6,"seq":44,"word":"EGOCENTRIC","id":"1MQxYrri1LPabumr2-lS1_w-MZEwRFI4L"},{"drill":6,"seq":45,"word":"EGREGIOUS","id":"1CmtQqq8WXd3yfFKCmw4ieO2vkuhiyoP1"},{"drill":6,"seq":46,"word":"ELICIT","id":"1Agm3ssCd327c3db9u3J0YXfKKDo7t84s"},{"drill":6,"seq":47,"word":"ELLIPTICAL","id":"1uG5FT2vkMsAF5kc7MXzGAQ4nDx0oPB5c"},{"drill":6,"seq":48,"word":"ELUSIVE","id":"1fYsbOThGJijpMgb0lkokXhjt_c9gcLlv"},{"drill":6,"seq":49,"word":"EMIGRATE","id":"1g1BHP0Fm0M7mtsVvheryXoxfSEooNk4d"},{"drill":6,"seq":50,"word":"EMINENT","id":"18hFql0FEb8GcFrKVlr3sMHUI6fzm53j_"},{"drill":7,"seq":1,"word":"EMPIRICAL","id":"1Glsa7cd2Oxe03-YlNdH0o8TKFJGJXqOC"},{"drill":7,"seq":2,"word":"EMULATE","id":"1oN2x6CyQ985pUkxAIIva4uRPLo98tPZS"},{"drill":7,"seq":3,"word":"ENCROACH","id":"1jtzG3DD2EHw40ZO0t4cUMPA8ptUnfjfY"},{"drill":7,"seq":4,"word":"ENDEMIC","id":"1lSpbbhOLLlMqNMSjKwF-00sncTH6wDpo"},{"drill":7,"seq":5,"word":"ENFRANCHISE","id":"1KgccRLP8bc6Zo_9OIcHczAsgYUX0hBRe"},{"drill":7,"seq":6,"word":"ENGENDER","id":"1nwqHT9GMFy_f1SaEJkIpLEt1K-I_VShl"},{"drill":7,"seq":7,"word":"ENIGMA","id":"1HC6dZfw5dSi5JQ3YyD5LVpuUa1b56B-S"},{"drill":7,"seq":8,"word":"ENORMITY","id":"1k8wnNPVRffQ8qGgzzikz3j8AAMAn0Uxi"},{"drill":7,"seq":9,"word":"EPHEMERAL","id":"15nsWeI-Gfhdhs36wRWo_ZyUAjAAI4o2h"},{"drill":7,"seq":10,"word":"EPIGRAM","id":"1kTtJjkLsdxo_9SiIeA-cQaQScNJDe1re"},{"drill":7,"seq":11,"word":"EPITOME","id":"1Z2Xpsuh4r6iipHXoXOrjt72r55-77lM-"},{"drill":7,"seq":12,"word":"EQUANIMITY","id":"1O68QF-cFGvXP4Qqo3LTFlZPTneKRmW7v"},{"drill":7,"seq":13,"word":"EQUITABLE","id":"1UYPDj1gzonlWzJ6q86lVcUIwZEqYgQXO"},{"drill":7,"seq":14,"word":"EQUIVOCAL","id":"1kWM5Bd2BVz0JcCvX3mXk0vwLz7thOhVk"},{"drill":7,"seq":15,"word":"ERUDITE","id":"1WlgeRniOReVNAlI-9B2AFyYj7r2SRP8p"},{"drill":7,"seq":16,"word":"ESOTERIC","id":"16I11azGkK_3tAAjC_4kUN5682rcmAolx"},{"drill":7,"seq":17,"word":"ESPOUSE","id":"1lZxwX5ywVz7y8dsSEgr7C131YC85pqhE"},{"drill":7,"seq":18,"word":"ETHEREAL","id":"1766MzSO01yyw_Ke7Xvj1qxY5xDHWI1yL"},{"drill":7,"seq":19,"word":"EUPHEMISM","id":"1LA87hkwFn39rZekjOn_0EBTCgUk27M9x"},{"drill":7,"seq":20,"word":"EVANESCENT","id":"1st2J2GMEUk_zqNh3QdcnCKdRpU2RF3RS"},{"drill":7,"seq":21,"word":"EXACTING","id":"1fY_mkF7vJ5da37bmH8TF-pogHUh5h9Zz"},{"drill":7,"seq":22,"word":"EXALT","id":"1sWWR7AFnWOmUJtcqJK96tUenKsGueF2P"},{"drill":7,"seq":23,"word":"EXASPERATE","id":"1zZiindEFaLXNXY7gT6CYqBfydidYVk3f"},{"drill":7,"seq":24,"word":"EXEMPLIFY","id":"1mXQmAeUCiAhg6Uxl-V8haZ6XNvt5AEsW"},{"drill":7,"seq":25,"word":"EXHAUSTIVE","id":"1BaByOUlgIiJ7oXwqFyaBYBaG4QhLv4x6"},{"drill":7,"seq":26,"word":"EXHORT","id":"1R2LcEi7MACQebZf5LaH2AtXX8ke9tAb6"},{"drill":7,"seq":27,"word":"EXIGENCY","id":"1KJit_9kgObvqowxIzSA-Vmj8fVF2TNCC"},{"drill":7,"seq":28,"word":"EXISTENTIAL","id":"1rAq_MWRWi_7wXdxbVCYgdK0ey11KIOCq"},{"drill":7,"seq":29,"word":"EXONERATE","id":"1cNNTEbRt3vnZCaKRg5InwCadXQplFSGI"},{"drill":7,"seq":30,"word":"EXPATRIATE","id":"1I33YRC8fzvPLlVlqLe5VBf0U3cwMDRot"},{"drill":7,"seq":31,"word":"EXPEDIENT","id":"1BKKXCnDtXxGfO_9nwLJscweYdxgue2u2"},{"drill":7,"seq":32,"word":"EXPEDITE","id":"1sLAeswCrbqEWpu1br4gvFKCuJMptxoCC"},{"drill":7,"seq":33,"word":"EXPLICIT","id":"1YTktiXACnVn5qAfGIv32oVTAfnphEKox"},{"drill":7,"seq":34,"word":"EXTOL","id":"1giJ429sLBpRarXQPX7yF5QPjtcmeUx1w"},{"drill":7,"seq":35,"word":"EXTRANEOUS","id":"13-D3sY9MT19vxST-MK8sQTKDehMIp_25"},{"drill":7,"seq":36,"word":"EXTRAPOLATE","id":"1kxItu6wQaWmtlDQ7Sci2z2t9PQvmJM1N"},{"drill":7,"seq":37,"word":"EXTRICATE","id":"1kQrI2sRpdh1NCEUNCdCr1GCRVX6vIXzZ"},{"drill":7,"seq":38,"word":"EXTROVERT","id":"1BzBE7Ul-RX4sqUnCihgq5PeLK9zf_Tk7"},{"drill":7,"seq":39,"word":"EXULT","id":"1TvBcjGl4wke6OWyoWTKcLPjqlQ9JVbVV"},{"drill":7,"seq":40,"word":"FABRICATION","id":"1buaRietQh7lulI__b6pOkYweVVM1aA2v"},{"drill":7,"seq":41,"word":"FACETIOUS","id":"1ZHQNS-RevpRbsjvOckiJZQBOLdc2ULAj"},{"drill":7,"seq":42,"word":"FACILE","id":"1PzdC82sDarnCBpEBKPrKU-Sklko2EnAX"},{"drill":7,"seq":43,"word":"FACTION","id":"1T0T21FLKLVIBeZqAAF3esSSWwmfgPIGu"},{"drill":7,"seq":44,"word":"FARCICAL","id":"1O-hBdwu8BizDvU9BhbQnPvDVGnpO4v8w"},{"drill":7,"seq":45,"word":"FASTIDIOUS","id":"1-sp-Ihv6rD1P9r3yqpoaICrflK8o2lnC"},{"drill":7,"seq":46,"word":"FATALIST","id":"1fU9MZm2OsanRRwN31KQ7COWdbJfZV93v"},{"drill":7,"seq":47,"word":"FAUNA","id":"1xy343awzYM8pf1hCojvBAxN65hKPVymu"},{"drill":7,"seq":48,"word":"FECUND","id":"1ROTqGrLr0JFRHEz-fgIaaRwSmgc2jojb"},{"drill":7,"seq":49,"word":"FELICITY","id":"1QO7BjwK9_CQDR03A-dGdDM_Sg7vqgqXr"},{"drill":7,"seq":50,"word":"FIGURATIVE","id":"1RKe9MWEGpJvKHtsAbCsnQMrpO8a-8idQ"},{"drill":8,"seq":1,"word":"FINESSE","id":"1M-o3l5ydAWPEfPKQahiVrhEylIKTqoOW"},{"drill":8,"seq":2,"word":"FLAGRANT","id":"1ufaki6DPw8Tr2F-DuVpROS1vSb7Wy-z5"},{"drill":8,"seq":3,"word":"FLOUT","id":"1dqUyoGXoINQKg1eJie0IU45AuNhj4N4J"},{"drill":8,"seq":4,"word":"FOIBLE","id":"1BL1dglqcDyGaVsT2CV4apXvz0helRj29"},{"drill":8,"seq":5,"word":"FOMENT","id":"113eU68Ck6z94uMCh4-xb0BC2jn1oEa87"},{"drill":8,"seq":6,"word":"FORBEAR","id":"1amzJMR7LYFPiXlPYCtDIgWHhxudriLHZ"},{"drill":8,"seq":7,"word":"FORGO","id":"18s1dtBjNZsqp_9en5NYmJIhaCd_xOfzC"},{"drill":8,"seq":8,"word":"FORSAKE","id":"1bqjfRBRcqKPABPSos7w6UonNIOFRIKO0"},{"drill":8,"seq":9,"word":"FORTUITOUS","id":"1fhO79refPzT342Djqq_COs5oRGHAbf4D"},{"drill":8,"seq":10,"word":"FOUNDER","id":"1fov5YxmYWR3p5fGzEtRERwL8HHSC_ykz"},{"drill":8,"seq":11,"word":"FRATERNAL","id":"1blXFa3nogOGQUdzqtMwYQPQGlQTluPM3"},{"drill":8,"seq":12,"word":"FRENETIC","id":"1jT0TbwCUdNJviB-NUyFBD5zGAXnQwcXI"},{"drill":8,"seq":13,"word":"FRUGAL","id":"1lv5n6gRk8SoYLQ2NPsxBKR2srst78CXt"},{"drill":8,"seq":14,"word":"FURTIVE","id":"1HIPAV3CtSY5FDXaHt3sZVQm0k5FuchpD"},{"drill":8,"seq":15,"word":"FUTILE","id":"1uQLBjKgciPb5Ncw7arO2fblfNYixnA5B"},{"drill":8,"seq":16,"word":"GARRULOUS","id":"1i28LHpsagYxNvD061kNfh3khFZm3L4tT"},{"drill":8,"seq":17,"word":"GENRE","id":"1_zZeRlvpMjK_3TJtV_mOFCZuUeQcC7uV"},{"drill":8,"seq":18,"word":"GENTEEL","id":"1RWe3niSldRobFoRZhr2_pBPviPdc6lAd"},{"drill":8,"seq":19,"word":"GESTICULATE","id":"1tNwXmPsnQMcTflOgqPmwYbL9ruPgGGW6"},{"drill":8,"seq":20,"word":"GLUT","id":"1Ls9bbaLoiL_DsRbQUY6qCW8PxXwZ2WB1"},{"drill":8,"seq":21,"word":"GRANDILOQUENT","id":"1nQ0piqwn05l_rNVstkQVcFYL_mc9uD5S"},{"drill":8,"seq":22,"word":"GRANDIOSE","id":"19vEpq-vmoKHz8PZOGMfyWyRVsm7A4Oal"},{"drill":8,"seq":23,"word":"GRATUITOUS","id":"1QBVaLRAujfuj22YfOqVQbBCQIV3fD7_n"},{"drill":8,"seq":24,"word":"GRAVITY","id":"1QDczZHIXUmCy2ZUd8YFL63RmSGyvn7_2"},{"drill":8,"seq":25,"word":"GUILE","id":"17Yn3xylmep08i-0ngeVuvv9vYNoDeWA9"},{"drill":8,"seq":26,"word":"HACKNEYED","id":"1ywHBfmJRiocQj-xagNW4kUEWjli-97jp"},{"drill":8,"seq":27,"word":"HAPLESS","id":"18uKUmosSSAs0w3bfJy9cBwQyDemsb24p"},{"drill":8,"seq":28,"word":"HARBINGER","id":"1KBkGOkIUd4mbK5AVKdY0VJ1mhyAwH3vL"},{"drill":8,"seq":29,"word":"HEDONISM","id":"1WWWQzxGbu270llLCinJ0s4naH4B8SeAz"},{"drill":8,"seq":30,"word":"HEGEMONY","id":"1Nmtt5w3OXlMwtC26yF98QlrzjCfs5iQC"},{"drill":8,"seq":31,"word":"HERESY","id":"1AL0HiKKALfwP5U_mdWFBFrtibAyzjITN"},{"drill":8,"seq":32,"word":"HERMETIC","id":"1yuAbr1OeY8Pb3v4MjcoR6czW1TyEyHpX"},{"drill":8,"seq":33,"word":"HEYDAY","id":"1k0rbh-OBTJq05iH2lvs5_T4t20lt0Ha7"},{"drill":8,"seq":34,"word":"HIATUS","id":"1k0ntFYj87mjfLm8l2TM3Z2Jazb2prlSj"},{"drill":8,"seq":35,"word":"HIERARCHY","id":"1rUlZGsjW3hy_ngV9E678jHwOhnjB1rv1"},{"drill":8,"seq":36,"word":"HISTRIONIC","id":"1y_dAIeWGnbiLuswrcx-q3vgjwvGDgLag"},{"drill":8,"seq":37,"word":"HOMILY","id":"1Ff5Ygo2hggxkfeO4vnCR5TWgigvUPWV5"},{"drill":8,"seq":38,"word":"HOMOGENEOUS","id":"1EI1d8VjGcHSiBZZ0MPIJqs_KPT6mfUhC"},{"drill":8,"seq":39,"word":"HUSBANDRY","id":"1w7LPY6UZvR7aflpT_7KbBSnpeywRPdUy"},{"drill":8,"seq":40,"word":"HYPERBOLE","id":"1hcJzjyYdYQUo-STQQ2vA0LgpO7WGyI0S"},{"drill":8,"seq":41,"word":"HYPOTHETICAL","id":"1FHndirT3gt4l_-sH_lcWqjDsbPSB9g_8"},{"drill":8,"seq":42,"word":"ICONOCLAST","id":"19PZOGz29eYT6Sk9I2Fmpwsq05RtlpI61"},{"drill":8,"seq":43,"word":"IDEOLOGY","id":"1Cy1YK7ptrqIzKC2pP5M7Q636Q0gEUWv1"},{"drill":8,"seq":44,"word":"IDIOSYNCRASY","id":"1GoKnaFkQDeGd_gfaPmhpXYOeJ3Gf4tkb"},{"drill":8,"seq":45,"word":"IDYLLIC","id":"1gx4oWfXZ3vCMMCIkQ6hKmQEqtRnfFNNc"},{"drill":8,"seq":46,"word":"IGNOMINY","id":"1osHbqDJ6JP3tahCgSS74VhLBsgQcf5IO"},{"drill":8,"seq":47,"word":"ILLICIT","id":"1GrYkO3tDjh51PRirHBTlBpio5BwQP1F6"},{"drill":8,"seq":48,"word":"IMMINENT","id":"1gyAycYMEO7N-zUHALi7zywAZM0h_rlph"},{"drill":8,"seq":49,"word":"IMMUTABLE","id":"14Ceh7S8BqqXxyYplCvXf3sZAF3gpsLdD"},{"drill":8,"seq":50,"word":"IMPARTIAL","id":"1rsm2nA7OrBoJA7D2WhjBjb65Bf-GN3LL"},{"drill":9,"seq":1,"word":"IMPECCABLE","id":"1H9T3sYUZQGhpgA5X18StI2nQNXDcaHRe"},{"drill":9,"seq":2,"word":"IMPERIAL","id":"1o0BIolAJhm0b_nHLGuH_Sp3AEeMbJk--"},{"drill":9,"seq":3,"word":"IMPERVIOUS","id":"1WQY-Nsdj9I4vE3fhj7yclTdxmK3eKKMs"},{"drill":9,"seq":4,"word":"IMPETUOUS","id":"14KS4sQu5omms1M_lBTE_nimcC93TOr1E"},{"drill":9,"seq":5,"word":"IMPLEMENT","id":"1hFGLBUHo64uimPnZ9NC8b2rCLgSmpKmW"},{"drill":9,"seq":6,"word":"IMPOTENT","id":"10xcXKGYaXokEqS5iPvomIztX-DEokc_f"},{"drill":9,"seq":7,"word":"IMPUGN","id":"1fhi5CpFkJsIRf23ijkFqoeEM4mi0qqyC"},{"drill":9,"seq":8,"word":"INANE","id":"1YMR3VUAMfQaTFc0vBdE7TvbzdLKqAnsl"},{"drill":9,"seq":9,"word":"INAUGURATE","id":"1r4AclVw9OA13HiJ7cNIZkRYrcBOdjTs1"},{"drill":9,"seq":10,"word":"INCANDESCENT","id":"1Q6cezWtqGBlMpBndaVlraB4Xku7OY_iD"},{"drill":9,"seq":11,"word":"INCANTATION","id":"1hYNoZAnUwpBg3rRP7lahAATn6ajIl-Cs"},{"drill":9,"seq":12,"word":"INCENSE","id":"1KbIIgwkuEtVnl2d263dSZglBU4B6Ugi6"},{"drill":9,"seq":13,"word":"INCESSANT","id":"1u_x4jUgq-vzFjjHcXuZdLDS_W4MXo7ah"},{"drill":9,"seq":14,"word":"INCIPIENT","id":"1i5eYhuZklHWCvmQUNcE7L-z4M2hLHtvd"},{"drill":9,"seq":15,"word":"INCISIVE","id":"1ODfRCfdWDOSXIqOIHr75F9CirVQpqikh"},{"drill":9,"seq":16,"word":"INCONGRUOUS","id":"1EPo0hB-rnYCqCI7VZOT7uxURGsRamU3i"},{"drill":9,"seq":17,"word":"INCORRIGIBLE","id":"1TWP4o360DBEUnRcOe-wDgRTw2DhxJa_0"},{"drill":9,"seq":18,"word":"INCREMENT","id":"10RKLlZ74zNUVmpYppTKjQdUEUqe5eJfg"},{"drill":9,"seq":19,"word":"INDIFFERENT","id":"1s0QkQSSPjs-Z2poHvKIqxDgahOddy9_G"},{"drill":9,"seq":20,"word":"INDIGENOUS","id":"1Qxtg859OALMyVN9zumwTza-X4I6GVNT8"},{"drill":9,"seq":21,"word":"INDIGENT","id":"1rYVKPpF6RyKx9LxNCgKf-i7YvO5Pzapj"},{"drill":9,"seq":22,"word":"INDIGNANT","id":"1bI3_Tp40cxtcuvrQgSRqcJC4BOvCgob_"},{"drill":9,"seq":23,"word":"INDOLENT","id":"15BkNwcFh_uV00Wo0nK7MtwWUiWBKauYU"},{"drill":9,"seq":24,"word":"INDULGENT","id":"1BQG0uqm-8LUj3DRQUh21LcgwlE3IkKYM"},{"drill":9,"seq":25,"word":"INEFFABLE","id":"1CRe5G9R21SPneHM7Ojv-c0dgZUu59IU_"},{"drill":9,"seq":26,"word":"INEPT","id":"1GlB1CoVkWrxAqysoxM27Eu0MCQa8uFwz"},{"drill":9,"seq":27,"word":"INERT","id":"1dkPgkWfgBeIOsbHUZ-WjjsQsbta_oDE1"},{"drill":9,"seq":28,"word":"INEXORABLE","id":"1fqAv5ECuXJ6qwcvH6WeUiMpZuLXJpoeg"},{"drill":9,"seq":29,"word":"INFAMOUS","id":"1_2-xjdZ92WjyOWxbnOcix7dgJ01Izwde"},{"drill":9,"seq":30,"word":"INFATUATED","id":"1bqdHvOjpKCGhO6Db-uCBMakYh1ez9tC7"},{"drill":9,"seq":31,"word":"INFER","id":"1zH71-EK9m-CGg8cFmOU4h_s7-R99A_Bt"},{"drill":9,"seq":32,"word":"INFINITESIMAL","id":"1GWvcdx89h0dzDmueae3RZxCM_M-2uw_q"},{"drill":9,"seq":33,"word":"INGENIOUS","id":"19xdG5NAz2fSIcuS721r12xAX7YZ899S6"},{"drill":9,"seq":34,"word":"INHERENT","id":"1aw_I51N9QmxYOq5rzfIMR-EO_XNDujQR"},{"drill":9,"seq":35,"word":"INJUNCTION","id":"1EZ44xBAwUGY7nMsT410moadWEashMjuo"},{"drill":9,"seq":36,"word":"INNATE","id":"16xWcnt8-jSFUAY-NoH_W2_O1jbajzTo9"},{"drill":9,"seq":37,"word":"INNOCUOUS","id":"1GqXWjDF1UqfNiTmioXEBKNmRiVLNJ05k"},{"drill":9,"seq":38,"word":"INORDINATE","id":"1N-BnJ3T3izNhzD5UCnQjAT5QV1WZsTMx"},{"drill":9,"seq":39,"word":"INSATIABLE","id":"1vBFHXZknUtIUhYus4B9_kTSsrMXXmgND"},{"drill":9,"seq":40,"word":"INSIDIOUS","id":"1VMbCwmItoNwJL3WEbL6Du61FcsyrJ7pJ"},{"drill":9,"seq":41,"word":"INUNDATE","id":"1SUN7oeMIJ_TdBTGKvtyWWk1Bv4bRlZlc"},{"drill":9,"seq":42,"word":"INVECTIVE","id":"15w2ot55dw1hyh2H3Xszj101Fdwrs-Kux"},{"drill":9,"seq":43,"word":"INVETERATE","id":"1UaySwQr9g6q2XbBj8FXaUkDZwU2va7tA"},{"drill":9,"seq":44,"word":"IRASCIBLE","id":"1M5ERLCz7I90u4m4RaCWctXvWl5vnkU4y"},{"drill":9,"seq":45,"word":"IRONIC","id":"1FXvu0UYhexh2Attedi2Q5GTsKHI1T-Ek"},{"drill":9,"seq":46,"word":"IRREVOCABLE","id":"1RYLrrlK9ZL7dqqPoNFPxXnAsWNm8Cw1h"},{"drill":9,"seq":47,"word":"ITINERANT","id":"1nubhme9E_GraAsYwL0DbXS0JbLE2yP0e"},{"drill":9,"seq":48,"word":"JUDICIOUS","id":"17Ph7aMR2IlQdg2oFs-nsKKjIDxW_P8Mh"},{"drill":9,"seq":49,"word":"JUXTAPOSE","id":"1LEORB1hyd0gk435I5mLZoyiyoiWcIo1I"},{"drill":9,"seq":50,"word":"KINETIC","id":"1lg_aUN13ESwiZkW8A2ADvhSJIvoTHRU4"},{"drill":10,"seq":1,"word":"LABYRINTH","id":"1Pp0xq_VUk1AyFfZPYaQkoThFVFzjXRLs"},{"drill":10,"seq":2,"word":"LACONIC","id":"15-3w-4jcJBRqZMfidlyB4ShJqvZ-VEuF"},{"drill":10,"seq":3,"word":"LAMENT","id":"1-DddGgWhJqZ7Jg65n3mdZ_JY88jSOVI4"},{"drill":10,"seq":4,"word":"LAMPOON","id":"1fJ3LIsbJP22WJH7gPObtgL913c6VBDM-"},{"drill":10,"seq":5,"word":"LANGUISH","id":"1iq2NA0nTq5lNcwVyD5j6LEyTTwmoSjq3"},{"drill":10,"seq":6,"word":"LARGESS","id":"1rPGdElJJy7zz2xeT0QtfEBdvtulxsxo0"},{"drill":10,"seq":7,"word":"LATENT","id":"1noidEcXOGV_AMgs566UzVi9GSjPPCKNz"},{"drill":10,"seq":8,"word":"LAUD","id":"18Eqq9PKIgajYGppCrs8VYH0OtjGReExb"},{"drill":10,"seq":9,"word":"LEGACY","id":"1MjjjyfnqoGZlJFf0FnKsNjtnYYoARKhR"},{"drill":10,"seq":10,"word":"LETHARGY","id":"1mZGzFh44IYcqv0eBqv3MqhU3irLXcrBZ"},{"drill":10,"seq":11,"word":"LEVITY","id":"1fwW9hQwQiFIg6i8oib0mhHSBP7SQP3Ye"},{"drill":10,"seq":12,"word":"LIBEL","id":"1Md4vsnrxvLNiN50Y6V6nUy56_IyjRqgt"},{"drill":10,"seq":13,"word":"LITIGATE","id":"1UuYpgoIaa0eeWfrlDA5zQCbfovP0EBd9"},{"drill":10,"seq":14,"word":"LOQUACIOUS","id":"1HkDP0zqVBs4eY3e4jxLLMWmxZnu_7uDh"},{"drill":10,"seq":15,"word":"LUCID","id":"1qGChBSlR_zyvDjq0SmUdVjvXFk6MB3lX"},{"drill":10,"seq":16,"word":"LUGUBRIOUS","id":"1-nVpFbeWjeyH2MHzfWqHAtreGm04PbGa"},{"drill":10,"seq":17,"word":"LUMINOUS","id":"1Hzdid2XAHYix04SU43VaqDL4jB0pM2Vw"},{"drill":10,"seq":18,"word":"MACHINATION","id":"18xqHBoZy55Tk7N8OQPCoUG28orP2SiZl"},{"drill":10,"seq":19,"word":"MAGNANIMOUS","id":"1vAXii9H5R5OM5vDymvO5RX8C8EczhfxE"},{"drill":10,"seq":20,"word":"MAGNATE","id":"1f9ZCNRln1glfiISJXUI9zK03pEgqOAyC"},{"drill":10,"seq":21,"word":"MALAISE","id":"1qtB0fC_hLaF_q9G3mJbLP1fj7xAhmg67"},{"drill":10,"seq":22,"word":"MALFEASANCE","id":"1BtrmJpH3aTpVG2h-BNJM7-hroo_s-_hb"},{"drill":10,"seq":23,"word":"MALINGER","id":"1tlFXo05nYjwDjVC1JMQEytHNeS_R3UZJ"},{"drill":10,"seq":24,"word":"MALLEABLE","id":"1A4cdDbqUN6V31_tymF_fQNcjUcVPxuX4"},{"drill":10,"seq":25,"word":"MANDATE","id":"1deXTHZIHxz4iFdKZGMDnZNui86y9lSXI"},{"drill":10,"seq":26,"word":"MANIFEST","id":"1zlrFeCwCjSFQ7gGas812Hct8a1Lvq4jC"},{"drill":10,"seq":27,"word":"MANIFESTO","id":"1WbV3fiPafF6jwikycwFRsdFA60LQN9S1"},{"drill":10,"seq":28,"word":"MARSHAL","id":"1QyecGHk61JlrwbjlFHPJQGgo3trYns6P"},{"drill":10,"seq":29,"word":"MARTIAL","id":"1kX8pVV6ebSz0hVYR1zzcDsTvXUW1YHM4"},{"drill":10,"seq":30,"word":"MATRICULATE","id":"1apzOjI1hNiGl5aY8dKttF0DWDhxDc1uc"},{"drill":10,"seq":31,"word":"MARTYR","id":"1G1yAX8vYmdEE2zTLb8sSuAREb49aaHgH"},{"drill":10,"seq":32,"word":"MAUDLIN","id":"10IuWSOFlhjtC3lnqwfdiPA4KwcSsises"},{"drill":10,"seq":33,"word":"MAVERICK","id":"1SDo2rV8kQcDxKslFYC5g0VZfI6Ixxgm8"},{"drill":10,"seq":34,"word":"MAXIM","id":"1BuhQ95btnLvp3O-F1kofT2aOKCzYppi7"},{"drill":10,"seq":35,"word":"MEDIATE","id":"1ABGBhrpkxKeITN5HkRIBAz6eRCxQ2UMw"},{"drill":10,"seq":36,"word":"MENDACIOUS","id":"1kqY7g4HGc6N8vuoo7zeFf5reWUga3O61"},{"drill":10,"seq":37,"word":"MELLIFLUOUS","id":"1fNonJQFLwrBYO3elvAJ2yl7BtUxOh5yM"},{"drill":10,"seq":38,"word":"MENDICATE","id":"1e8IGbCGhdI0sJ6M4pa4RsgHt2icBHKrE"},{"drill":10,"seq":39,"word":"MENTOR","id":"17EcfHCqVj6UYusZ-xhuSREABZWX2C2hp"},{"drill":10,"seq":40,"word":"MERCENARY","id":"1SieR2mNhiW4KNgIsIklVqRtDKQFSBxfU"},{"drill":10,"seq":41,"word":"MERCURIAL","id":"1CU4WLJxmyznuviKKESWg8DXe27it768d"},{"drill":10,"seq":42,"word":"MICROCOSM","id":"1l-2Zl-9-vGnpDPhAcOPs5Mar3jSj0h_W"},{"drill":10,"seq":43,"word":"METAMORPHOSIS","id":"1hx7TA2MUmwOn47aT4gxvDQQyBQtg_-vf"},{"drill":10,"seq":44,"word":"MINUSCULE","id":"1P85kW3_jiXs09Q2JqlRsUtt_fn4Q_08L"},{"drill":10,"seq":45,"word":"MILIEU","id":"1nP3xz-5LgWVFuwo_2qs81gKlRB101RSn"},{"drill":10,"seq":46,"word":"MITIGATE","id":"1wsQdAEJDbSv-Thc_taBWNAaTUwaBTCQa"},{"drill":10,"seq":47,"word":"MISANTHROPIC","id":"1l7AFomqCz1H13nJFUMkACWFaPcyuvEOB"},{"drill":10,"seq":48,"word":"MOLLIFY","id":"1EUGZOqQS3_JhUTzLeh50L15R2xsbJnKw"},{"drill":10,"seq":49,"word":"MONOLITHIC","id":"1RVjacwKxcLZKT1wIjt-NnGhKufuLVTQV"},{"drill":10,"seq":50,"word":"MOROSE","id":"16OALQqtkuH4xzcAAFRVk6ASaug5bC0h4"},{"drill":11,"seq":1,"word":"MORIBUND","id":"1OHiqCCR3Wkp0gP1hQJ3FihCGp_B5rgwY"},{"drill":11,"seq":2,"word":"MORTIFY","id":"1YYPSoa8nWxhiZuyYFy7BtftO1aqxkrkG"},{"drill":11,"seq":3,"word":"MUNIFICENT","id":"15XjgXtXGwhVWELfbiVCk1GSNK-HSMt8l"},{"drill":11,"seq":4,"word":"MYOPIA","id":"1anmN_QtAyn4TK9xdvYYKJwoJd8cUwkZk"},{"drill":11,"seq":5,"word":"MYRIAD","id":"10IctD1cE942s5QafHp8m6GWzpRdzsbO4"},{"drill":11,"seq":6,"word":"MUNDANE","id":"1d4jzJ32Ec5mrIigSsv4TkYzFJx8GUAh_"},{"drill":11,"seq":7,"word":"NARCISSISM","id":"1kAHROH1ZTdcaf2EOL0hHffgRPN7kAd-1"},{"drill":11,"seq":8,"word":"NEBULOUS","id":"185NrbrPEIen9Ap34KdZo7Tmy48XlzEPu"},{"drill":11,"seq":9,"word":"NEFARIOUS","id":"1uusdxSJV8wulqDHQBX5dheGL884h6u_o"},{"drill":11,"seq":10,"word":"NEOLOGISM","id":"1x4c5JDR-tlb1XrJvl633LCPP3iS4cfK-"},{"drill":11,"seq":11,"word":"NIHILISM","id":"18sAy166FuwIy7WoAyCNPkUs4jP-gdU85"},{"drill":11,"seq":12,"word":"NEPOTISM","id":"1tGwczONx4Uqh0yjxnHH-yjIdmQTQ2_jb"},{"drill":11,"seq":13,"word":"NOMINAL","id":"18f0T0VQ77d49WZC29VsnVSf7YMzC6DE_"},{"drill":11,"seq":14,"word":"NOSTALGIA","id":"17iLXwAifiK3bb48eiYxNs3z2QRqSEgTV"},{"drill":11,"seq":15,"word":"NOVEL","id":"1mKltl7o4WBeKVDsM8otvi9K8Xh3waf_c"},{"drill":11,"seq":16,"word":"NOTORIOUS","id":"1zUbvnPrd3yhWI7Z3hed8UiynWnJoVu8Y"},{"drill":11,"seq":17,"word":"NOXIOUS","id":"1fzD4S1cAR-7xQ5grTosb6CjP2NRoErnt"},{"drill":11,"seq":18,"word":"NUANCE","id":"1YrRMIHP0lVqowc_7ZB1i2zOKYgqtdMwy"},{"drill":11,"seq":19,"word":"OBDURATE","id":"1RRiIv63U-IvNWGf7coXCa3Q3Vk71v5PG"},{"drill":11,"seq":20,"word":"OBFUSCATE","id":"10zlDKSu9__jNz7C2C6jXf4eK5ztWc8aJ"},{"drill":11,"seq":21,"word":"OBLIQUE","id":"1JCLKS7fprNUzm0nTXuQrhY5m83_4LTqo"},{"drill":11,"seq":22,"word":"OBLIVION","id":"18CNO3tBomjW_i7-eLunhDrJ8Onh_Tbu-"},{"drill":11,"seq":23,"word":"OBSEQUIOUS","id":"1bxuQLJN7eyFtG_NHohUVKRgjHIuzkmaC"},{"drill":11,"seq":24,"word":"OBSCURE","id":"1bZyBhDLQt34-xeQni-98DSmQtq9JoFdH"},{"drill":11,"seq":25,"word":"OFFICIOUS","id":"1t3-X4j2Gb5cJR1XompUkjaIS5NborEFb"},{"drill":11,"seq":26,"word":"OBTUSE","id":"1VUxiAL3LJ3OjWeE9xeJ6ztj4YE9Fw-yf"},{"drill":11,"seq":27,"word":"OPAQUE","id":"1R-emle9DHqvLeqbKobDYC4PWHdrUUjVR"},{"drill":11,"seq":28,"word":"ONEROUS","id":"14DxPfmpRbFy9tNJ4LVwOcPqR2gas0RAB"},{"drill":11,"seq":29,"word":"ORTHODOX","id":"117jrWMtMeNQ-Ot0VYZbgPPAEQcprcRr3"},{"drill":11,"seq":30,"word":"OPULENT","id":"14vO54k72aPGR6cWT_srg0AZDcnzdWspu"},{"drill":11,"seq":31,"word":"OSTENSIBLE","id":"13L4GUmHGOsQeNVIFR6p8GDdAFgmyZJB7"},{"drill":11,"seq":32,"word":"OSTENTIOUS","id":"1ymLSHFKESg0kbSGnYwIgjl0ca5PVVR5C"},{"drill":11,"seq":33,"word":"PACIFY","id":"1JxZ8IdQw4kChgqOTFCSsYWnIbFw-bFgT"},{"drill":11,"seq":34,"word":"PAINSTAKING","id":"157zNDY75UfkLuaRDLSlYPDZqrcphp1yy"},{"drill":11,"seq":35,"word":"PALATABLE","id":"1xbWylZMIWDruIkRshcQVMDOeFc9Y4pc7"},{"drill":11,"seq":36,"word":"PALLIATE","id":"1hFnl6KwwTD5eZFA-B6iAVt4vZYBW8K2l"},{"drill":11,"seq":37,"word":"PALTRY","id":"1V7Pz1QXGSyLgHSLmcoSfRBNSVAGrSAxm"},{"drill":11,"seq":38,"word":"PALACIA","id":"1JScrWphPKfqsqKdiSdw-Yx_nwrVNjYr8"},{"drill":11,"seq":39,"word":"PARADIGM","id":"1YDcxYsU_A44oG38fIB8ykwycKQPFA3vO"},{"drill":11,"seq":40,"word":"PARADOX","id":"1EfgcBy2swvqEMkdzDMsQenKX_z3IevBI"},{"drill":11,"seq":41,"word":"PARODY","id":"1N88cwsqEYmBJhdjiYIycPWUY8PzDNa9K"},{"drill":11,"seq":42,"word":"PAROCHIAL","id":"1BkiRn-dDAdU4GNZix_F_ivghoh24uvUn"},{"drill":11,"seq":43,"word":"PARSIMONIOUS","id":"1VTazuQButGXNvBTDgXEzcH2w7iCyE_Y7"},{"drill":11,"seq":44,"word":"PARTISAN","id":"1UNHeAWMpQu7xBYpw53Ygg-A3yyH3dIQO"},{"drill":11,"seq":45,"word":"PATENT","id":"1D7QmhQSwLd5oq81G9_3fKvQ7i8QsNkaT"},{"drill":11,"seq":46,"word":"PATERNAL","id":"1-eTCAMN0Sq-hIri-91iVZCMTgZDXFlAL"},{"drill":11,"seq":47,"word":"PATRIARCH","id":"1GRIqSAzZ4FlzUPkdZZekxoCUPqdyp-9k"},{"drill":11,"seq":48,"word":"PATRICIAN","id":"1830lQX9YaFJI9LkHWqvdyGVdclvB0Q7n"},{"drill":11,"seq":49,"word":"PATHOLOGY","id":"11qkrMXClEpuiVxHmrTK_rHNsIaseBabR"},{"drill":11,"seq":50,"word":"PATRONIZE","id":"1nbIvzzqyuwUJSS3etO-L6DJWdFqaCuZ9"},{"drill":12,"seq":1,"word":"PAUCITY","id":"1a8FMw5QSJvqbFpTCSG3tjJDm6Oxmkkxp"},{"drill":12,"seq":2,"word":"PECCADILLO","id":"1a4rmHa_YJx9e_ffjRolFMlDyHZqX5y0h"},{"drill":12,"seq":3,"word":"PEDESTRIAN","id":"1Q7OJ1uxviAP02spS5FHujGD6MSKoRQXc"},{"drill":12,"seq":4,"word":"PEDANTIC","id":"1rUzalatvuaLoFDfZ3wqyrF8_W-zk-vFS"},{"drill":12,"seq":5,"word":"PEJORATIVE","id":"1Iog-dePRrNPK6bcBjhJTokm09TcqkwWQ"},{"drill":12,"seq":6,"word":"PENCHANT","id":"1V5WGMPmsddI4G04MW0jk5OilKvhsNzpB"},{"drill":12,"seq":7,"word":"PENITENT","id":"1p6nAwmiv_1dw-YkuJKQPelcFlR1-y64r"},{"drill":12,"seq":8,"word":"PENSIVE","id":"1kSPXDDHrRMveJE9wacPkM4geE3NSsRYK"},{"drill":12,"seq":9,"word":"PEREMPTORY","id":"1YClW8ztOU9Wx0I4NSrlLg8RAkTeYgL5C"},{"drill":12,"seq":10,"word":"PERFIDY","id":"10D6So45zLUXAx8JzrBCFcghnflyTkY_2"},{"drill":12,"seq":11,"word":"PERENNIAL","id":"1vnYQVLIXjtf7sIzSGfytfvSY2FuNeMml"},{"drill":12,"seq":12,"word":"PERIPATETIC","id":"1rujBXr7ihJ1HHmOmDaJ8wLeYGCqgxkD9"},{"drill":12,"seq":13,"word":"PERFUNCTORY","id":"1RaE5AfH-Fn4j838-qQj0c0n1_xpkv9ZN"},{"drill":12,"seq":14,"word":"PERIPHERY","id":"1EQn4LRt0zHh8n6s85rlLEXEe_eZUrd_f"},{"drill":12,"seq":15,"word":"PERJURY","id":"1VOGOytmEMIvCAM_gA4vP4e-0s7opnA2p"},{"drill":12,"seq":16,"word":"PERMEATE","id":"1NFAFaC7jBz_-ZqGirqEValZe5_J09A2H"},{"drill":12,"seq":17,"word":"PERQUISITE","id":"1a_gICLGis5Bz1tZUdwYX69Xa6OSnSWMY"},{"drill":12,"seq":18,"word":"PERNICIOUS","id":"1SZoFqOHWFWwLxiaJZykWmdGyKUe7EypI"},{"drill":12,"seq":19,"word":"PERTURB","id":"1AHNbDwkUOtRb6krWpql2pCv3eF5NAhRM"},{"drill":12,"seq":20,"word":"PERTINENT","id":"12fww8zhMjJIX4eroXgnS44_NYbOzodOk"},{"drill":12,"seq":21,"word":"PERVADE","id":"16pGWVRlG5lTg0EQOLLmckzddPHIrmO8U"},{"drill":12,"seq":22,"word":"PERUSE","id":"1nkaa1shPK1ZtEutPNOY-wDon-5INRQVl"},{"drill":12,"seq":23,"word":"PETULANT","id":"1xHmnkwC_aOTTNX3QwhQZk4PoAicHKmpP"},{"drill":12,"seq":24,"word":"PHILANTHROPY","id":"1o2JzviLkcEcAVvZqgue1LNsH3fzWuy-d"},{"drill":12,"seq":25,"word":"PHILISTINE","id":"1azUQrvmVm-i473G1tARpll4XwxJNGn6o"},{"drill":12,"seq":26,"word":"PIOUS","id":"1apdhGIbG7wa3yuhKC19uE3VkvSyI6aWq"},{"drill":12,"seq":27,"word":"PIVOTAL","id":"1KZ2jXMHcBhYLdlcrGphL1BULHnCCETZ6"},{"drill":12,"seq":28,"word":"PLACATE","id":"1e07ZNBgBPBN-CJuAw3u41T6uFiII-5zP"},{"drill":12,"seq":29,"word":"PLAINTIVE","id":"1eKvX0NKSr3V4nTYJavXi99bko7_vfQoo"},{"drill":12,"seq":30,"word":"PLATITUDE","id":"1H25_wMQtHRfEFJsazyF0K39slVftNXir"},{"drill":12,"seq":31,"word":"PLEBEIAN","id":"143apEhdGvBaAIB1c1Wy-g8xQ9YBVuv7q"},{"drill":12,"seq":32,"word":"POIGNANT","id":"16dCcG_oF2Irx4sacr7fwb-H3MiuT0a4A"},{"drill":12,"seq":33,"word":"PLETHORA","id":"1EaSBgixjPfL6i1HJTxm7lfGC9P6bLx69"},{"drill":12,"seq":34,"word":"POLEMIC","id":"11P75s_evxEVamnLqrcAJQAqnvcFs_wZF"},{"drill":12,"seq":35,"word":"POLARIZE","id":"1bvra2qx_zyWjjByAx_A6HQm0PLbfPZv9"},{"drill":12,"seq":36,"word":"PONDEROUS","id":"1kup21HvXyCtDAgRuDFtiTuRoOFQ5aPGa"},{"drill":12,"seq":37,"word":"PORTENT","id":"1T92TArw5uZKUYMPoLqfxlZc6Dz1l5xqB"},{"drill":12,"seq":38,"word":"POSTULATE","id":"1T9k3RiXStjJecb0fS4Jt3I5pWR2X7cnp"},{"drill":12,"seq":39,"word":"PRAGMATIC","id":"1T3vcht9JmEXFlXTgZIOrnSo3qKMj7MO6"},{"drill":12,"seq":40,"word":"PRECEDENT","id":"13AYAVyRvV02uW2tYglm-9aXOeZEbsSeh"},{"drill":12,"seq":41,"word":"PRECEPT","id":"1y8RA8sCk3OcHbemudt2hsXlf4bi6O2QI"},{"drill":12,"seq":42,"word":"PRECIPITOUS","id":"1VW-nGcT-Va4NHtdG7vlINzk6REvht_yQ"},{"drill":12,"seq":43,"word":"PRECIPITATE","id":"1jGnXNzCkRPnRn4cZ4yYqKQi_aU7bFXfI"},{"drill":12,"seq":44,"word":"PRECURSOR","id":"1MU7N7_ZclgAanusyKgamTWLuVc-023Oe"},{"drill":12,"seq":45,"word":"PRECLUDE","id":"1qh5Vk0iGqLf-h8OR351IG1jsVTiOig6F"},{"drill":12,"seq":46,"word":"PREEMINENT","id":"1ylKnT9XC1-ypWv10aGXIcft-IfgvMpAT"},{"drill":12,"seq":47,"word":"PREDILECTION","id":"17cZUKCTrAX4C3VQRrqDlsRBp6E0iaAfk"},{"drill":12,"seq":48,"word":"PREEMPT","id":"1c0BftbzUr6Rq4qsF9f6A7X2qhKCyP-zA"},{"drill":12,"seq":49,"word":"PREPOSSESS","id":"1BnKTbb87YsUL9jIh4GmQ9ONGUPSiWPzt"},{"drill":12,"seq":50,"word":"PREMISE","id":"1LPyrau8EfCEil2F9HvUVFEtrP_AMUNlh"},{"drill":13,"seq":1,"word":"PREVAIL","id":"1DyoCEYN43-5PB9HOdrVehg1KgbttnBV8"},{"drill":13,"seq":2,"word":"PREROGATIVE","id":"1yAzextIKML72WoSVVZnPl_W_dWLgHO-A"},{"drill":13,"seq":3,"word":"PRISTINE","id":"15AwrDr76nPgU8lQESIzFuxngRNZiasRp"},{"drill":13,"seq":4,"word":"PRODIGY","id":"1jABFSYMhMxLVazTb26SAIV4I0x_7GAKH"},{"drill":13,"seq":5,"word":"PRODIGIOUS","id":"1DJIw345C-FeAbf-J5yuIiAsaEovfDer7"},{"drill":13,"seq":6,"word":"PROFESS","id":"1Y5aLO1fKg2ZE-yVXQOgH1aecIZazE8ja"},{"drill":13,"seq":7,"word":"PROFANE","id":"1Cdnsnka3FC0HpVF5-BtfQqjygEsG4L6C"},{"drill":13,"seq":8,"word":"PROFICIENT","id":"1kE5XchQeYXvyRJpyaBk9HPJY3kMRfxV8"},{"drill":13,"seq":9,"word":"PROFLIGATE","id":"1F-Nh2xjKgT1jUkJNsEXe_7L8ylqxt6tV"},{"drill":13,"seq":10,"word":"PROFOUND","id":"1babjUo7FGbNPlmhqM53A4ceaY2cwZKJI"},{"drill":13,"seq":11,"word":"PROFUSE","id":"1srVzTOB3R0thhky26PKAGHGznvaVtBI2"},{"drill":13,"seq":12,"word":"PROLIFERATE","id":"16CsY5v7NLRnNUsh-MvD_WNtsKz9yqEQa"},{"drill":13,"seq":13,"word":"PROLETARIAT","id":"1-o7S4qZcgduPcbIA-pxFsFtOgrOCHjn9"},{"drill":13,"seq":14,"word":"PROMULGATE","id":"1dv_sg9tmluVbT7dIL-9msI5R27C_q3mp"},{"drill":13,"seq":15,"word":"PROLIFIC","id":"1snMcpSDLD9jwSEgkpl70fTTf9PalKBJI"},{"drill":13,"seq":16,"word":"PROPITIOUS","id":"1KNeheAyOiM_7VaMd7gKqgAZQ5C_2MxJd"},{"drill":13,"seq":17,"word":"PROPENSITY","id":"1NcN6kDPsP2DH16x_p6nm0_gvjUnSnCBH"},{"drill":13,"seq":18,"word":"PROPRIETARY","id":"1RxSFMKQbdVpnI8fJTdhrRke5I2FzSCb8"},{"drill":13,"seq":19,"word":"PROPONENT","id":"1lMr13vMj5IkUdw2p61n-0wVgo2nzNyJ2"},{"drill":13,"seq":20,"word":"PROSCRIBE","id":"1CBIomiaTaSDsVrIUo-abHUb9Kbwgd6ZX"},{"drill":13,"seq":21,"word":"PROSAIC","id":"1FhDc8vpZj6k7TOekhrj2mGrx_rSKvNT8"},{"drill":13,"seq":22,"word":"PROSELYTIZE","id":"1bfVgzIvDQXJjHBD7qzhebWG8e46w1QWj"},{"drill":13,"seq":23,"word":"PROTAGONIST","id":"1Bw1eIgQI8u6T4WriB603UfSsWZQ_lOND"},{"drill":13,"seq":24,"word":"PROTRACT","id":"1Nviqu427lGOJ7IXz6_sXA6FXDCS6R_G0"},{"drill":13,"seq":25,"word":"PROVIDENT","id":"1W1UPY-SXYbjlyoJhcEE_FJPaACb0FIG4"},{"drill":13,"seq":26,"word":"PROVISIONAL","id":"1DqLKup_lhq1oOi5BREmVnJwRzdywPzaw"},{"drill":13,"seq":27,"word":"PROVINCIAL","id":"1zgN4FN1cHxHfhI3Q7M9eWN519iH4GCkI"},{"drill":13,"seq":28,"word":"PRUDENT","id":"19kwj3Zias7LcXv5B_v5JQt4FsntgeLGU"},{"drill":13,"seq":29,"word":"PROXIMITY","id":"1agFUS3PivxwZglwoidMDvujbqvx9QAc8"},{"drill":13,"seq":30,"word":"PUTATIVE","id":"1TBvKmE_N-U4JNZhVWIqOFwj0r8CgflIy"},{"drill":13,"seq":31,"word":"QUALIFY","id":"151Qf7uzYzZz0d9Px2v6yHf6bPnCxYgHn"},{"drill":13,"seq":32,"word":"QUALITATIVE","id":"1TblVs-x3buYFSaOqLSFFP-11HNifhkfx"},{"drill":13,"seq":33,"word":"QUERULOUS","id":"1kuERyNhVgCLD6tXj926l7oQjQk2Lwu0t"},{"drill":13,"seq":34,"word":"QUIXOTIC","id":"1562-mdqYm4YzOrF4WGsRR1PF5AOmTquT"},{"drill":13,"seq":35,"word":"RANCOR","id":"1ljhe-xVtZApt8c4OhDDIF_Qg6ggNR8p8"},{"drill":13,"seq":36,"word":"RAMIFICATION","id":"1MQxEdLqNBZYRaMIbXyn3qCWqPXBgyziT"},{"drill":13,"seq":37,"word":"REBUKE","id":"1_0LF2C_LK4sfGjIk-9by9ywz7v3q9J6y"},{"drill":13,"seq":38,"word":"RAPACIOUS","id":"11weqacxk84VqSIwidFyaoODd4rKMTTRo"},{"drill":13,"seq":39,"word":"REBUT","id":"1NXCXDmygpvlCQjzjE7J3RucaYxrBf19S"},{"drill":13,"seq":40,"word":"RECALCITRANT","id":"1BZO4b1fx3LLaL_gK5JyHWB-2JJ_3OqFK"},{"drill":13,"seq":41,"word":"RECIPROCAL","id":"1g7nKrodAZJThsD9tfIun4Vw-f3_alM7x"},{"drill":13,"seq":42,"word":"RECANT","id":"1wehnQx8kupv0P5U1iSkpHyPzuwqiVXR8"},{"drill":13,"seq":43,"word":"RECLUSIVE","id":"1RQW5U2VEY-RLx1L06Xtj_BmxF6C8ENdZ"},{"drill":13,"seq":44,"word":"RECONDITE","id":"1B55Gk0HWYVzHJCJ5ByQnpJj-JOgsq8BV"},{"drill":13,"seq":45,"word":"REDOLENT","id":"1XHgaHJlls1Mre6tSrqvzlFKTpLN_VKRv"},{"drill":13,"seq":46,"word":"RECRIMINATION","id":"1BLl2bIPl8RyH4O3rPBXiFiIgoFKjIdN0"},{"drill":13,"seq":47,"word":"REFUTE","id":"1N-kfzvH_Rk5NOSd-4zO0nUNRhvMJSRNJ"},{"drill":13,"seq":48,"word":"REDUNDANT","id":"1FMOs8ZmWH5ZR90htBzItyCtBK-AOTH4q"},{"drill":13,"seq":49,"word":"RELEGATE","id":"1Aa_aHeeoADSC2N0PlmBr2RTUAmqni-yQ"},{"drill":13,"seq":50,"word":"RELITERATE","id":"1Jvl0fG2Mmw6LISPUrl1kD1P2WCU0dIYb"},{"drill":14,"seq":1,"word":"RELENTLESS","id":"1sH3qAiTIE0X_FBbO2T8Giff3Mrp_Aads"},{"drill":14,"seq":2,"word":"RELINQUISH","id":"1OdiBkroiqFvOxFOLWp6Ow4KLtXy2R4i0"},{"drill":14,"seq":3,"word":"REMONSTRATE","id":"1OgCM3j07KGUCH3J2bd-zMy8ot1iaQbaw"},{"drill":14,"seq":4,"word":"RENAISSANCE","id":"1rJTzUMFseW5nw_FOaCxrxILykIc74DyG"},{"drill":14,"seq":5,"word":"RENOUNCE","id":"1x3ZSHoN3TamD-TJAI3kw6tZbzIDeRs0o"},{"drill":14,"seq":6,"word":"REPARATION","id":"1BYKzzxYNOd4yzOJSmYoomthSev7hD5Cb"},{"drill":14,"seq":7,"word":"REPERCUSSION","id":"1Kd-_5cS1h8bBaDmYinTP3moWyMWqw1iC"},{"drill":14,"seq":8,"word":"REPLENISH","id":"1xT6ewJ6bXdagAOC2gYalOPTcLqiImiCR"},{"drill":14,"seq":9,"word":"REPLETE","id":"1A7uRblj6i5375nm1IYI2aEs-J89zePR4"},{"drill":14,"seq":10,"word":"REPREHENSIBLE","id":"1QDv86xpW8VljFE8aSQF_nHjmBIsLPl0M"},{"drill":14,"seq":11,"word":"REPRISAL","id":"1GgIsPixAi328l7n8RRzN-pljQ5Np9xhp"},{"drill":14,"seq":12,"word":"REPROACH","id":"1qdUsFTluw_m0_oK1-25qeQGoVzO04lnD"},{"drill":14,"seq":13,"word":"REPROVE","id":"15glE9gv0YXDFepIKB8md5M2IC_zJ5Sys"},{"drill":14,"seq":14,"word":"REPUDIATE","id":"1CaNd-oLtQchyLvhnnBkK63z4ye2O7vcj"},{"drill":14,"seq":15,"word":"REQUISITE","id":"1cTIDfdFbycVkP6g6RjQaKII4Bg0si663"},{"drill":14,"seq":16,"word":"RESOLUTE","id":"1_0u6vUHAj7aktrCI7mcuVoam_ZZNCuhe"},{"drill":14,"seq":17,"word":"RESPITE","id":"1jyixspOGczW5ZXdBQd4M1ucmKd3UFtR7"},{"drill":14,"seq":18,"word":"RETICENT","id":"1zHtFoVtQ40PA4z3fA8lLdjfd8xwFKCMs"},{"drill":14,"seq":19,"word":"REVERE","id":"1SbfAw5MOuRJSUt3gtthR8pHhL0z_4H7Y"},{"drill":14,"seq":20,"word":"RHETORIC","id":"18pwcBAhvSJHiawa0I2ANl6LPPNXSHEea"},{"drill":14,"seq":21,"word":"RIGOROUS","id":"1Z71P4gvdK79UJM86hMRxcnT7Hlxs_FvI"},{"drill":14,"seq":22,"word":"ROBUST","id":"1HD0yQjXMW5joYiMq84bTWJw-comzo7Yx"},{"drill":14,"seq":23,"word":"ROGUE","id":"1yUVf3NvbhCs1g5HnL1fN2r1N6RN7lN9y"},{"drill":14,"seq":24,"word":"RUDIMENTARY","id":"1Ve77uulnwVLlcrRFgOzabwBw29WG8DTU"},{"drill":14,"seq":25,"word":"RUMINATE","id":"1c-wMjpIHquLCALSQu4AbXKb7zLFBoIcW"},{"drill":14,"seq":26,"word":"RUSTIC","id":"1hqocZRndl50H6twkAB_zxzJftk52x7df"},{"drill":14,"seq":27,"word":"SACCHARINE","id":"18o6rsoInlOFzuDocYqUcILhr9CpKtUDo"},{"drill":14,"seq":28,"word":"SACRILEGE","id":"1VQBEoJbhOzm8ybbljySdavaLdFrnGFAT"},{"drill":14,"seq":29,"word":"SACROSANCT","id":"1IjweoTT_Z3sLbHW4H1ybxanwW-0BRDy5"},{"drill":14,"seq":30,"word":"SAGACIOUS","id":"144YhAPenyDaM9WugoVYwQjNYet0DBLGh"},{"drill":14,"seq":31,"word":"SALIENT","id":"1qPmM0bCYBK_24DPJuYCuQiOweXTXqZiu"},{"drill":14,"seq":32,"word":"SALUTARY","id":"1zokjDPwbJwpiYkcfW4rjFKjqM_6-xeTY"},{"drill":14,"seq":33,"word":"SANCTIMONIOUS","id":"1H4znsaoCCc5UHDIdEUW8l4ZNV0gkHLKf"},{"drill":14,"seq":34,"word":"SANGUINE","id":"1VM-BecBN6hfPqhfsX-zU86ZE3cwJly2o"},{"drill":14,"seq":35,"word":"SARDONIC","id":"1fyvP27cn_HBOgHUFqu8Aox5ubuGbCszR"},{"drill":14,"seq":36,"word":"SCINTILLATE","id":"1m-pUiaMcVM2LLQJ3GJQn0NKXkYUsH0TR"},{"drill":14,"seq":37,"word":"SCRUPULOUS","id":"1qqNfWMx24dAlbMO-twLOgjXuxEWnpwXR"},{"drill":14,"seq":38,"word":"SCRUTINIZE","id":"1pWA9wpDWgDhU69A8Bu-tPPJvyt6zUP-E"},{"drill":14,"seq":39,"word":"SECULAR","id":"1lKLbjhTmlWr8RWzl3OnQTatGnCkBpZfQ"},{"drill":14,"seq":40,"word":"SEDITION","id":"16bTEmw3RfQOuBuhloQ6ScKtFU4rZWyv8"},{"drill":14,"seq":41,"word":"SENSORY","id":"13184akSkRLuTPtbo9rDjruT6a7TGpFOp"},{"drill":14,"seq":42,"word":"SENTIENT","id":"1Y2HnlSMME5vMOrV5_vPEtkqi3rK4eywL"},{"drill":14,"seq":43,"word":"SEQUESTER","id":"1sZn1QSufRCIbRTYxb8GiqtAb9BlK1Yex"},{"drill":14,"seq":44,"word":"SERENDIPITY","id":"1-LSNFqm5wnrKlItK7s9xAsYytsNMnCM_"},{"drill":14,"seq":45,"word":"SERVILE","id":"1jesmeqsTiVEhkS8Dnod_X-0nFM7tIdVi"},{"drill":14,"seq":46,"word":"SINGULAR","id":"1cLjyC3shQ5r_L5UMuKYb1YdlH_xv08zH"},{"drill":14,"seq":47,"word":"SLANDER","id":"1MOL_2bc_7rgLmTXimhtQb6ysbgZcMAvr"},{"drill":14,"seq":48,"word":"SLOTH","id":"1xaAxjV3s9l560nuUXKaDdNNdp4XlYFqw"},{"drill":14,"seq":49,"word":"SOBRIETY","id":"11Q1JRtfyI1IK4IMsRkkCiIn0nOKG0InQ"},{"drill":14,"seq":50,"word":"SOLICITOUS","id":"1WmPwaoz8NaRF-Q29lx2FL8mdOxm_tJaK"},{"drill":15,"seq":1,"word":"SOLVENT","id":"1oV0w6naN2W42NYtSYcODbbsRIjfRrwpd"},{"drill":15,"seq":2,"word":"SOPORIFIC","id":"1FTwqvoRmHZsju3DrFYcSoC1r7KB8ApHt"},{"drill":15,"seq":3,"word":"SORDID","id":"1qW4IeQAS8CEY7INSNA1sd7ylUGTACEeB"},{"drill":15,"seq":4,"word":"SPAWN","id":"11FEituBjObnNpyghPmYHsAbZGAXRsbfZ"},{"drill":15,"seq":5,"word":"SPECIOUS","id":"1mCH6hB0__-CiqC7hZHJAZo_4-_JuF7rM"},{"drill":15,"seq":6,"word":"SPORADIC","id":"135zDg0dU8xXIcq0-p-DdssSTHjooUVia"},{"drill":15,"seq":7,"word":"SPURIOUS","id":"1gB830092HtEJufNkvhOUlQoFMoKEwACy"},{"drill":15,"seq":8,"word":"SQUALOR","id":"1a_0etYx01cshlbSXKuvQkipRewzaSPD4"},{"drill":15,"seq":9,"word":"SQUANDER","id":"1Iefg27SCvOfFvVhzg20PattH3Oh0KMew"},{"drill":15,"seq":10,"word":"STAGNATION","id":"1lZd6fUuU33AAYiJQIHghYD4bEEokzVQ0"},{"drill":15,"seq":11,"word":"STATIC","id":"1BQgv34lwIwBfCGyUAgJRioP-OQ1e1_-y"},{"drill":15,"seq":12,"word":"STAUNCH","id":"1HdQ9dVNXwfvcE0cDscf_xOmfNGRKDm4z"},{"drill":15,"seq":13,"word":"STEADFAST","id":"1D2aht8vUdndMWX487DoSda0vAYaBJ_bg"},{"drill":15,"seq":14,"word":"STIGMATIZE","id":"1nkSpVs292fWfXbm88G5ZJqny1r-gav2Q"},{"drill":15,"seq":15,"word":"STIPULATE","id":"1TQnktiPMZ1WO1Zc2F58iKSqafKnSNyil"},{"drill":15,"seq":16,"word":"STOIC","id":"1Te6OBhKh_LnTgcQ2NnYIcDpJS4fRbhEZ"},{"drill":15,"seq":17,"word":"STRATUM","id":"1FzAOjroKe4Kolea1khSUtzyI7vDFhfc3"},{"drill":15,"seq":18,"word":"STRICTURE","id":"1c4KpU71xPVYY7RLywYdsr5Mev_dqYqsi"},{"drill":15,"seq":19,"word":"STRIFE","id":"1Ol6lwgXxjhVzvW1xWdnG7xFoD0dHWGA9"},{"drill":15,"seq":20,"word":"STRINGENT","id":"173KOSJhNkPjnWSzZgyOyMb3j-9TpZvId"},{"drill":15,"seq":21,"word":"STYMIE","id":"1mD64meuV2os2rWUynBbCMZS-SbsRyVy3"},{"drill":15,"seq":22,"word":"SUBJUGATE","id":"1s3vYFxgp3zDz2FtNaDd5UAiGBDDiTS9d"},{"drill":15,"seq":23,"word":"SUBLIME","id":"1LAm92aolOEAizhBh0AVSRptn5crE1yQM"},{"drill":15,"seq":24,"word":"SUBORDINATE","id":"11_upoMLxM1DD_ozTQ3DM_89RKgHndcw0"},{"drill":15,"seq":25,"word":"SUBSTANTIVE","id":"1QRYyQRzfgaKrhwZj5-q2hsbdISOfJ7uB"},{"drill":15,"seq":26,"word":"SUBTLE","id":"1rYuBfmeKhMpmQ-GPssq9wYgl6FE8pnoq"},{"drill":15,"seq":27,"word":"SUBVERSIVE","id":"181AVkYUfE0CR_eZqBC1NfkYBbNIsuWEO"},{"drill":15,"seq":28,"word":"SUCCINCT","id":"1LkApJaFrjE3bzrdbt9wXHfBhjLJF3Blf"},{"drill":15,"seq":29,"word":"SUCCUMB","id":"196JSC1Y2mOOLWbcbV61QcumnicjyLu69"},{"drill":15,"seq":30,"word":"SUPERCILIOUS","id":"1iA0kpyMYPCq7UOwZMHI1EaLQupmpLEcG"},{"drill":15,"seq":31,"word":"SUPERFICIAL","id":"1JXMmtCZRtNy8t0QofHEgL6lHVbVVeaC3"},{"drill":15,"seq":32,"word":"SUPERFLUOUS","id":"1mHoGqx53f8xyt8KSyawPCy7kftPEbNYE"},{"drill":15,"seq":33,"word":"SURFEIT","id":"1kEpEkVWfPO7uZy8XYKYcpbctxcdK0_iY"},{"drill":15,"seq":34,"word":"SURREPTITIOUS","id":"1Rn6HfZF1MZghL5K-uZZFaYK7PpjApeVk"},{"drill":15,"seq":35,"word":"SURROGATE","id":"1dv8GJ9txhWdNI02RrUKuZdewa3-bZRva"},{"drill":15,"seq":36,"word":"SYCOPHANT","id":"1wgXDjhQpidMaqGF7m38sCCUI2SVYuy9M"},{"drill":15,"seq":37,"word":"SYNTHESIS","id":"1MuhyK2Qd_Lt_LuYofM7bykYl06VMep97"},{"drill":15,"seq":38,"word":"TACIT","id":"1jNq9P9i1_RB9mYEvbmYSkKp_jg2S7Pdm"},{"drill":15,"seq":39,"word":"TACITURN","id":"1Zs0Edvmn9aCEe1Tls3E0XOYvpqe1hTXO"},{"drill":15,"seq":40,"word":"TANGENTIAL","id":"1UrCr1x6UtHj7mHYtpriTc6gAJ7DxJ7CT"},{"drill":15,"seq":41,"word":"TANGIBLE","id":"1UThEz1gv1ID216dZZLYp_jstQdUXF6y6"},{"drill":15,"seq":42,"word":"TANTAMOUNT","id":"1jiKtbBMHQX2dhJfD7aPLU_6gmGINIl-q"},{"drill":15,"seq":43,"word":"TAUTOLOGICAL","id":"1C5zbmngc60VbrVUFJL0xt80aEPxfpG2U"},{"drill":15,"seq":44,"word":"TEMERITY","id":"1Gs5y3MTXF9GaCtLO7zsmTp2BJzIr46Yo"},{"drill":15,"seq":45,"word":"TEMPERATE","id":"1bl2j0-vYI7QD9QCjZWoZDlPV7-xMe3TX"},{"drill":15,"seq":46,"word":"TENABLE","id":"1prw26aSsNBINaCo6uo70m7iva3HDxm6v"},{"drill":15,"seq":47,"word":"TENACIOUS","id":"1HMGtmwUfUxH3bHqhYjN4DjSSl_y-rxjP"},{"drill":15,"seq":48,"word":"TENET","id":"1fvUvGK3WYpI--KmXrjcPZBfIZyG9_fak"},{"drill":15,"seq":49,"word":"TENTATIVE","id":"1wtktPbqy1K78y_nvzsiH4xTjdogCDMSH"},{"drill":15,"seq":50,"word":"TENUOUS","id":"1BSx_k7ZSd_N1NZGck3j3-CHKKAFb3y8W"},{"drill":16,"seq":1,"word":"TERSE","id":"1LT1pTpTaQKr6Xd-aImelo5R6VODnXSaa"},{"drill":16,"seq":2,"word":"TREPIDATION","id":"1Ta2Vhi6AzaydfH4vEOef600l54ZBJ78c"},{"drill":16,"seq":3,"word":"TURPITUDE","id":"1JsArDnCO3_eUU83YZnWoo8krLdUS9x8D"},{"drill":16,"seq":4,"word":"UBIQUITIOUS","id":"188zVQMAtVHqZI7ebI0H8vn_pNE-ngJ_Q"},{"drill":16,"seq":5,"word":"UNCONSCIONABLE","id":"1QqFmMof-__sq8WWrECkbzqnRM6rnwr6e"},{"drill":16,"seq":6,"word":"UNCTUOUS","id":"1C6b64vXzMcbsDfBznMi513B2tsUuAKMU"},{"drill":16,"seq":7,"word":"UNIFORM","id":"1n6aS3TE5qS8apLPsIDVOvf73D3jaV163"},{"drill":16,"seq":8,"word":"UNREMITTING","id":"1u5MOZZsf_J2v8uZLnbbtsR28mwRX3NjE"},{"drill":16,"seq":9,"word":"UNWITTING","id":"1q4aOmLaPgoJ1ReH40bhAD5DRgNY4MFN0"},{"drill":16,"seq":10,"word":"URBANE","id":"1oPN77ayon_-fUJd4gh8gGF1uA1nSfmNQ"},{"drill":16,"seq":11,"word":"USURP","id":"1DUABwlFKjkgnkq2Cs0T4K2y-gBozthF8"},{"drill":16,"seq":12,"word":"UTILITARIAN","id":"1ftNTO-9uqNgCTWQuOXfRmK8vQ8QLk73o"},{"drill":16,"seq":13,"word":"UTOPIA","id":"15j1iNpoXdPeiyB7xK39LmykBRuJCDcFm"},{"drill":16,"seq":14,"word":"VACILLATE","id":"17lzL1Ox2F1e8d5-shfaglEku0d_I_ICG"},{"drill":16,"seq":15,"word":"VAPID","id":"1jChPx_0mg-uGpOWQspN5pveVbJF6KoAH"},{"drill":16,"seq":16,"word":"VEHEMENT","id":"1DBPrY0P9e8LJj1kJi5xlB4desdcQx6K3"},{"drill":16,"seq":17,"word":"VENAL","id":"1H0kvr20MK9mT15udw0wbfbVdhpoaOHwV"},{"drill":16,"seq":18,"word":"VENERATE","id":"1Iw-71RYxAL7nBDHIp0DsFqjjcS4f5Khq"},{"drill":16,"seq":19,"word":"VERACITY","id":"1wfjReg5Ecq-qfWCM_JsA5meUhGFDaEuY"},{"drill":16,"seq":20,"word":"VERBOSE","id":"1E95ZHE5eqSlAZnVPbLYyfcgYQR73d_3Z"},{"drill":16,"seq":21,"word":"VERISIMILITUDE","id":"1uVok6lnMUeOWFz8rlno0D97TTNdErau-"},{"drill":16,"seq":22,"word":"VERNACULAR","id":"1bC5zzSmvEVgOziwLejxXR80tkHV4Pjqm"},{"drill":16,"seq":23,"word":"VESTIGE","id":"1k0jAv_hVMibMkwhD_v7Ag3z-4K2hEYZk"},{"drill":16,"seq":24,"word":"VEX","id":"1aiOqZzCr26QIOe_v6fkcxnVcKvIwOQtC"},{"drill":16,"seq":25,"word":"VIABLE","id":"1NWFbaxfIbymClJuf0cQrk4qTN4Hk5N6z"},{"drill":16,"seq":26,"word":"VICARIOUS","id":"1mPL3SVM2oKpzrQonvkEGlBf8xxOY6fU-"},{"drill":16,"seq":27,"word":"VICISSITUDE","id":"1k92l3j1YG-ZkvrGMYPJVnMOzpBgyM_HT"},{"drill":16,"seq":28,"word":"VILIFY","id":"14OnRLq-vNLGxOeVR_NGqDPmztZqQfplW"},{"drill":16,"seq":29,"word":"VINDICATE","id":"1B8N4kU1EH3gJUfBQ2o8oeJt7UuwLNVY9"},{"drill":16,"seq":30,"word":"VINDICTIVE","id":"19wxslUnGoFXhiv82pj5b68PibT4pjx3c"},{"drill":16,"seq":31,"word":"VIRTUOSO","id":"1H80qP-nZJKrMHEt7jGHBOolFQDzw0QXr"},{"drill":16,"seq":32,"word":"VIRULENT","id":"1-EPgEpd0TD8cmj9gQaKubJz9T6_IORh6"},{"drill":16,"seq":33,"word":"VISIONARY","id":"1oDrW9PKlf-LMFNnTrv4B7th9HuW4rJd7"},{"drill":16,"seq":34,"word":"VITIATE","id":"1hOVj0fEdOk1CNhPnmOJXPTy-S_LYBYi0"},{"drill":16,"seq":35,"word":"VITROLIC","id":"1T7srK3aZ0baFOhM0NWozHzCEX8nnDsD0"},{"drill":16,"seq":36,"word":"VOCATION","id":"1mY1QLcVHUf2SYluG8Q4meOBjMoEZmPuE"},{"drill":16,"seq":37,"word":"VOCIFEROUS","id":"1WDonPocOAOH7vUyrzPy9OrKsi5CBJkLz"},{"drill":16,"seq":38,"word":"VOLATILE","id":"1WzITw29U4R_GqU7tuWVWYceObf8166AH"},{"drill":16,"seq":39,"word":"VOLITION","id":"17LZbi01_2k4xp79lnHJIIl7KInSBoVLs"},{"drill":16,"seq":40,"word":"WANTON","id":"1B7VQ5UI7zAGymtGs-gLpo3QR2zl2xQ1z"},{"drill":16,"seq":41,"word":"WILLFUL","id":"1vSThAKEcYJO61xkTAhXdz7VykMce_gfG"},{"drill":16,"seq":42,"word":"WISTFUL","id":"1Dv-1k225trp1VpiUNe9pF9wm36iwqupj"},{"drill":16,"seq":43,"word":"ZEALOUS","id":"1U7dZMwpcEo-ouf6F6yNC-zoi_-118kb0"}];
+</script>
+
+<script>
+/* ============================================================
+   WORD SMART 1 FLASH CARDS — app logic & caching
+   ============================================================ */
+
+const getDriveImageLink = (fileId) =>
+  `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
+
+const FALLBACK_IMG =
+  'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAyMDAgMTUwIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjJlY2RhIi8+PHRleHQgeD0iNTAlIiB5PSI0OCUiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhIiBmb250LXNpemU9IjEyIiBmaWxsPSIjOTM4YTZjIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5EZWZpbml0aW9uIGltYWdlIHVuYXZhaWxhYmxlPC90ZXh0Pjx0ZXh0IHg9IjUwJSIgeT0iNTglIiBmb250LWZhbWlseT0iR2VvcmdpYSIgZm9udC1zaXplPSIxMCIgZmlsbD0iI2FkYTQ4NCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+KGRyaXZlIGxpbmsgbWF5IGJlIHJlc3RyaWN0ZWQpPC90ZXh0Pjwvc3ZnPg==';
+
+// ---- state -------------------------------------------------
+let DRILLS = {};        
+let DRILL_META = [];    
+let ALL_CARDS = [];     
+let current = null;     
+
+const el = (sel) => document.querySelector(sel);
+const els = (sel) => Array.from(document.querySelectorAll(sel));
+
+// ---- persistence logic (localStorage + Encryption) -----------
+const STORAGE_KEY = 'wordsmart1_progress';
+const CRYPTO_KEY = "WordSmartSecretKey123";
+
+function encryptData(dataStr) {
+  let result = '';
+  for(let i = 0; i < dataStr.length; i++) {
+    result += String.fromCharCode(dataStr.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
+  }
+  return btoa(result);
+}
+
+function decryptData(b64Str) {
+  let decoded = atob(b64Str);
+  let result = '';
+  for(let i = 0; i < decoded.length; i++) {
+    result += String.fromCharCode(decoded.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
+  }
+  return result;
+}
+
+function loadAllProgress() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return {};
+  
+  try {
+    // If it starts with '{', it's old unencrypted data (graceful fallback)
+    if (raw.startsWith('{')) {
+      const parsed = JSON.parse(raw);
+      // Immediately save it back as encrypted to upgrade the user
+      localStorage.setItem(STORAGE_KEY, encryptData(raw));
+      return parsed;
+    }
+    // Otherwise, decrypt it
+    return JSON.parse(decryptData(raw));
+  } catch (e) {
+    console.warn("Could not parse saved progress.", e);
+    return {};
+  }
+}
+
+function saveDrillProgress(drillNum, statusObj) {
+  const data = loadAllProgress();
+  data[drillNum] = statusObj;
+  const jsonStr = JSON.stringify(data);
+  localStorage.setItem(STORAGE_KEY, encryptData(jsonStr));
+}
+
+// ---- data & render: home -----------------------------------
+function buildDataIndex(rawData) {
+  ALL_CARDS = rawData;
+  const byDrill = {};
+  rawData.forEach(c => {
+    (byDrill[c.drill] = byDrill[c.drill] || []).push(c);
+  });
+  DRILLS = byDrill;
+  DRILL_META = Object.keys(byDrill).sort((a,b)=>a-b).map(k => {
+    const arr = byDrill[k];
+    return { num: +k, start: arr[0].word, end: arr[arr.length-1].word, count: arr.length };
+  });
+}
+
+function renderHome() {
+  el('#stat-words').textContent = ALL_CARDS.length;
+  el('#stat-drills').textContent = DRILL_META.length;
+
+  const allProgress = loadAllProgress();
+  const grid = el('#drawer-grid');
+  grid.innerHTML = '';
+  
+  let totalKnown = 0; 
+
+  DRILL_META.forEach(meta => {
+    const drillProgress = allProgress[meta.num] || {};
+    const knownCount = Object.values(drillProgress).filter(s => s === 'known').length;
+    
+    totalKnown += knownCount; 
+    
+    const pct = (knownCount / meta.count) * 100;
+    
+    const btn = document.createElement('button');
+    btn.className = 'drawer';
+    btn.setAttribute('aria-label', `Open Drill ${String(meta.num).padStart(2,'0')}, ${meta.start} to ${meta.end}`);
+    btn.innerHTML = `
+      <div class="drawer-face"></div>
+      <div class="drawer-tag">
+        <div class="drawer-num">Drill ${String(meta.num).padStart(2,'0')}</div>
+        <div class="drawer-range">${meta.start} <small>through</small> ${meta.end}</div>
+      </div>
+      <div class="drawer-foot">
+        <div class="drawer-progress"><i style="width:${pct}%"></i></div>
+        <div class="drawer-count">${meta.count} cards</div>
+      </div>
+    `;
+    btn.addEventListener('click', () => openDrill(meta.num));
+    grid.appendChild(btn);
+  });
+
+  const totalPct = ALL_CARDS.length ? Math.floor((totalKnown / ALL_CARDS.length) * 100) : 0;
+  const statProgress = el('#stat-progress');
+  if (statProgress) statProgress.textContent = totalPct + '%';
+}
+
+// ---- session / History API routing ---------------------------
+function closeSession(eventOrPush) {
+  const push = typeof eventOrPush === 'boolean' ? eventOrPush : true;
+  current = null;
+  el('#study-view').classList.add('hidden');
+  el('#summary-view').classList.add('hidden');
+  el('#home-view').classList.remove('hidden');
+  renderHome();
+  if (push) history.pushState({ view: 'home' }, '', window.location.pathname);
+}
+
+function openDrill(drillNum, opts = {}, push = true) {
+  const cards = DRILLS[drillNum];
+  const order = cards.map((_, i) => i);
+  const existingStatus = loadAllProgress()[drillNum] || {};
+  
+  // if opts is accidentally an Event (from button clicks), default it
+  if (opts.type) opts = {};
+
+  current = {
+    drillNum,
+    cards,
+    order: opts.order || order,
+    pos: 0,
+    status: existingStatus,
+    view: 'card',
+    flipped: false,
+  };
+  
+  el('#home-view').classList.add('hidden');
+  el('#summary-view').classList.add('hidden');
+  el('#study-view').classList.remove('hidden');
+
+  const meta = DRILL_META.find(m => m.num === drillNum);
+  el('#study-title-h2').textContent = `Drill ${String(drillNum).padStart(2,'0')}`;
+  el('#study-title-range').textContent = `${meta.start} \u2013 ${meta.end} \u00b7 ${meta.count} words`;
+  
+  setMode('card');
+  renderCard();
+
+  if (push) history.pushState({ view: 'study', drillNum, opts }, '', '?drill=' + drillNum);
+}
+
+function showSummary(pushArg = true) {
+  const push = typeof pushArg === 'boolean' ? pushArg : true;
+  el('#study-view').classList.add('hidden');
+  el('#summary-view').classList.remove('hidden');
+  
+  const total = current.cards.length;
+  const knownCount = Object.values(current.status).filter(s => s === 'known').length;
+  const againCount = Object.values(current.status).filter(s => s === 'again').length;
+  const unseen = total - knownCount - againCount;
+  
+  el('#summary-drill-label').textContent = `Drill ${String(current.drillNum).padStart(2,'0')} complete`;
+  el('#summary-known').textContent = knownCount;
+  el('#summary-again').textContent = againCount;
+  el('#summary-unseen').textContent = unseen;
+
+  el('#summary-review-btn').classList.toggle('hidden', againCount === 0);
+  
+  if (knownCount === total && total > 0) {
+    triggerReward();
+    el('#summary-drill-label').textContent = `🏆 Drill Perfectly Mastered!`;
+  }
+  
+  renderHome(); 
+  
+  if (push) history.pushState({ view: 'summary', drillNum: current.drillNum }, '', '?summary=' + current.drillNum);
+}
+
+function jumpToWord(drillNum, seq) {
+  openDrill(drillNum);
+  const idx = current.cards.findIndex(c => c.seq === seq);
+  const orderPos = current.order.indexOf(idx);
+  current.pos = orderPos >= 0 ? orderPos : 0;
+  renderCard();
+}
+
+function activeCard() {
+  const idx = current.order[current.pos];
+  return current.cards[idx];
+}
+
+function setMode(mode) {
+  current.view = mode;
+  el('#card-mode-btn').classList.toggle('active', mode === 'card');
+  el('#list-mode-btn').classList.toggle('active', mode === 'list');
+  el('#card-stage-wrap').classList.toggle('hidden', mode !== 'card');
+  el('#list-stage-wrap').classList.toggle('hidden', mode !== 'list');
+  if (mode === 'list') renderList();
+}
+
+function updateProgress() {
+  const total = current.cards.length;
+  const pct = ((current.pos) / Math.max(total - 1, 1)) * 100;
+  el('#progress-fill').style.width = pct + '%';
+  el('#progress-counter').textContent = `${current.pos + 1} / ${total}`;
+}
+
+function renderCard() {
+  const card = activeCard();
+  const total = current.cards.length;
+
+  updateProgress();
+
+  el('#nav-prev').disabled = current.pos === 0;
+  el('#nav-next').disabled = current.pos === total - 1;
+
+  el('#card-el').classList.remove('flipped');
+  current.flipped = false;
+
+  el('#card-seq').textContent = `#${card.seq}`;
+  el('#card-word').textContent = card.word;
+  el('#card-back-word').textContent = card.word;
+
+  const dot = el('#card-status-dot');
+  dot.className = 'card-status-dot';
+  const st = current.status[card.seq];
+  if (st) dot.classList.add(st);
+
+  const img = el('#card-back-img');
+  img.src = getDriveImageLink(card.id);
+  img.onerror = () => { img.onerror = null; img.src = FALLBACK_IMG; };
+
+  el('#judge-row').classList.toggle('hidden', false);
+}
+
+function flipCard() {
+  if (!current) return;
+  current.flipped = !current.flipped;
+  el('#card-el').classList.toggle('flipped', current.flipped);
+}
+
+// ---- swipe navigation (touch) -------------------------------
+let touchState = null;
+const SWIPE_THRESHOLD = 70;
+const TAP_SLOP = 8;
+const TAP_TIME = 400;
+
+function resetCardTransform(card, animated) {
+  card.style.transition = animated ? 'transform .3s cubic-bezier(.2,.7,.3,1), opacity .3s ease' : 'none';
+  card.style.transform = '';
+  card.style.opacity = '';
+}
+
+function onCardTouchStart(e) {
+  if (!current || e.touches.length !== 1) return;
+  const t = e.touches[0];
+  touchState = { startX: t.clientX, startY: t.clientY, startTime: Date.now(), dx: 0, dy: 0, dragging: false };
+}
+
+function onCardTouchMove(e) {
+  if (!touchState) return;
+  const t = e.touches[0];
+  const dx = t.clientX - touchState.startX;
+  const dy = t.clientY - touchState.startY;
+  touchState.dx = dx;
+  touchState.dy = dy;
+  if (touchState.dragging || (Math.abs(dx) > 6 && Math.abs(dx) > Math.abs(dy))) {
+    touchState.dragging = true;
+    e.preventDefault();
+    const card = el('#card-el');
+    card.style.transition = 'none';
+    card.style.transform = `translateX(${dx}px) rotate(${dx / 18}deg)`;
+    card.style.opacity = String(Math.max(1 - Math.abs(dx) / 380, 0.45));
+  }
+}
+
+function onCardTouchEnd(e) {
+  if (!touchState || !current) { touchState = null; return; }
+  const card = el('#card-el');
+  const { dx, dy, dragging, startTime } = touchState;
+  const elapsed = Date.now() - startTime;
+  const total = current.cards.length;
+
+  if (dragging && Math.abs(dx) > SWIPE_THRESHOLD) {
+    e.preventDefault();
+    const goingNext = dx < 0;
+    const canMove = goingNext ? true : current.pos > 0;
+    if (canMove) {
+      const dir = goingNext ? -1 : 1;
+      card.style.transition = 'transform .28s ease, opacity .28s ease';
+      card.style.transform = `translateX(${dir * -620}px) rotate(${dir * -22}deg)`;
+      card.style.opacity = '0';
+      setTimeout(() => {
+        resetCardTransform(card, false);
+        if (goingNext) goNext(); else goPrev();
+      }, 200);
+    } else {
+      resetCardTransform(card, true);
+    }
+  } else if (!dragging && Math.abs(dx) < TAP_SLOP && Math.abs(dy) < TAP_SLOP && elapsed < TAP_TIME) {
+    e.preventDefault();
+    flipCard();
+  } else {
+    resetCardTransform(card, true);
+  }
+  touchState = null;
+}
+
+function onCardTouchCancel() {
+  if (!touchState) return;
+  resetCardTransform(el('#card-el'), true);
+  touchState = null;
+}
+
+function goNext() {
+  if (!current) return;
+  if (current.pos < current.cards.length - 1) {
+    current.pos++;
+    renderCard();
+  } else {
+    showSummary();
+  }
+}
+
+function goPrev() {
+  if (!current) return;
+  if (current.pos > 0) {
+    current.pos--;
+    renderCard();
+  }
+}
+
+function markCard(status) {
+  if (!current) return;
+  const card = activeCard();
+  current.status[card.seq] = status;
+  saveDrillProgress(current.drillNum, current.status);
+  goNext();
+}
+
+function shuffleDeck() {
+  if (!current) return;
+  const arr = current.order.slice();
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  current.order = arr;
+  current.pos = 0;
+  renderCard();
+  el('#shuffle-btn').classList.add('on');
+  setTimeout(() => el('#shuffle-btn').classList.remove('on'), 400);
+}
+
+function renderList() {
+  const wrap = el('#list-stage-wrap');
+  wrap.innerHTML = '<div class="list-view" id="list-inner"></div>';
+  const inner = el('#list-inner');
+  current.order.forEach((idx, pos) => {
+    const card = current.cards[idx];
+    const st = current.status[card.seq];
+    const row = document.createElement('div');
+    row.className = 'list-row';
+    row.innerHTML = `
+      <span class="list-seq">#${card.seq}</span>
+      <span class="list-word">${card.word}</span>
+      <span class="list-status ${st || 'unseen'}">${st ? st : '\u2014'}</span>
+    `;
+    row.addEventListener('click', () => {
+      current.pos = pos;
+      setMode('card');
+      renderCard();
+    });
+    inner.appendChild(row);
+  });
+}
+
+function triggerReward() {
+  const colors = ['#c9974c', '#7ea083', '#b0463f', '#f2ecda']; 
+  for (let i = 0; i < 60; i++) {
+    let conf = document.createElement('div');
+    conf.style.position = 'fixed';
+    conf.style.width = '8px';
+    conf.style.height = '12px';
+    conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    conf.style.left = Math.random() * 100 + 'vw';
+    conf.style.top = '-20px';
+    conf.style.opacity = Math.random() + 0.5;
+    conf.style.transform = `rotate(${Math.random() * 360}deg)`;
+    conf.style.zIndex = '9999';
+    conf.style.pointerEvents = 'none';
+    
+    conf.style.transition = 'transform 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), top 2.5s ease-in, opacity 2.5s ease-out';
+    document.body.appendChild(conf);
+    
+    requestAnimationFrame(() => {
+      conf.style.top = '100vh';
+      conf.style.transform = `rotate(${Math.random() * 720}deg) translateX(${Math.random() * 100 - 50}px)`;
+      conf.style.opacity = '0';
+    });
+    
+    setTimeout(() => conf.remove(), 2500);
+  }
+}
+
+// ---- search -------------------------------------------------
+let searchActive = -1;
+function runSearch(q) {
+  const box = el('#search-results');
+  q = q.trim().toUpperCase();
+  if (!q) { box.classList.remove('open'); box.innerHTML=''; return; }
+  const matches = ALL_CARDS.filter(c => c.word.includes(q)).slice(0, 12);
+  searchActive = -1;
+  if (!matches.length) {
+    box.innerHTML = `<div class="no-results">No words match \u201c${q}\u201d</div>`;
+    box.classList.add('open');
+    return;
+  }
+  box.innerHTML = matches.map((m, i) => `
+    <div class="result-row" data-drill="${m.drill}" data-seq="${m.seq}" data-i="${i}">
+      <span class="result-word">${m.word}</span>
+      <span class="result-meta">Drill ${String(m.drill).padStart(2,'0')} \u00b7 #${m.seq}</span>
+    </div>
+  `).join('');
+  box.classList.add('open');
+  els('.result-row').forEach(row => {
+    row.addEventListener('click', () => {
+      jumpToWord(+row.dataset.drill, +row.dataset.seq);
+      el('#search').value = '';
+      box.classList.remove('open');
+    });
+  });
+}
+
+// ---- init -------------------------------------------------
+function initEvents() {
+  // Mobile Back/Forward Browser Buttons Integration
+  window.addEventListener('popstate', (e) => {
+    const state = e.state;
+    
+    // Always hide modals when back is pressed
+    el('#side-menu').classList.remove('open');
+    el('#menu-backdrop').classList.remove('open');
+    el('#auth-modal').classList.add('hidden');
+
+    if (!state || state.view === 'home') {
+      closeSession(false);
+    } else if (state.view === 'study') {
+      if (!current || current.drillNum !== state.drillNum) {
+        openDrill(state.drillNum, state.opts || {}, false);
+      } else {
+        el('#home-view').classList.add('hidden');
+        el('#summary-view').classList.add('hidden');
+        el('#study-view').classList.remove('hidden');
+        renderCard();
+      }
+    } else if (state.view === 'summary') {
+      if (!current || current.drillNum !== state.drillNum) {
+        openDrill(state.drillNum, {}, false);
+      }
+      showSummary(false);
+    }
+  });
+
+  el('#search').addEventListener('input', (e) => runSearch(e.target.value));
+  el('#search').addEventListener('focus', (e) => { if (e.target.value) runSearch(e.target.value); });
+  document.addEventListener('click', (e) => {
+    const wrap = el('.search-wrap');
+    if (!wrap.contains(e.target)) {
+      el('#search-results').classList.remove('open');
+      if (wrap.classList.contains('collapsed')) wrap.classList.remove('expanded');
+    }
+  });
+
+  // === Voice Search Logic ===
+  // Fixes over the previous version:
+  //  - Google's speech recognition needs a secure context (HTTPS or
+  //    localhost); on plain HTTP it always fails with a silent/'not-allowed'
+  //    error, so we detect that up front and hide the mic instead of
+  //    giving the user a button that can never work.
+  //  - Every error case now shows the user what actually happened
+  //    (mic permission blocked, no mic found, no speech heard, network
+  //    issue) instead of just logging to the console and quietly
+  //    resetting, which looked like the button was broken.
+  //  - Rapid tapping used to throw "recognition has already started" —
+  //    now guarded with a state flag and try/catch.
+  const voiceBtn = el('#voice-search-btn');
+  const searchInput = el('#search');
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const isSecureCtx = window.isSecureContext !== false; // true on https/localhost
+
+  const DEFAULT_PLACEHOLDER = searchInput ? searchInput.placeholder : '';
+
+  if (voiceBtn && SpeechRecognition && isSecureCtx) {
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    recognition.lang = (navigator.language || 'en-US');
+
+    let listening = false;
+    let statusResetTimer = null;
+
+    function showStatus(msg, ms) {
+      clearTimeout(statusResetTimer);
+      searchInput.placeholder = msg;
+      if (ms) {
+        statusResetTimer = setTimeout(() => {
+          searchInput.placeholder = DEFAULT_PLACEHOLDER;
+        }, ms);
+      }
+    }
+
+    recognition.onstart = () => {
+      listening = true;
+      voiceBtn.classList.add('listening');
+      showStatus('Listening…');
+      searchInput.value = '';
+    };
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      searchInput.value = transcript.replace(/[.,]/g, ''); // strip out punctuation
+      runSearch(searchInput.value);
+    };
+
+    recognition.onerror = (event) => {
+      let message = 'Search all 793 words…';
+      switch (event.error) {
+        case 'not-allowed':
+        case 'service-not-allowed':
+          message = 'Microphone access blocked — check browser settings';
+          break;
+        case 'audio-capture':
+          message = 'No microphone found';
+          break;
+        case 'no-speech':
+          message = "Didn't catch that — try again";
+          break;
+        case 'network':
+          message = 'Voice search needs a network connection';
+          break;
+        case 'aborted':
+          message = DEFAULT_PLACEHOLDER;
+          break;
+        default:
+          message = 'Voice search unavailable — try typing instead';
+      }
+      console.warn('Speech recognition error:', event.error);
+      showStatus(message, 2600);
+      voiceBtn.classList.remove('listening');
+      listening = false;
+    };
+
+    recognition.onend = () => {
+      listening = false;
+      voiceBtn.classList.remove('listening');
+      if (searchInput.placeholder === 'Listening…') {
+        searchInput.placeholder = DEFAULT_PLACEHOLDER;
+      }
+    };
+
+    voiceBtn.addEventListener('click', () => {
+      if (listening) {
+        recognition.stop();
+        return;
+      }
+      try {
+        recognition.start();
+      } catch (err) {
+        // Most commonly thrown when start() is called again before the
+        // previous session fully finished (fast double-tap on mobile).
+        console.warn('Speech recognition failed to start:', err);
+        try { recognition.stop(); } catch (e) {}
+        listening = false;
+        voiceBtn.classList.remove('listening');
+        showStatus('Voice search is busy — try again', 2000);
+      }
+    });
+  } else if (voiceBtn) {
+    voiceBtn.style.display = 'none';
+  }
+
+  // === Menu Logic (Hamburger) ===
+  const hamburgerBtn = el('#hamburger-btn');
+  const sideMenu = el('#side-menu');
+  const menuBackdrop = el('#menu-backdrop');
+  const closeMenuBtn = el('#close-menu-btn');
+  const navLinks = els('.nav-link');
+
+  const openMenu = () => {
+    sideMenu.classList.add('open');
+    menuBackdrop.classList.add('open');
+  };
+
+  const closeMenu = () => {
+    sideMenu.classList.remove('open');
+    menuBackdrop.classList.remove('open');
+  };
+
+  hamburgerBtn?.addEventListener('click', openMenu);
+  closeMenuBtn?.addEventListener('click', closeMenu);
+  menuBackdrop?.addEventListener('click', closeMenu);
+  
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+       if (e.currentTarget.id === 'nav-home') {
+           e.preventDefault();
+           closeSession(true);
+       }
+       else if (e.currentTarget.id !== 'nav-support') {
+           e.preventDefault();
+           alert(e.currentTarget.textContent.trim() + ' section coming soon.');
+       }
+       closeMenu();
+    });
+  });
+  // ==========================
+
+  el('#back-btn').addEventListener('click', closeSession);
+  el('#summary-back-btn').addEventListener('click', closeSession);
+
+  el('#card-el').addEventListener('click', flipCard);
+  el('#card-el').addEventListener('touchstart', onCardTouchStart, { passive: true });
+  el('#card-el').addEventListener('touchmove', onCardTouchMove, { passive: false });
+  el('#card-el').addEventListener('touchend', onCardTouchEnd, { passive: false });
+  el('#card-el').addEventListener('touchcancel', onCardTouchCancel, { passive: true });
+  el('#nav-prev').addEventListener('click', goPrev);
+  el('#nav-next').addEventListener('click', goNext);
+  el('#shuffle-btn').addEventListener('click', shuffleDeck);
+
+  // === Authentication Modal Logic ===
+  const loginBtn = el('#nav-login-btn');
+  const authModal = el('#auth-modal');
+  const closeAuthBtn = el('#close-auth-btn');
+  const emailForm = el('#email-login-form');
+  const googleBtn = el('#google-login-btn');
+
+  loginBtn?.addEventListener('click', () => {
+    authModal.classList.remove('hidden');
+  });
+  
+  closeAuthBtn?.addEventListener('click', () => {
+    authModal.classList.add('hidden');
+  });
+
+  emailForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('Email login submitted.\n(Connect this function to your authentication backend)');
+    authModal.classList.add('hidden');
+  });
+
+  googleBtn?.addEventListener('click', () => {
+    alert('Google login initiated.\n(Connect this function to your OAuth provider)');
+    authModal.classList.add('hidden');
+  });
+  // ==================================
+
+  const copyBtn = el('#copy-number');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      const number = '01743291605';
+      const label = el('#copy-number-text');
+      const restore = () => { label.textContent = number; copyBtn.classList.remove('copied'); };
+      
+      const showCopied = () => {
+        label.textContent = 'Copied!';
+        copyBtn.classList.add('copied');
+        setTimeout(restore, 1500);
+      };
+
+      const fallbackCopy = (text) => {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed"; 
+        textArea.style.opacity = "0";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          showCopied();
+        } catch (err) {
+          console.error('Fallback copy failed', err);
+          label.textContent = 'Copy failed';
+          setTimeout(restore, 1500);
+        }
+        document.body.removeChild(textArea);
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(number)
+          .then(showCopied)
+          .catch(() => fallbackCopy(number)); 
+      } else {
+        fallbackCopy(number);
+      }
+    });
+  }
+
+  el('#card-mode-btn').addEventListener('click', () => setMode('card'));
+  el('#list-mode-btn').addEventListener('click', () => setMode('list'));
+
+  el('#judge-again').addEventListener('click', () => markCard('again'));
+  el('#judge-known').addEventListener('click', () => markCard('known'));
+
+  el('#restart-btn').addEventListener('click', () => openDrill(current.drillNum));
+  el('#summary-review-btn').addEventListener('click', () => {
+    const reviewSeqs = Object.entries(current.status)
+      .filter(([,s]) => s === 'again').map(([seq]) => +seq);
+    const cards = DRILLS[current.drillNum];
+    const order = cards
+      .map((c, i) => ({c, i}))
+      .filter(x => reviewSeqs.includes(x.c.seq))
+      .map(x => x.i);
+    openDrill(current.drillNum, { order });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!current || el('#study-view').classList.contains('hidden')) return;
+    if (document.activeElement === el('#search')) return;
+    if (e.code === 'ArrowRight') goNext();
+    else if (e.code === 'ArrowLeft') goPrev();
+    else if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); flipCard(); }
+    else if (e.key === '1') markCard('again');
+    else if (e.key === '2') markCard('known');
+    else if (e.key === 'Escape') closeSession();
+  });
+}
+
+function registerServiceWorker() {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').then(reg => {
+        console.log('WORD SMART 1 Service Worker registered.', reg);
+      }).catch(err => console.log('Service Worker registration failed:', err));
+    });
+  }
+}
+
+// ---- hero scroll effect: zoom + fade 'Word Smart 1 & 2 Mastery' ----
+// Only animates transform (scale) and opacity — both are handled by
+// the compositor, not the main thread, so this stays smooth even on
+// low-end phones. (An earlier version also animated filter: blur()
+// on every scroll frame, which forces a full repaint each frame and
+// was the main cause of stutter on mobile — removed.)
+function initHeroScrollEffect() {
+  const heroSection = el('.hero-section');
+  if (!heroSection || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const RANGE = 320; // px of scroll over which the effect fully resolves
+  let ticking = false;
+
+  function apply() {
+    ticking = false;
+    const y = Math.max(0, window.scrollY || window.pageYOffset || 0);
+    const progress = Math.min(1, y / RANGE);
+    const scale = 1 + progress * 0.5;      // zooms in up to 1.5x
+    const opacity = 1 - progress * 0.85;   // fades out most of the way
+    // Set on the shared container so both the title and the notes
+    // beneath it (hero-tagline) inherit the same zoom/fade.
+    heroSection.style.setProperty('--hero-scale', scale.toFixed(3));
+    heroSection.style.setProperty('--hero-opacity', opacity.toFixed(3));
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(apply);
+    }
+  }, { passive: true });
+
+  apply();
+}
+
+// ---- header scroll effect: shrink logo, hide title, stay fixed on top ----
+function initHeaderScrollEffect() {
+  const topbar = el('.topbar');
+  if (!topbar) return;
+
+  const THRESHOLD = 24; // px scrolled before the header collapses
+  let ticking = false;
+
+  function apply() {
+    ticking = false;
+    const y = Math.max(0, window.scrollY || window.pageYOffset || 0);
+    topbar.classList.toggle('scrolled', y > THRESHOLD);
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(apply);
+    }
+  }, { passive: true });
+
+  apply();
+}
+
+// ---- floating search: fades the full search bar out once the page
+// is scrolled far enough that the header's search icon (fused into
+// the quick-actions glass pill next to the hamburger) takes over as
+// the visible affordance. Tapping that icon scrolls back up and
+// re-focuses the real bar. Just an opacity/transform fade — no
+// layout-affecting properties — so it stays smooth on mobile. ----
+function initSearchCollapse() {
+  const wrap = el('.search-wrap');
+  const input = el('#search');
+  const headerSearchBtn = el('#header-search-btn');
+  if (!wrap) return;
+
+  const THRESHOLD = 120; // px scrolled before the search bar fades out
+  let ticking = false;
+
+  function apply() {
+    ticking = false;
+    const y = Math.max(0, window.scrollY || window.pageYOffset || 0);
+    wrap.classList.toggle('collapsed', y > THRESHOLD);
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(apply);
+    }
+  }, { passive: true });
+
+  headerSearchBtn?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => input && input.focus(), 350);
+  });
+
+  apply();
+}
+
+// ---- fullscreen support for individual card view (mobile) ----
+// Many mobile browsers (notably iOS Safari, and Safari on iPadOS in
+// some modes) do not implement the Fullscreen API for arbitrary
+// elements at all — only for <video>. Previously this meant the
+// button just hid itself and fullscreen silently didn't work on
+// those phones. This version always gives the user a fullscreen-style
+// view: it uses the real Fullscreen API where available, and falls
+// back to a fixed-position "CSS fullscreen" using the phone's actual
+// visible viewport (dvh + safe-area insets) everywhere else.
+function initFullscreenCardView() {
+  const btn = el('#fullscreen-btn');
+  const target = el('#card-stage-wrap');
+  if (!btn || !target) return;
+
+  const nativeSupported = !!(
+    target.requestFullscreen || target.webkitRequestFullscreen ||
+    target.msRequestFullscreen || target.mozRequestFullScreen
+  );
+
+  const expandIcon = btn.innerHTML;
+  const collapseIcon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v3a2 2 0 0 1-2 2H4M21 8h-3a2 2 0 0 1-2-2V3M3 16h3a2 2 0 0 1 2 2v3M16 21v-3a2 2 0 0 1 2-2h3"/></svg>`;
+
+  let fallbackActive = false;
+  let fallbackHistoryPushed = false;
+
+  function nativeIsFullscreen() {
+    return !!(document.fullscreenElement || document.webkitFullscreenElement ||
+      document.msFullscreenElement || document.mozFullScreenElement);
+  }
+
+  function isFullscreen() { return nativeIsFullscreen() || fallbackActive; }
+
+  function setUI(fs) {
+    btn.classList.toggle('is-active', fs);
+    target.classList.toggle('is-fullscreen', fs);
+    btn.innerHTML = fs ? collapseIcon : expandIcon;
+    btn.title = fs ? 'Exit fullscreen' : 'Fullscreen';
+    btn.setAttribute('aria-pressed', fs ? 'true' : 'false');
+  }
+
+  function enterFallback() {
+    if (fallbackActive) return;
+    fallbackActive = true;
+    document.documentElement.classList.add('fs-lock');
+    document.body.classList.add('fs-lock');
+    setUI(true);
+    // Push a throwaway history entry so a phone's hardware/gesture
+    // back button closes fullscreen first, instead of leaving the
+    // drill entirely (see the popstate handler below).
+    history.pushState({ fsFallback: true }, '', location.href);
+    fallbackHistoryPushed = true;
+  }
+
+  function exitFallback(viaPopstate) {
+    if (!fallbackActive) return;
+    fallbackActive = false;
+    document.documentElement.classList.remove('fs-lock');
+    document.body.classList.remove('fs-lock');
+    setUI(false);
+    if (fallbackHistoryPushed && !viaPopstate) {
+      fallbackHistoryPushed = false;
+      history.back();
+    } else {
+      fallbackHistoryPushed = false;
+    }
+  }
+
+  function enterFullscreen() {
+    if (!nativeSupported) { enterFallback(); return; }
+    let req;
+    try {
+      req = target.requestFullscreen ? target.requestFullscreen()
+        : target.webkitRequestFullscreen ? target.webkitRequestFullscreen()
+        : target.msRequestFullscreen ? target.msRequestFullscreen()
+        : target.mozRequestFullScreen();
+    } catch (err) {
+      req = null;
+    }
+    if (req && typeof req.catch === 'function') {
+      req.catch(() => enterFallback());
+    } else {
+      // Older WebKit APIs don't return a promise — confirm shortly
+      // after that it actually engaged, otherwise fall back.
+      setTimeout(() => { if (!nativeIsFullscreen()) enterFallback(); }, 250);
+    }
+  }
+
+  function exitFullscreen() {
+    if (nativeIsFullscreen()) {
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      else if (document.msExitFullscreen) document.msExitFullscreen();
+      else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+    }
+    exitFallback(false);
+  }
+
+  btn.addEventListener('click', () => {
+    if (isFullscreen()) exitFullscreen();
+    else enterFullscreen();
+  });
+
+  ['fullscreenchange', 'webkitfullscreenchange', 'msfullscreenchange', 'mozfullscreenchange']
+    .forEach(evt => document.addEventListener(evt, () => {
+      if (!fallbackActive) setUI(nativeIsFullscreen());
+    }));
+
+  // Phone back gesture / hardware back closes the fallback fullscreen
+  // view rather than navigating away from the study session.
+  window.addEventListener('popstate', () => {
+    if (fallbackActive) exitFallback(true);
+  });
+}
+
+async function boot() {
+  buildDataIndex(window.LEXICON_DATA);
+  renderHome();
+  initEvents();
+  initHeroScrollEffect();
+  initHeaderScrollEffect();
+  initSearchCollapse();
+  initFullscreenCardView();
+  registerServiceWorker();
+
+  // Restore the correct screen on load instead of always forcing
+  // Home. Without this, a shared "?drill=3" link, a bookmark, or a
+  // mobile browser re-launching a saved/backgrounded tab always
+  // dumped the user back at Home and threw away the URL — breaking
+  // forward/backward navigation on phones.
+  const params = new URLSearchParams(window.location.search);
+  const drillParam = parseInt(params.get('drill'), 10);
+  const summaryParam = parseInt(params.get('summary'), 10);
+
+  if (!Number.isNaN(drillParam) && DRILLS[drillParam]) {
+    openDrill(drillParam, {}, false);
+    history.replaceState({ view: 'study', drillNum: drillParam }, '', window.location.pathname + '?drill=' + drillParam);
+  } else if (!Number.isNaN(summaryParam) && DRILLS[summaryParam]) {
+    openDrill(summaryParam, {}, false);
+    showSummary(false);
+    history.replaceState({ view: 'summary', drillNum: summaryParam }, '', window.location.pathname + '?summary=' + summaryParam);
+  } else {
+    history.replaceState({ view: 'home' }, '', window.location.pathname);
+  }
+}
+
+boot();
+</script>
+</body>
+</html>
