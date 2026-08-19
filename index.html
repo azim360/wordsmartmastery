@@ -736,43 +736,156 @@ body.in-session .topbar{ display:none !important; }
 .nav-link:hover { color: var(--brass-hi); padding-left: 8px; border-color: var(--brass); }
 /* =============================================== */
 
-/* ============ SEARCH & VOICE ASSISTANT ============ */
-.search-wrap{
-  margin-bottom:46px; position:-webkit-sticky; position:sticky; top:14px; z-index:620;
-  max-width: 600px; margin-left: auto; margin-right: auto;
-  background: var(--glass-bg), var(--panel-2);
-  border-radius:14px;
-  box-shadow:var(--glass-shadow);
-  will-change:opacity, transform;
-  transition: opacity .2s ease, transform .2s ease;
+/* ============ SEARCH PILL & MATERIAL CIRCLE MORPH ============ */
+.search-container{
+  max-width: 600px;
+  margin: 0 auto 46px;
+  min-height: 52px;
+  position: relative;
 }
-.search-wrap > svg:first-child{ position:absolute; left:16px; top:50%; transform:translateY(-50%); opacity:.5; pointer-events:none; }
-#search{
-  width:100%;
-  color:var(--ink-text); border-radius:14px; padding:15px 44px 15px 44px;
-  font-size:.95rem; font-family:var(--sans);
-  background:transparent; border:1px solid var(--glass-border);
-}
-#search::placeholder{ color:var(--ink-muted); }
 
-/* ---- Collapsed state: once the search icon in the header pill
-   takes over (page scrolled past the threshold), just fade the
-   full bar out in place instead of animating its box/position —
-   cheap opacity+transform fade instead of a layout-thrashing
-   top/left/width/height transition. Tapping the header search
-   icon scrolls back up and re-reveals it. ---- */
-.search-wrap.collapsed{
-  opacity:0;
-  transform:translateY(-6px);
-  pointer-events:none;
+.search-wrap{
+  width: 100%;
+  max-width: 600px;
+  height: 52px;
+  background: var(--glass-bg), var(--panel-2);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  box-shadow: var(--glass-shadow);
+  display: flex;
+  align-items: center;
+  position: relative;
+  transition: width 0.35s cubic-bezier(0.2, 0.9, 0.3, 1),
+              height 0.35s cubic-bezier(0.2, 0.9, 0.3, 1),
+              border-radius 0.35s cubic-bezier(0.2, 0.9, 0.3, 1),
+              top 0.35s cubic-bezier(0.2, 0.9, 0.3, 1),
+              right 0.35s cubic-bezier(0.2, 0.9, 0.3, 1),
+              left 0.35s cubic-bezier(0.2, 0.9, 0.3, 1),
+              transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1),
+              background 0.25s ease,
+              border-color 0.25s ease,
+              box-shadow 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+  z-index: 620;
+}
+
+.search-icon-btn{
+  background: transparent;
+  border: none;
+  color: var(--ink-muted);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  cursor: pointer;
+  margin-left: 6px;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.search-icon-btn:hover{
+  color: var(--brass-hi);
+}
+
+#search{
+  flex: 1;
+  min-width: 0;
+  color: var(--ink-text);
+  border: none;
+  background: transparent;
+  padding: 0 12px 0 6px;
+  font-size: 0.95rem;
+  font-family: var(--sans);
+  outline: none;
+}
+#search::placeholder{ color: var(--ink-muted); }
+
+/* Material Design circle transformed state in top right corner while scrolling */
+.search-wrap.floating-circle{
+  position: fixed;
+  top: calc(9px + env(safe-area-inset-top, 0px));
+  right: calc(max(16px, (100vw - 1180px) / 2 + 56px));
+  left: auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(26, 34, 46, 0.96);
+  border: 1px solid var(--brass);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5), 0 0 12px rgba(201,151,76,0.3);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 950;
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+}
+.search-wrap.floating-circle:hover{
+  transform: scale(1.08);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6), 0 0 16px rgba(201,151,76,0.45);
+}
+.search-wrap.floating-circle #search,
+.search-wrap.floating-circle #voice-search-btn{
+  display: none;
+}
+.search-wrap.floating-circle .search-icon-btn{
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--brass-hi);
+}
+
+/* Expanded state when clicking the floating circle */
+.search-wrap.floating-circle.expanded{
+  width: min(340px, calc(100vw - 78px));
+  height: 44px;
+  border-radius: 22px;
+  cursor: default;
+  padding: 0 6px;
+  transform: none;
+  overflow: visible;
+}
+.search-wrap.floating-circle.expanded #search{
+  display: block;
+  opacity: 1;
+}
+.search-wrap.floating-circle.expanded #voice-search-btn{
+  display: flex;
+}
+.search-wrap.floating-circle.expanded .search-icon-btn{
+  width: 34px;
+  height: 34px;
+  margin-left: 2px;
+}
+
+.search-close-btn{
+  background: transparent;
+  border: none;
+  color: var(--ink-muted);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: none;
+  margin-right: 4px;
+}
+.search-close-btn:hover{
+  color: var(--stamp-red);
+  background: rgba(255,255,255,0.08);
+}
+.search-close-btn.hidden{ display: none !important; }
+.search-wrap.floating-circle.expanded .search-close-btn{
+  display: flex !important;
 }
 
 #voice-search-btn {
-  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
   background: transparent; border: none; color: var(--ink-muted);
   width: 32px; height: 32px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center; cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s ease; flex: none; margin-right: 4px;
 }
 #voice-search-btn:hover { color: var(--brass-hi); background: var(--panel-2); }
 #voice-search-btn.listening {
@@ -1651,12 +1764,8 @@ footer.site-foot{
       <h1>Word Smart 1 &amp; 2 <em>Mastery</em></h1>
     </div>
 
-    <!-- Search + Menu quick actions pill -->
+    <!-- Quick actions (Menu) -->
     <div class="quick-actions glass" id="quick-actions">
-      <button id="header-search-btn" class="quick-action-btn" aria-label="Search">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      </button>
-      <span class="quick-actions-divider" aria-hidden="true"></span>
       <button id="hamburger-btn" class="quick-action-btn" aria-label="Open menu">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -1731,19 +1840,26 @@ footer.site-foot{
       <p class="hero-tagline">A working vocabulary collection, filed into sixteen drills of fifty. Pull a drawer to begin studying, or search the full index below.</p>
     </div>
 
-    <!-- Search Bar -->
-    <div class="search-wrap">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input id="search" class="glass" type="text" placeholder="Search all 793 words…" autocomplete="off">
-      <button id="voice-search-btn" title="Voice Search" type="button">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-          <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-          <line x1="12" y1="19" x2="12" y2="23"></line>
-          <line x1="8" y1="23" x2="16" y2="23"></line>
-        </svg>
-      </button>
-      <div id="search-results"></div>
+    <!-- Search Pill (Transforms into Material Design Floating Circle in Top Right on Scroll) -->
+    <div class="search-container" id="search-container">
+      <div class="search-wrap glass" id="search-wrap" title="Search all 793 words">
+        <button class="search-icon-btn" id="search-icon-btn" type="button" aria-label="Search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <input id="search" type="text" placeholder="Search all 793 words…" autocomplete="off">
+        <button id="voice-search-btn" title="Voice Search" type="button" aria-label="Voice Search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+            <line x1="12" y1="19" x2="12" y2="23"></line>
+            <line x1="8" y1="23" x2="16" y2="23"></line>
+          </svg>
+        </button>
+        <button id="search-close-btn" class="search-close-btn hidden" type="button" aria-label="Close search">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <div id="search-results"></div>
+      </div>
     </div>
 
     <!-- MISTAKES / STUDY AGAIN SECTION -->
@@ -3378,25 +3494,29 @@ function initHeaderScrollEffect() {
   apply();
 }
 
-// ---- floating search: fades the full search bar out once the page
-// is scrolled far enough that the header's search icon (fused into
-// the quick-actions glass pill next to the hamburger) takes over as
-// the visible affordance. Tapping that icon scrolls back up and
-// re-focuses the real bar. Just an opacity/transform fade — no
-// layout-affecting properties — so it stays smooth on mobile. ----
+// ---- floating search: transforms into Material Design circle in top-right corner on scroll ----
 function initSearchCollapse() {
-  const wrap = el('.search-wrap');
+  const wrap = el('#search-wrap') || el('.search-wrap');
   const input = el('#search');
-  const headerSearchBtn = el('#header-search-btn');
+  const searchIconBtn = el('#search-icon-btn');
+  const searchCloseBtn = el('#search-close-btn');
   if (!wrap) return;
 
-  const THRESHOLD = 120; // px scrolled before the search bar fades out
+  const THRESHOLD = 100; // px scrolled before morphing into top-right Material circle
   let ticking = false;
 
   function apply() {
     ticking = false;
     const y = Math.max(0, window.scrollY || window.pageYOffset || 0);
-    wrap.classList.toggle('collapsed', y > THRESHOLD);
+    const isScrolled = y > THRESHOLD;
+    
+    if (isScrolled) {
+      if (!wrap.classList.contains('floating-circle')) {
+        wrap.classList.add('floating-circle');
+      }
+    } else {
+      wrap.classList.remove('floating-circle', 'expanded');
+    }
   }
 
   window.addEventListener('scroll', () => {
@@ -3406,9 +3526,39 @@ function initSearchCollapse() {
     }
   }, { passive: true });
 
-  headerSearchBtn?.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setTimeout(() => input && input.focus(), 350);
+  // Tapping the floating circle expands it into search mode
+  wrap.addEventListener('click', (e) => {
+    if (wrap.classList.contains('floating-circle') && !wrap.classList.contains('expanded')) {
+      wrap.classList.add('expanded');
+      setTimeout(() => input && input.focus(), 150);
+    }
+  });
+
+  searchIconBtn?.addEventListener('click', (e) => {
+    if (wrap.classList.contains('floating-circle') && !wrap.classList.contains('expanded')) {
+      wrap.classList.add('expanded');
+      setTimeout(() => input && input.focus(), 150);
+      e.stopPropagation();
+    }
+  });
+
+  searchCloseBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    wrap.classList.remove('expanded');
+    if (input) input.value = '';
+    const res = el('#search-results');
+    if (res) res.classList.remove('open');
+  });
+
+  // Clicking outside collapses the expanded floating search bar
+  document.addEventListener('click', (e) => {
+    if (wrap.classList.contains('floating-circle') && wrap.classList.contains('expanded')) {
+      if (!wrap.contains(e.target)) {
+        wrap.classList.remove('expanded');
+        const res = el('#search-results');
+        if (res) res.classList.remove('open');
+      }
+    }
   });
 
   apply();
