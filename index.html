@@ -172,8 +172,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
   margin-left: 10px;
 }
 
-/* ============ AUTHENTICATION STYLES ============ */
-.auth-strip { display: flex; align-items: center; gap: 12px; }
+/* ============ AUTHENTICATION & SYNC STYLES ============ */
+.auth-strip { display: flex; align-items: center; gap: 10px; position: relative; }
 .auth-overlay {
   position: fixed; inset: 0; background: rgba(18, 24, 31, 0.85);
   display: flex; align-items: center; justify-content: center; z-index: 1000;
@@ -191,14 +191,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
 }
 .close-auth:hover { color: var(--brass-hi); }
 .oauth-btn {
-  width: 100%; padding: 12px; border-radius: 9px; border: 1px solid var(--rail);
+  width: 100%; padding: 13px; border-radius: 9px; border: 1px solid var(--rail);
   background: var(--panel-2); color: var(--ink-text); font-size: 0.95rem; font-weight: 500;
   display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer;
   transition: all 0.2s ease;
 }
-.oauth-btn:hover { background: #fff; color: #000; border-color: #fff; }
+.oauth-btn:hover { background: #fff; color: #000; border-color: #fff; transform: translateY(-1px); }
+.oauth-btn:active { transform: translateY(0); }
 .auth-divider {
-  margin: 28px 0; border-bottom: 1px solid var(--rail); position: relative;
+  margin: 24px 0; border-bottom: 1px solid var(--rail); position: relative;
 }
 .auth-divider span {
   position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
@@ -216,6 +217,70 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
   margin-top: 6px; transition: filter 0.2s ease;
 }
 .email-form button:hover { filter: brightness(1.1); }
+
+/* User Profile Pill & Dropdown */
+.user-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--panel-2); border: 1px solid var(--rail);
+  border-radius: 999px; padding: 4px 12px 4px 5px;
+  cursor: pointer; position: relative; user-select: none;
+  transition: border-color .2s ease, background .2s ease;
+}
+.user-pill:hover, .user-pill.open {
+  border-color: var(--brass); background: var(--panel);
+}
+.user-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--brass); color: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 700; overflow: hidden;
+  flex-shrink: 0;
+}
+.user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.user-info { display: flex; flex-direction: column; text-align: left; line-height: 1.15; }
+.user-name { font-size: 0.8rem; font-weight: 600; color: var(--ink-text); max-width: 90px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sync-status {
+  display: flex; align-items: center; gap: 4px; font-size: 0.68rem; color: var(--ink-muted);
+}
+.sync-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--sage);
+  display: inline-block; transition: background .3s ease;
+}
+.sync-status.syncing .sync-dot { background: var(--brass-hi); animation: pulse 1s infinite; }
+.sync-status.offline .sync-dot { background: var(--rust); }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.user-dropdown {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  background: var(--panel); border: 1px solid var(--rail);
+  border-radius: 12px; min-width: 220px; padding: 8px;
+  box-shadow: var(--shadow); z-index: 1060;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.user-dropdown.hidden { display: none !important; }
+.dropdown-header { padding: 8px 10px; border-radius: 6px; }
+.dropdown-email { font-size: 0.82rem; font-weight: 600; color: var(--ink-text); word-break: break-all; }
+.dropdown-sub { font-size: 0.72rem; color: var(--ink-muted); margin-top: 2px; }
+.dropdown-divider { height: 1px; background: var(--rail); margin: 4px 0; }
+.dropdown-item {
+  display: flex; align-items: center; gap: 8px; padding: 8px 10px;
+  border-radius: 6px; border: none; background: transparent;
+  color: var(--ink-text); font-size: 0.82rem; cursor: pointer;
+  text-align: left; width: 100%; transition: background .15s ease;
+}
+.dropdown-item:hover { background: var(--panel-2); color: var(--brass-hi); }
+.dropdown-item.danger:hover { color: var(--rust); }
+
+/* Cross Device Sync Toast */
+.sync-toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: rgba(18, 24, 31, 0.94); border: 1px solid var(--brass);
+  color: var(--ink-text); border-radius: 999px; padding: 10px 20px;
+  font-size: 0.85rem; font-weight: 500; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  display: flex; align-items: center; gap: 8px; z-index: 2000;
+  backdrop-filter: blur(10px); transition: opacity .25s ease, transform .25s ease;
+}
+.sync-toast.hidden { opacity: 0; pointer-events: none; transform: translateX(-50%) translateY(12px); }
 /* =============================================== */
 
 /* ============ SIDE MENU (HAMBURGER) ============ */
@@ -847,14 +912,15 @@ footer.site-foot{
         <a href="#" class="nav-link" id="nav-home">Home 
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
         </a>
+        <a href="#" class="nav-link" id="nav-sync-menu-btn">
+          <span id="side-menu-auth-label">Cloud Sync</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+        </a>
         <a href="#" class="nav-link" id="nav-about">About
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
         </a>
         <a href="#" class="nav-link" id="nav-features">Features
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-        </a>
-        <a href="#" class="nav-link" id="nav-suggestions">Suggestions
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
         </a>
         <a href="#support-footer" class="nav-link" id="nav-support">Support
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
@@ -867,26 +933,20 @@ footer.site-foot{
   <div id="auth-modal" class="auth-overlay hidden">
     <div class="auth-box">
       <button class="close-auth" id="close-auth-btn">&times;</button>
-      <h2 style="font-family: var(--serif); margin-top: 0;">Welcome Back</h2>
-      <p style="font-size: 0.85rem; color: var(--ink-muted); margin-bottom: 24px;">Sign in to sync your flashcard progress.</p>
+      <h2 style="font-family: var(--serif); margin-top: 0; font-size: 1.6rem;">Cross-Device Sync</h2>
+      <p style="font-size: 0.88rem; color: var(--ink-muted); margin-bottom: 24px; line-height: 1.4;">Sign in to seamlessly sync your flashcard study progress and mastery across all your phones, tablets, and computers.</p>
       
-      <button class="oauth-btn" id="google-login-btn">
+      <button class="oauth-btn" id="google-login-btn" type="button">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
           <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
           <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
           <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
           <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
         </svg>
-        Sign in with Google
+        <span>Continue with Google</span>
       </button>
 
-      <div class="auth-divider"><span>or continue with email</span></div>
-
-      <form id="email-login-form" class="email-form">
-        <input type="email" placeholder="Email address" required>
-        <input type="password" placeholder="Password" required>
-        <button type="submit">Sign In</button>
-      </form>
+      <div id="auth-status-msg" style="margin-top: 14px; font-size: 0.8rem; min-height: 18px; color: var(--ink-muted);"></div>
     </div>
   </div>
 
@@ -910,6 +970,30 @@ footer.site-foot{
       
       <div class="auth-strip">
         <button id="nav-login-btn" class="ctrl-btn" style="background: var(--brass); color: var(--ink); border: none; font-weight: 600;">Sign In</button>
+
+        <div id="user-pill" class="user-pill hidden" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false" title="Account & Sync">
+          <div class="user-avatar" id="user-avatar">?</div>
+          <div class="user-info">
+            <span class="user-name" id="user-name">User</span>
+            <span class="sync-status synced" id="sync-status"><span class="sync-dot"></span><span id="sync-status-text">Synced</span></span>
+          </div>
+          <div class="user-dropdown hidden" id="user-dropdown">
+            <div class="dropdown-header">
+              <div class="dropdown-email" id="dropdown-user-email">user@example.com</div>
+              <div class="dropdown-sub" id="dropdown-sync-sub">Sync active across devices</div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" id="manual-sync-btn" type="button">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+              <span>Sync Now</span>
+            </button>
+            <button class="dropdown-item danger" id="signout-btn" type="button">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+              <span>Sign Out</span>
+            </button>
+          </div>
+        </div>
+
         <!-- Search + Hamburger fused into a single liquid-glass pill.
              The topbar is position:sticky, so this pill stays pinned
              to the top-right corner for the whole scroll. -->
@@ -1190,6 +1274,11 @@ function saveDrillProgress(drillNum, statusObj) {
   data[drillNum] = statusObj;
   const jsonStr = JSON.stringify(data);
   localStorage.setItem(STORAGE_KEY, encryptData(jsonStr));
+
+  // Trigger cloud cross-device sync if connected
+  if (window.SyncService && typeof window.SyncService.saveDrill === 'function') {
+    window.SyncService.saveDrill(drillNum, statusObj);
+  }
 }
 
 // ---- data & render: home -----------------------------------
@@ -1749,9 +1838,22 @@ function initEvents() {
            e.preventDefault();
            closeSession(true);
        }
-       else if (e.currentTarget.id !== 'nav-support') {
+       else if (e.currentTarget.id === 'nav-sync-menu-btn') {
            e.preventDefault();
-           alert(e.currentTarget.textContent.trim() + ' section coming soon.');
+           const user = window.SyncService?.currentUser;
+           if (user) {
+             el('#user-pill')?.click();
+           } else {
+             el('#auth-modal')?.classList.remove('hidden');
+           }
+       }
+       else if (e.currentTarget.id === 'nav-about') {
+           e.preventDefault();
+           showToast('Word Smart Mastery: 793 GRE/SAT words across 16 drills', '📖', 3500);
+       }
+       else if (e.currentTarget.id === 'nav-features') {
+           e.preventDefault();
+           showToast('Features: Real-time cloud sync, swipe cards, voice search & study drills', '⚡', 3500);
        }
        closeMenu();
     });
@@ -1770,12 +1872,15 @@ function initEvents() {
   el('#nav-next').addEventListener('click', goNext);
   el('#shuffle-btn').addEventListener('click', shuffleDeck);
 
-  // === Authentication Modal Logic ===
+  // === Authentication & Sync UI Logic ===
   const loginBtn = el('#nav-login-btn');
   const authModal = el('#auth-modal');
   const closeAuthBtn = el('#close-auth-btn');
-  const emailForm = el('#email-login-form');
   const googleBtn = el('#google-login-btn');
+  const userPill = el('#user-pill');
+  const userDropdown = el('#user-dropdown');
+  const manualSyncBtn = el('#manual-sync-btn');
+  const signoutBtn = el('#signout-btn');
 
   loginBtn?.addEventListener('click', () => {
     authModal.classList.remove('hidden');
@@ -1785,15 +1890,45 @@ function initEvents() {
     authModal.classList.add('hidden');
   });
 
-  emailForm?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    alert('Email login submitted.\n(Connect this function to your authentication backend)');
-    authModal.classList.add('hidden');
+  authModal?.addEventListener('click', (e) => {
+    if (e.target === authModal) authModal.classList.add('hidden');
   });
 
-  googleBtn?.addEventListener('click', () => {
-    alert('Google login initiated.\n(Connect this function to your OAuth provider)');
-    authModal.classList.add('hidden');
+  googleBtn?.addEventListener('click', async () => {
+    if (window.SyncService && typeof window.SyncService.signInWithGoogle === 'function') {
+      await window.SyncService.signInWithGoogle();
+    }
+  });
+
+  userPill?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    userDropdown?.classList.toggle('hidden');
+    userPill?.classList.toggle('open');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (userPill && !userPill.contains(e.target)) {
+      userDropdown?.classList.add('hidden');
+      userPill?.classList.remove('open');
+    }
+  });
+
+  manualSyncBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    userDropdown?.classList.add('hidden');
+    userPill?.classList.remove('open');
+    if (window.SyncService && typeof window.SyncService.syncAll === 'function') {
+      window.SyncService.syncAll(true);
+    }
+  });
+
+  signoutBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    userDropdown?.classList.add('hidden');
+    userPill?.classList.remove('open');
+    if (window.SyncService && typeof window.SyncService.signOutUser === 'function') {
+      window.SyncService.signOutUser();
+    }
   });
   // ==================================
 
@@ -2088,6 +2223,22 @@ function initFullscreenCardView() {
   });
 }
 
+// Toast helper for user notifications
+let toastTimer = null;
+function showToast(message, icon = '☁️', duration = 2800) {
+  const toast = el('#sync-toast');
+  const msgEl = el('#sync-toast-msg');
+  const iconEl = el('#sync-toast-icon');
+  if (!toast || !msgEl) return;
+  msgEl.textContent = message;
+  if (iconEl) iconEl.textContent = icon;
+  toast.classList.remove('hidden');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.classList.add('hidden');
+  }, duration);
+}
+
 async function boot() {
   buildDataIndex(window.LEXICON_DATA);
   renderHome();
@@ -2121,5 +2272,341 @@ async function boot() {
 
 boot();
 </script>
+
+<!-- ============ CROSS-DEVICE FIREBASE SYNC ============ -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDocs, collection, onSnapshot, getDocFromServer } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+
+function handleFirestoreError(error, operationType, path) {
+  const errInfo = {
+    operationType,
+    path,
+    code: error?.code || 'unknown',
+    message: error?.message || 'A database error occurred'
+  };
+  console.error('Firestore Error:', errInfo);
+  if (error?.code === 'permission-denied') {
+    showToast('Permission denied. Please check your sign-in status.', '⚠️');
+  } else if (error?.code === 'unavailable') {
+    setSyncStatus('offline', 'Offline');
+  } else {
+    showToast(error?.message || 'Sync error occurred', '⚠️');
+  }
+  return errInfo;
+}
+
+let firebaseApp = null;
+let auth = null;
+let db = null;
+let googleProvider = null;
+let unsubscribeDrills = null;
+let isRemoteUpdate = false;
+
+function setSyncStatus(state, label) {
+  const syncStatusEl = document.getElementById('sync-status');
+  const syncStatusText = document.getElementById('sync-status-text');
+  if (!syncStatusEl || !syncStatusText) return;
+  
+  syncStatusEl.className = 'sync-status ' + state;
+  syncStatusText.textContent = label;
+}
+
+async function initFirebase() {
+  try {
+    const res = await fetch('/api/firebase-config');
+    if (!res.ok) throw new Error('Could not fetch Firebase configuration');
+    const config = await res.json();
+    
+    firebaseApp = initializeApp(config);
+    auth = getAuth(firebaseApp);
+    db = getFirestore(firebaseApp, config.firestoreDatabaseId || undefined);
+    googleProvider = new GoogleAuthProvider();
+
+    // Verify connection
+    try {
+      await getDocFromServer(doc(db, 'test', 'connection'));
+    } catch (_) {
+      // Normal if test doc doesn't exist
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      window.SyncService.currentUser = user;
+      updateAuthUI(user);
+
+      if (user) {
+        setSyncStatus('syncing', 'Syncing...');
+        await saveUserProfile(user);
+        await subscribeToCloudDrills(user.uid);
+        showToast(`Signed in as ${user.displayName || user.email}`, '✨');
+      } else {
+        if (unsubscribeDrills) {
+          unsubscribeDrills();
+          unsubscribeDrills = null;
+        }
+        setSyncStatus('synced', 'Local Only');
+      }
+    });
+
+  } catch (err) {
+    console.warn('Firebase initialization note:', err);
+    setSyncStatus('offline', 'Local Mode');
+  }
+}
+
+function updateAuthUI(user) {
+  const loginBtn = document.getElementById('nav-login-btn');
+  const userPill = document.getElementById('user-pill');
+  const authModal = document.getElementById('auth-modal');
+  const userAvatar = document.getElementById('user-avatar');
+  const userName = document.getElementById('user-name');
+  const userEmail = document.getElementById('dropdown-user-email');
+  const sideMenuAuthLabel = document.getElementById('side-menu-auth-label');
+
+  if (user) {
+    loginBtn?.classList.add('hidden');
+    userPill?.classList.remove('hidden');
+    authModal?.classList.add('hidden');
+    if (sideMenuAuthLabel) {
+      sideMenuAuthLabel.textContent = user.displayName ? `Account (${user.displayName.split(' ')[0]})` : 'Account (Synced)';
+    }
+
+    if (userAvatar) {
+      if (user.photoURL) {
+        userAvatar.innerHTML = `<img src="${user.photoURL}" alt="${user.displayName || 'User'}" referrerpolicy="no-referrer" />`;
+      } else {
+        const initial = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
+        userAvatar.textContent = initial;
+      }
+    }
+    if (userName) {
+      userName.textContent = user.displayName ? user.displayName.split(' ')[0] : (user.email ? user.email.split('@')[0] : 'User');
+    }
+    if (userEmail) {
+      userEmail.textContent = user.email || user.displayName || 'Signed In';
+    }
+  } else {
+    loginBtn?.classList.remove('hidden');
+    userPill?.classList.add('hidden');
+    if (sideMenuAuthLabel) {
+      sideMenuAuthLabel.textContent = 'Cloud Sync';
+    }
+  }
+}
+
+async function saveUserProfile(user) {
+  if (!db || !user) return;
+  const userDocRef = doc(db, 'users', user.uid);
+  try {
+    const profileData = {
+      userId: user.uid,
+      email: user.email || '',
+      displayName: user.displayName || '',
+      photoURL: user.photoURL || '',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    await setDoc(userDocRef, profileData, { merge: true });
+  } catch (err) {
+    handleFirestoreError(err, 'write', `users/${user.uid}`);
+  }
+}
+
+async function subscribeToCloudDrills(uid) {
+  if (!db || !uid) return;
+  if (unsubscribeDrills) unsubscribeDrills();
+
+  const drillsColRef = collection(db, 'users', uid, 'drills');
+
+  try {
+    const localData = loadAllProgress();
+    const localDrillKeys = Object.keys(localData);
+
+    const snapshot = await getDocs(drillsColRef);
+    const remoteDrillMap = {};
+    snapshot.forEach(docSnap => {
+      remoteDrillMap[docSnap.id] = docSnap.data();
+    });
+
+    let mergedData = { ...localData };
+
+    // Check remote docs and merge
+    for (const [docId, remoteRecord] of Object.entries(remoteDrillMap)) {
+      const drillNum = remoteRecord.drillNum;
+      if (!drillNum) continue;
+
+      const localDrill = localData[drillNum] || {};
+      const remoteDrill = remoteRecord.status || {};
+      const combined = { ...localDrill, ...remoteDrill };
+      mergedData[drillNum] = combined;
+    }
+
+    // Check if there are local drills not yet on remote
+    for (const k of localDrillKeys) {
+      const drillNum = parseInt(k, 10);
+      const docId = `drill_${drillNum}`;
+      if (!remoteDrillMap[docId] && Object.keys(localData[k] || {}).length > 0) {
+        const statusObj = localData[k];
+        const knownCount = Object.values(statusObj).filter(s => s === 'known').length;
+        const againCount = Object.values(statusObj).filter(s => s === 'again').length;
+        const drillDocRef = doc(db, 'users', uid, docId);
+        await setDoc(drillDocRef, {
+          userId: uid,
+          drillNum: drillNum,
+          status: statusObj,
+          knownCount,
+          againCount,
+          updatedAt: new Date().toISOString()
+        });
+      }
+    }
+
+    // Save merged data locally
+    isRemoteUpdate = true;
+    localStorage.setItem(STORAGE_KEY, encryptData(JSON.stringify(mergedData)));
+    refreshAppUI();
+    isRemoteUpdate = false;
+    setSyncStatus('synced', 'Synced');
+
+    // Subscribe to live changes across devices
+    unsubscribeDrills = onSnapshot(drillsColRef, (liveSnap) => {
+      let changes = false;
+      const currentLocal = loadAllProgress();
+      liveSnap.forEach(docSnap => {
+        const data = docSnap.data();
+        if (data && data.drillNum) {
+          const drillNum = data.drillNum;
+          const remoteStatus = data.status || {};
+          const localStatus = currentLocal[drillNum] || {};
+          
+          if (JSON.stringify(remoteStatus) !== JSON.stringify(localStatus)) {
+            currentLocal[drillNum] = remoteStatus;
+            changes = true;
+          }
+        }
+      });
+
+      if (changes) {
+        isRemoteUpdate = true;
+        localStorage.setItem(STORAGE_KEY, encryptData(JSON.stringify(currentLocal)));
+        refreshAppUI();
+        isRemoteUpdate = false;
+        showToast('Updated from another device', '🔄');
+        setSyncStatus('synced', 'Synced');
+      }
+    }, (err) => {
+      handleFirestoreError(err, 'listen', `users/${uid}/drills`);
+    });
+
+  } catch (err) {
+    handleFirestoreError(err, 'read', `users/${uid}/drills`);
+    setSyncStatus('synced', 'Local Only');
+  }
+}
+
+function refreshAppUI() {
+  const homeView = document.getElementById('home-view');
+  const studyView = document.getElementById('study-view');
+
+  if (homeView && !homeView.classList.contains('hidden')) {
+    if (typeof renderHome === 'function') renderHome();
+  }
+  if (studyView && !studyView.classList.contains('hidden') && current) {
+    const fresh = loadAllProgress();
+    current.status = fresh[current.drillNum] || {};
+    if (typeof renderCard === 'function') renderCard();
+  }
+}
+
+window.SyncService = {
+  currentUser: null,
+  async signInWithGoogle() {
+    const authStatus = document.getElementById('auth-status-msg');
+    const googleBtn = document.getElementById('google-login-btn');
+    try {
+      if (!auth || !googleProvider) throw new Error('Authentication not initialized');
+      if (authStatus) {
+        authStatus.textContent = 'Connecting to Google...';
+        authStatus.style.color = 'var(--ink-muted)';
+      }
+      if (googleBtn) googleBtn.disabled = true;
+
+      const result = await signInWithPopup(auth, googleProvider);
+      if (authStatus) authStatus.textContent = '';
+      return result.user;
+    } catch (err) {
+      console.error('Sign-in error:', err);
+      if (authStatus) {
+        authStatus.textContent = err.message || 'Sign in cancelled or failed';
+        authStatus.style.color = 'var(--rust)';
+      }
+      showToast('Sign in failed: ' + (err.message || 'Unknown error'), '⚠️');
+    } finally {
+      if (googleBtn) googleBtn.disabled = false;
+    }
+  },
+
+  async signOutUser() {
+    if (!auth) return;
+    try {
+      await signOut(auth);
+      showToast('Signed out of cloud sync', '👋');
+    } catch (err) {
+      console.error('Sign out error:', err);
+    }
+  },
+
+  async saveDrill(drillNum, statusObj) {
+    if (isRemoteUpdate) return;
+    const user = auth?.currentUser;
+    if (!user || !db) return;
+
+    setSyncStatus('syncing', 'Syncing...');
+
+    try {
+      const knownCount = Object.values(statusObj).filter(s => s === 'known').length;
+      const againCount = Object.values(statusObj).filter(s => s === 'again').length;
+      const drillDocRef = doc(db, 'users', user.uid, `drill_${drillNum}`);
+
+      await setDoc(drillDocRef, {
+        userId: user.uid,
+        drillNum: drillNum,
+        status: statusObj,
+        knownCount: knownCount,
+        againCount: againCount,
+        updatedAt: new Date().toISOString()
+      }, { merge: true });
+
+      setSyncStatus('synced', 'Synced');
+    } catch (err) {
+      handleFirestoreError(err, 'write', `users/${user.uid}/drills/drill_${drillNum}`);
+      setSyncStatus('offline', 'Sync Error');
+    }
+  },
+
+  async syncAll(showManualToast = false) {
+    const user = auth?.currentUser;
+    if (!user) {
+      showToast('Sign in to sync your cards across devices', '☁️');
+      document.getElementById('auth-modal')?.classList.remove('hidden');
+      return;
+    }
+    setSyncStatus('syncing', 'Syncing...');
+    await subscribeToCloudDrills(user.uid);
+    if (showManualToast) {
+      showToast('Flashcard progress up to date!', '✅');
+    }
+  }
+};
+
+// Start Firebase
+initFirebase();
+</script>
+
+<div id="sync-toast" class="sync-toast hidden" role="status" aria-live="polite">
+  <span id="sync-toast-icon">☁️</span>
+  <span id="sync-toast-msg">Progress synced</span>
+</div>
 </body>
 </html>
