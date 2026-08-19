@@ -504,7 +504,35 @@ html.fs-lock, body.fs-lock{
 .nav-btn:hover{ border-color:var(--brass); color:var(--brass-hi); transform:scale(1.05); }
 .nav-btn:disabled{ opacity:.3; cursor:default; transform:none; }
 
-.card-well{ perspective:1600px; width:100%; max-width:440px; position:relative; }
+/* Add z-index: 0; to this existing line */
+.card-well{ perspective:1600px; width:100%; max-width:440px; position:relative; z-index: 0; }
+
+/* --- PASTE THIS HERE --- */
+.card-well::before{
+  content:"";
+  position:absolute;
+  inset:-90px;
+  z-index:-1;
+  background:
+    radial-gradient(circle at 30% 26%, rgba(227,181,108,.7) 0%, rgba(227,181,108,.7) 15%, transparent 60%),
+    radial-gradient(circle at 74% 78%, rgba(126,160,131,.55) 0%, rgba(126,160,131,.55) 15%, transparent 62%);
+  filter:blur(34px);
+  opacity:.85;
+  mix-blend-mode:screen;
+  pointer-events:none;
+  animation:ambient-glow 8s ease-in-out infinite;
+  will-change:transform, opacity;
+}
+
+@keyframes ambient-glow{
+  0%, 100%{ transform:scale(1) translateZ(0); opacity:.6; }
+  50%{ transform:scale(1.1) translateZ(0); opacity:1; }
+}
+
+@media (max-width:600px){
+  .card-well::before{ inset:-55px; filter:blur(24px); }
+}
+/* ----------------------- */
 
 .card{
   position:relative; width:100%; height:460px;
