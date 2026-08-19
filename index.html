@@ -272,8 +272,496 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
 }
 
 /* Hidden while inside a drill/summary session */
-body.in-session .header-stats{ display:none !important; }
-body.in-session .topbar{ display:none !important; }
+body.in-session .header-stats,
+body.in-session .stats-pill-container,
+body.in-session .topbar,
+body.in-session .site-foot,
+body.in-session #support-footer { 
+  display:none !important; 
+}
+
+/* Drill / Session Mode: full viewport container with zero vertical scrolling on smartphones (19.5:9) */
+body.in-session {
+  overflow: hidden !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+}
+
+body.in-session .app {
+  padding: calc(8px + env(safe-area-inset-top, 0px)) calc(12px + env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) calc(12px + env(safe-area-inset-left, 0px)) !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+body.in-session #study-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+body.in-session #card-stage-wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+/* Study header layout: Back on left, title in center, controls + search circle on the far right */
+body.in-session .study-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: nowrap;
+  margin-bottom: 6px;
+  flex-shrink: 0;
+}
+
+body.in-session .back-btn {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  font-size: 0.78rem;
+  border-radius: 8px;
+  gap: 5px;
+  white-space: nowrap;
+}
+.back-btn-text-short { display: none; }
+.back-btn-text-full { display: inline; }
+@media (max-width: 600px) {
+  .back-btn-text-full { display: none; }
+  .back-btn-text-short { display: inline; }
+}
+
+body.in-session .study-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: center;
+  overflow: hidden;
+  padding: 0 4px;
+}
+
+body.in-session .study-title h2 {
+  font-family: var(--serif);
+  font-size: clamp(0.95rem, 3.4vw, 1.2rem);
+  font-weight: 600;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.15;
+}
+
+body.in-session .study-title .range {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--brass);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Study header controls placed right */
+.study-header-controls,
+body.in-session .study-header-controls {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  position: relative;
+}
+
+body.in-session .mode-toggle {
+  display: flex;
+  gap: 2px;
+  background: var(--panel);
+  border: 1px solid var(--rail);
+  padding: 2px;
+  border-radius: 8px;
+}
+
+body.in-session .mode-toggle button {
+  padding: 5px 9px;
+  font-size: 0.72rem;
+  border-radius: 6px;
+}
+
+.drill-search-slot,
+body.in-session .drill-search-slot {
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+/* Compact search circle in drill header right */
+body.in-session .search-wrap {
+  position: relative !important;
+  top: auto !important;
+  right: auto !important;
+  left: auto !important;
+  width: 32px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  border-radius: 50% !important;
+  background: var(--panel) !important;
+  border: 1px solid var(--rail) !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  z-index: 50 !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+  overflow: hidden !important;
+}
+
+body.in-session .search-wrap:hover {
+  border-color: var(--brass) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(201,151,76,0.25) !important;
+}
+
+body.in-session .search-wrap:not(.expanded) #search,
+body.in-session .search-wrap:not(.expanded) #voice-search-btn,
+body.in-session .search-wrap:not(.expanded) #search-close-btn {
+  display: none !important;
+}
+
+body.in-session .search-wrap .search-icon-btn {
+  margin: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  color: var(--ink-muted) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: color 0.2s ease !important;
+}
+
+body.in-session .search-wrap:hover .search-icon-btn {
+  color: var(--brass-hi) !important;
+}
+
+/* Expanded state in drill right slot */
+body.in-session .search-wrap.expanded {
+  position: absolute !important;
+  right: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: min(320px, calc(100vw - 24px)) !important;
+  height: 38px !important;
+  border-radius: 19px !important;
+  background: rgba(22, 28, 38, 0.98) !important;
+  border-color: var(--brass) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.7), 0 0 16px rgba(201,151,76,0.35) !important;
+  cursor: default !important;
+  padding: 0 6px !important;
+  overflow: visible !important;
+  z-index: 999 !important;
+}
+
+body.in-session .search-wrap.expanded #search {
+  display: block !important;
+  opacity: 1 !important;
+  padding: 0 6px !important;
+  font-size: 0.84rem !important;
+  color: var(--paper) !important;
+}
+
+body.in-session .search-wrap.expanded #voice-search-btn {
+  display: flex !important;
+}
+
+body.in-session .search-wrap.expanded #search-close-btn {
+  display: flex !important;
+}
+
+body.in-session .search-wrap.expanded .search-icon-btn {
+  width: 28px !important;
+  height: 28px !important;
+  margin-left: 2px !important;
+  color: var(--brass-hi) !important;
+}
+
+body.in-session .search-wrap #search-results {
+  top: calc(100% + 6px) !important;
+  right: 0 !important;
+  left: auto !important;
+  width: min(320px, calc(100vw - 24px)) !important;
+  max-height: 260px !important;
+  z-index: 1000 !important;
+}
+
+/* Compact Progress Track in drill */
+body.in-session .progress-track {
+  height: 3px;
+  background: var(--panel);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 6px;
+  border: 1px solid var(--rail);
+  flex-shrink: 0;
+}
+
+/* Compact Stage & Responsive Flashcard in drill */
+body.in-session .stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-bottom: 4px;
+  position: relative;
+  width: 100%;
+}
+
+body.in-session .nav-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+body.in-session .card-well {
+  height: 100%;
+  max-height: 100%;
+  max-width: 440px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+  min-height: 0;
+  position: relative;
+}
+
+body.in-session .card {
+  width: 100%;
+  height: 100%;
+  max-height: calc(100dvh - 200px);
+  min-height: 220px;
+  aspect-ratio: 3.1 / 4.3;
+  margin: auto;
+  position: relative;
+  cursor: pointer;
+  touch-action: pan-y;
+}
+
+body.in-session .card-front {
+  padding: 16px 20px;
+}
+
+body.in-session .card-tab {
+  left: 18px;
+  width: 52px;
+  height: 16px;
+}
+
+body.in-session .card-seq {
+  top: 10px;
+  right: 12px;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+}
+
+body.in-session .card-status-dot {
+  top: 12px;
+  left: 12px;
+  width: 7px;
+  height: 7px;
+}
+
+body.in-session .card-word {
+  font-size: clamp(1.7rem, 6.5vw, 2.5rem);
+}
+
+body.in-session .card-hint {
+  bottom: 10px;
+  font-size: 0.62rem;
+}
+
+body.in-session .card-back .back-label {
+  top: 10px;
+  left: 12px;
+  font-size: 0.62rem;
+}
+
+body.in-session .card-back .back-word {
+  top: 10px;
+  right: 12px;
+  font-size: 0.82rem;
+}
+
+/* Compact Controls (Shuffle & Counter) */
+body.in-session .controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+body.in-session .ctrl-btn {
+  padding: 5px 11px;
+  border-radius: 7px;
+  font-size: 0.74rem;
+  gap: 5px;
+}
+
+body.in-session #progress-counter {
+  font-size: 0.74rem;
+}
+
+/* Compact Judge Row */
+body.in-session .judge-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 4px;
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.in-session .judge-btn {
+  flex: 1 1 0;
+  padding: 8px 14px;
+  font-size: 0.8rem;
+  border-radius: 8px;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Hints in drill */
+body.in-session .kbd-hint {
+  margin-top: 3px;
+  font-size: 0.66rem;
+  flex-shrink: 0;
+}
+
+body.in-session .swipe-hint {
+  margin-top: 3px;
+  margin-bottom: 2px;
+  font-size: 0.62rem;
+  flex-shrink: 0;
+}
+
+/* List Mode inside session */
+body.in-session #list-stage-wrap {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  min-height: 0;
+  margin-top: 4px;
+  border-radius: 12px;
+}
+
+/* Smartphone maintenance (19.5:9 and ultra-tall/compact screens <= 600px) */
+@media (max-width: 600px) {
+  body.in-session .app {
+    padding: calc(6px + env(safe-area-inset-top, 0px)) calc(8px + env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) calc(8px + env(safe-area-inset-left, 0px)) !important;
+  }
+  body.in-session .study-header {
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+  body.in-session .back-btn {
+    padding: 5px 8px;
+    font-size: 0.72rem;
+    gap: 4px;
+  }
+  body.in-session .study-title h2 {
+    font-size: 0.96rem;
+  }
+  body.in-session .study-title .range {
+    font-size: 0.58rem;
+  }
+  body.in-session .mode-toggle button {
+    padding: 4px 7px;
+    font-size: 0.68rem;
+  }
+  body.in-session .search-wrap {
+    width: 28px !important;
+    height: 28px !important;
+    min-height: 28px !important;
+  }
+  body.in-session .stage {
+    gap: 6px;
+    margin-bottom: 3px;
+  }
+  body.in-session .nav-btn {
+    width: 30px;
+    height: 30px;
+  }
+  body.in-session .card-well {
+    max-width: min(330px, 84vw);
+  }
+  body.in-session .card {
+    max-height: calc(100dvh - 175px);
+    min-height: 200px;
+    aspect-ratio: 3.1 / 4.3;
+  }
+  body.in-session .card-front {
+    padding: 12px 14px;
+  }
+  body.in-session .card-word {
+    font-size: clamp(1.5rem, 6.2vw, 2.2rem);
+  }
+  body.in-session .card-hint {
+    bottom: 6px;
+    font-size: 0.58rem;
+  }
+  body.in-session .controls {
+    margin-top: 1px;
+    gap: 6px;
+  }
+  body.in-session .ctrl-btn {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+  }
+  body.in-session .judge-row {
+    margin-top: 3px;
+    gap: 6px;
+    max-width: 310px;
+  }
+  body.in-session .judge-btn {
+    padding: 7px 10px;
+    font-size: 0.76rem;
+  }
+  body.in-session .swipe-hint {
+    margin-top: 2px;
+    margin-bottom: 1px;
+    font-size: 0.58rem;
+  }
+  body.in-session .kbd-hint {
+    display: none;
+  }
+}
 
 /* ============ HERO SECTION & LOGO ============ */
 .hero-section {
@@ -323,18 +811,44 @@ body.in-session .topbar{ display:none !important; }
   margin-left: 10px;
 }
 
+/* ============ SCROLL LOCKING ON MENUS & POPUPS ============ */
+html.scroll-locked,
+body.scroll-locked {
+  overflow: hidden !important;
+  touch-action: none !important;
+  overscroll-behavior: contain !important;
+}
+
+/* Allow scrolling inside active modals, menus, and dropdowns */
+.side-menu.open,
+.side-menu.open .menu-content,
+.auth-box,
+.mastery-box,
+#search-results,
+.mistakes-items-scroll {
+  touch-action: pan-y !important;
+  overscroll-behavior: contain !important;
+}
+
 /* ============ AUTHENTICATION & SYNC STYLES ============ */
 .auth-strip { display: flex; align-items: center; gap: 10px; position: relative; }
 .auth-overlay {
   position: fixed; inset: 0; background: rgba(18, 24, 31, 0.85);
   display: flex; align-items: center; justify-content: center; z-index: 1000;
-  backdrop-filter: blur(5px); transition: opacity 0.2s ease;
+  backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); transition: opacity 0.2s ease;
+  overscroll-behavior: contain;
+  padding: 16px;
+  box-sizing: border-box;
 }
 .auth-overlay.hidden { display: none !important; }
 .auth-box {
   background: var(--panel); border: 1px solid var(--rail); border-radius: 14px;
   padding: 36px 32px; width: 100%; max-width: 420px; position: relative;
   box-shadow: var(--shadow); text-align: center;
+  max-height: min(90dvh, 600px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 .close-auth {
   position: absolute; top: 16px; right: 20px; background: transparent; border: none;
@@ -823,8 +1337,8 @@ body.in-session .topbar{ display:none !important; }
   transform: scale(1.08);
   box-shadow: 0 8px 24px rgba(0,0,0,0.6), 0 0 16px rgba(201,151,76,0.45);
 }
-.search-wrap.floating-circle #search,
-.search-wrap.floating-circle #voice-search-btn{
+.search-wrap.floating-circle:not(.focused) #search,
+.search-wrap.floating-circle:not(.focused) #voice-search-btn{
   display: none;
 }
 .search-wrap.floating-circle .search-icon-btn{
@@ -834,35 +1348,12 @@ body.in-session .topbar{ display:none !important; }
   color: var(--brass-hi);
 }
 
-/* Expanded state when clicking the floating circle */
-.search-wrap.floating-circle.expanded{
-  width: min(340px, calc(100vw - 78px));
-  height: 44px;
-  border-radius: 22px;
-  cursor: default;
-  padding: 0 6px;
-  transform: none;
-  overflow: visible;
-}
-.search-wrap.floating-circle.expanded #search{
-  display: block;
-  opacity: 1;
-}
-.search-wrap.floating-circle.expanded #voice-search-btn{
-  display: flex;
-}
-.search-wrap.floating-circle.expanded .search-icon-btn{
-  width: 34px;
-  height: 34px;
-  margin-left: 2px;
-}
-
 .search-close-btn{
   background: transparent;
   border: none;
   color: var(--ink-muted);
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -877,9 +1368,6 @@ body.in-session .topbar{ display:none !important; }
   background: rgba(255,255,255,0.08);
 }
 .search-close-btn.hidden{ display: none !important; }
-.search-wrap.floating-circle.expanded .search-close-btn{
-  display: flex !important;
-}
 
 #voice-search-btn {
   background: transparent; border: none; color: var(--ink-muted);
@@ -899,22 +1387,186 @@ body.in-session .topbar{ display:none !important; }
   100% { box-shadow: 0 0 0 0 rgba(176,70,63, 0); }
 }
 
+/* ============ GOOGLE-STYLE FOCUSED SEARCH & DARK BACKDROP OVERLAY ============ */
+.search-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 12, 18, 0.84);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1200;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.24s cubic-bezier(0.2, 0.8, 0.2, 1),
+              visibility 0.24s;
+}
+
+body.search-focused .search-backdrop {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Top-Positioned Google Search Bar (Focused Mode on Home and inside Drills) */
+body.search-focused .search-wrap,
+body.in-session.search-focused .search-wrap {
+  position: fixed !important;
+  top: calc(16px + env(safe-area-inset-top, 0px)) !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translateX(-50%) !important;
+  width: min(640px, calc(100vw - 24px)) !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  border-radius: 24px !important;
+  background: rgba(22, 29, 39, 0.98) !important;
+  border: 1.5px solid var(--brass) !important;
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.85), 0 0 24px rgba(201, 151, 76, 0.3) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  z-index: 1250 !important;
+  padding: 0 8px 0 6px !important;
+  cursor: default !important;
+  overflow: visible !important;
+  display: flex !important;
+  align-items: center !important;
+  animation: searchPopIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+@keyframes searchPopIn {
+  from {
+    opacity: 0.7;
+    transform: translateX(-50%) translateY(-8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+body.search-focused .search-wrap #search,
+body.in-session.search-focused .search-wrap #search {
+  display: block !important;
+  opacity: 1 !important;
+  padding: 0 12px 0 8px !important;
+  font-size: 1rem !important;
+  color: var(--paper) !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+
+body.search-focused .search-wrap .search-icon-btn,
+body.in-session.search-focused .search-wrap .search-icon-btn {
+  width: 36px !important;
+  height: 36px !important;
+  margin: 0 !important;
+  color: var(--brass-hi) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 auto !important;
+}
+
+body.search-focused .search-wrap #voice-search-btn,
+body.in-session.search-focused .search-wrap #voice-search-btn {
+  display: flex !important;
+  width: 34px !important;
+  height: 34px !important;
+  margin: 0 2px !important;
+  flex: 0 0 auto !important;
+}
+
+body.search-focused .search-wrap .search-close-btn,
+body.in-session.search-focused .search-wrap .search-close-btn {
+  display: flex !important;
+  width: 32px !important;
+  height: 32px !important;
+  margin: 0 2px 0 0 !important;
+  flex: 0 0 auto !important;
+}
+
 #search-results{
-  position:absolute; top:calc(100% + 8px); left:0; right:0;
-  background:var(--panel-2); border:1px solid var(--rail); border-radius:10px;
-  box-shadow:var(--shadow); max-height:340px; overflow-y:auto; z-index:40; display:none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: rgba(22, 29, 39, 0.98);
+  border: 1px solid var(--rail);
+  border-radius: 16px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.85), 0 0 1px rgba(255,255,255,0.1);
+  max-height: min(440px, calc(100dvh - 110px));
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  z-index: 1300;
+  display: none;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
-#search-results.open{ display:block; }
+#search-results.open{ display: block; }
+
+body.search-focused #search-results,
+body.in-session.search-focused #search-results {
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+}
+
+.search-hint-row {
+  padding: 14px 18px;
+  color: var(--ink-muted);
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.search-hint-row strong {
+  color: var(--brass-hi);
+}
+
 .result-row{
-  display:flex; align-items:center; justify-content:space-between;
-  padding:11px 16px; cursor:pointer; border-bottom:1px solid var(--rail);
-  font-size:.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 18px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.95rem;
+  transition: background 0.15s ease, transform 0.15s ease;
 }
-.result-row:last-child{ border-bottom:none; }
-.result-row:hover, .result-row.active{ background:var(--rail); }
-.result-word{ font-family:var(--serif); font-weight:600; letter-spacing:.02em; }
-.result-meta{ font-family:var(--mono); font-size:.72rem; color:var(--brass); }
-.no-results{ padding:16px; color:var(--ink-muted); font-size:.88rem; }
+.result-row:last-child{ border-bottom: none; }
+.result-row:hover, .result-row.active{
+  background: rgba(201, 151, 76, 0.15);
+}
+.result-word{
+  font-family: var(--serif);
+  font-weight: 600;
+  color: var(--paper);
+  letter-spacing: .02em;
+  font-size: 1.05rem;
+}
+.result-meta{
+  font-family: var(--mono);
+  font-size: .74rem;
+  color: var(--brass-hi);
+  background: rgba(201,151,76,0.12);
+  border: 1px solid rgba(201,151,76,0.25);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+.no-results{
+  padding: 20px 18px;
+  color: var(--ink-muted);
+  font-size: .92rem;
+  text-align: center;
+}
 /* =================================================== */
 
 .section-label{
@@ -1346,7 +1998,7 @@ footer.site-foot{
   .glass{ -webkit-backdrop-filter:blur(11px) saturate(150%); backdrop-filter:blur(11px) saturate(150%); }
 
   /* Increased Flashcard size on mobile */
-  .card{ height: 65vh; min-height: 480px; max-height: 550px; }
+  /* Mobile compact drill sizing is handled by body.in-session */
   .card-word { font-size: clamp(2.4rem, 8vw, 3.2rem); }
   .stage{ gap:6px; }
   .nav-btn{ width:38px; height:38px; }
@@ -1625,6 +2277,9 @@ footer.site-foot{
       </div>
     </div>
   </div>
+
+  <!-- ============ SEARCH BACKDROP (DARK OVERLAY) ============ -->
+  <div id="search-backdrop" class="search-backdrop"></div>
 
   <!-- ============ SIDE MENU (HAMBURGER) ============ -->
   <div id="menu-backdrop" class="menu-backdrop"></div>
@@ -1925,22 +2580,52 @@ footer.site-foot{
        </div>
     </div>
 
+    <footer class="site-foot" id="support-footer">
+      <div class="support-panel">
+        <div class="support-icon" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+            <line x1="6" y1="2" x2="6" y2="4"/>
+            <line x1="10" y1="2" x2="10" y2="4"/>
+            <line x1="14" y1="2" x2="14" y2="4"/>
+          </svg>
+        </div>
+        <div class="support-text">
+          <p class="support-title">Enjoying WORD SMART 1?</p>
+          <p class="support-sub">If you like it, buy me a coffee &mdash; it keeps this project going.</p>
+        </div>
+        <div class="support-pay">
+          <span class="pay-label">Bkash / Nagad</span>
+          <button class="pay-number" id="copy-number" type="button" title="Tap to copy number">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span id="copy-number-text">01743291605</span>
+          </button>
+        </div>
+      </div>
+      <p class="credit-line">Crafted with care by <span class="credit-name">Noor-E-Azim</span></p>
+      <p class="site-meta">WORD SMART 1 FLASH CARDS &middot; 793 words &middot; 16 drills &middot; A&ndash;Z</p>
+    </footer>
   </div>
 
   <!-- ============ STUDY ============ -->
   <div id="study-view" class="hidden">
     <div class="study-header">
-      <button class="back-btn" id="back-btn">
+      <button class="back-btn" id="back-btn" aria-label="Back to all drawers">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        All drawers
+        <span class="back-btn-text-full">All drawers</span>
+        <span class="back-btn-text-short">Back</span>
       </button>
       <div class="study-title">
         <h2 id="study-title-h2">Drill 01</h2>
         <div class="range" id="study-title-range"></div>
       </div>
-      <div class="mode-toggle glass">
-        <button id="card-mode-btn" class="active">Cards</button>
-        <button id="list-mode-btn">List</button>
+      <div class="study-header-controls">
+        <div class="mode-toggle glass">
+          <button id="card-mode-btn" class="active">Cards</button>
+          <button id="list-mode-btn">List</button>
+        </div>
+        <div class="drill-search-slot" id="drill-search-slot"></div>
       </div>
     </div>
 
@@ -2026,33 +2711,6 @@ footer.site-foot{
       </div>
     </div>
   </div>
-
-  <footer class="site-foot" id="support-footer">
-    <div class="support-panel">
-      <div class="support-icon" aria-hidden="true">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
-          <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
-          <line x1="6" y1="2" x2="6" y2="4"/>
-          <line x1="10" y1="2" x2="10" y2="4"/>
-          <line x1="14" y1="2" x2="14" y2="4"/>
-        </svg>
-      </div>
-      <div class="support-text">
-        <p class="support-title">Enjoying WORD SMART 1?</p>
-        <p class="support-sub">If you like it, buy me a coffee &mdash; it keeps this project going.</p>
-      </div>
-      <div class="support-pay">
-        <span class="pay-label">Bkash / Nagad</span>
-        <button class="pay-number" id="copy-number" type="button" title="Tap to copy number">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          <span id="copy-number-text">01743291605</span>
-        </button>
-      </div>
-    </div>
-    <p class="credit-line">Crafted with care by <span class="credit-name">Noor-E-Azim</span></p>
-    <p class="site-meta">WORD SMART 1 FLASH CARDS &middot; 793 words &middot; 16 drills &middot; A&ndash;Z</p>
-  </footer>
 </div>
 
 <script>
@@ -2275,6 +2933,13 @@ function openMistakesDrill(push = true) {
   mistakesCards.forEach(c => {
     current.status[c.seq] = 'again';
   });
+
+  document.body.classList.add('in-session');
+  const searchWrap = el('#search-wrap');
+  const drillSlot = el('#drill-search-slot');
+  if (searchWrap && drillSlot && searchWrap.parentElement !== drillSlot) {
+    drillSlot.appendChild(searchWrap);
+  }
 
   el('#home-view').classList.add('hidden');
   el('#summary-view').classList.add('hidden');
@@ -2502,6 +3167,14 @@ function openMasteryModal() {
 function closeSession(eventOrPush) {
   const push = typeof eventOrPush === 'boolean' ? eventOrPush : true;
   current = null;
+  document.body.classList.remove('in-session');
+  const searchWrap = el('#search-wrap');
+  const searchContainer = el('#search-container');
+  if (searchWrap && searchContainer && searchWrap.parentElement !== searchContainer) {
+    searchContainer.appendChild(searchWrap);
+  }
+  if (searchWrap) searchWrap.classList.remove('expanded');
+
   el('#study-view').classList.add('hidden');
   el('#summary-view').classList.add('hidden');
   el('#home-view').classList.remove('hidden');
@@ -2532,6 +3205,13 @@ function openDrill(drillNum, opts = {}, push = true) {
     flipped: false,
   };
   
+  document.body.classList.add('in-session');
+  const searchWrap = el('#search-wrap');
+  const drillSlot = el('#drill-search-slot');
+  if (searchWrap && drillSlot && searchWrap.parentElement !== drillSlot) {
+    drillSlot.appendChild(searchWrap);
+  }
+
   el('#home-view').classList.add('hidden');
   el('#summary-view').classList.add('hidden');
   el('#study-view').classList.remove('hidden');
@@ -2548,6 +3228,7 @@ function openDrill(drillNum, opts = {}, push = true) {
 
 function showSummary(pushArg = true) {
   const push = typeof pushArg === 'boolean' ? pushArg : true;
+  document.body.classList.add('in-session');
   el('#study-view').classList.add('hidden');
   el('#summary-view').classList.remove('hidden');
   
@@ -2813,13 +3494,59 @@ function triggerReward() {
   }
 }
 
-// ---- search -------------------------------------------------
+// ---- Google-Style Top Search & Dark Backdrop Overlay -----------
+function openSearchFocus() {
+  document.body.classList.add('search-focused');
+  const wrap = el('#search-wrap') || el('.search-wrap');
+  const input = el('#search');
+  const closeBtn = el('#search-close-btn');
+
+  if (wrap) wrap.classList.add('focused', 'expanded');
+  if (closeBtn) closeBtn.classList.remove('hidden');
+
+  setTimeout(() => {
+    if (input) {
+      input.focus();
+      runSearch(input.value || '');
+    }
+  }, 40);
+}
+
+function closeSearchFocus() {
+  document.body.classList.remove('search-focused');
+  const wrap = el('#search-wrap') || el('.search-wrap');
+  const input = el('#search');
+  const box = el('#search-results');
+  const closeBtn = el('#search-close-btn');
+
+  if (wrap) wrap.classList.remove('focused', 'expanded');
+  if (closeBtn) closeBtn.classList.add('hidden');
+  if (input) {
+    input.value = '';
+    input.blur();
+  }
+  if (box) {
+    box.classList.remove('open');
+    box.innerHTML = '';
+  }
+}
+
 let searchActive = -1;
 function runSearch(q) {
   const box = el('#search-results');
-  q = q.trim().toUpperCase();
-  if (!q) { box.classList.remove('open'); box.innerHTML=''; return; }
-  const matches = ALL_CARDS.filter(c => c.word.includes(q)).slice(0, 12);
+  if (!box) return;
+  q = (q || '').trim().toUpperCase();
+  if (!q) {
+    box.innerHTML = `
+      <div class="search-hint-row">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--brass)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Search all <strong>793</strong> words across 16 drills…</span>
+      </div>
+    `;
+    box.classList.add('open');
+    return;
+  }
+  const matches = ALL_CARDS.filter(c => c.word.includes(q)).slice(0, 15);
   searchActive = -1;
   if (!matches.length) {
     box.innerHTML = `<div class="no-results">No words match \u201c${q}\u201d</div>`;
@@ -2834,10 +3561,12 @@ function runSearch(q) {
   `).join('');
   box.classList.add('open');
   els('.result-row').forEach(row => {
-    row.addEventListener('click', () => {
-      jumpToWord(+row.dataset.drill, +row.dataset.seq);
-      el('#search').value = '';
-      box.classList.remove('open');
+    row.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const drillNum = +row.dataset.drill;
+      const seq = +row.dataset.seq;
+      closeSearchFocus();
+      jumpToWord(drillNum, seq);
     });
   });
 }
@@ -2847,6 +3576,7 @@ function initEvents() {
   // Mobile Back/Forward Browser Buttons Integration
   window.addEventListener('popstate', (e) => {
     const state = e.state;
+    closeSearchFocus();
     
     // Always hide modals when back is pressed
     el('#side-menu').classList.remove('open');
@@ -2876,12 +3606,43 @@ function initEvents() {
   });
 
   el('#search').addEventListener('input', (e) => runSearch(e.target.value));
-  el('#search').addEventListener('focus', (e) => { if (e.target.value) runSearch(e.target.value); });
+  el('#search').addEventListener('focus', () => {
+    if (!document.body.classList.contains('search-focused')) {
+      openSearchFocus();
+    } else {
+      runSearch(el('#search').value);
+    }
+  });
+
+  el('#search-wrap')?.addEventListener('click', (e) => {
+    if (!document.body.classList.contains('search-focused')) {
+      openSearchFocus();
+    }
+  });
+
+  el('#search-icon-btn')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (!document.body.classList.contains('search-focused')) {
+      openSearchFocus();
+    }
+  });
+
+  el('#search-close-btn')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeSearchFocus();
+  });
+
+  el('#search-backdrop')?.addEventListener('click', () => {
+    closeSearchFocus();
+  });
+
   document.addEventListener('click', (e) => {
-    const wrap = el('.search-wrap');
-    if (!wrap.contains(e.target)) {
-      el('#search-results').classList.remove('open');
-      if (wrap.classList.contains('collapsed')) wrap.classList.remove('expanded');
+    if (document.body.classList.contains('search-focused')) {
+      const wrap = el('#search-wrap');
+      const backdrop = el('#search-backdrop');
+      if (wrap && !wrap.contains(e.target) && e.target !== backdrop) {
+        closeSearchFocus();
+      }
     }
   });
 
@@ -2934,6 +3695,7 @@ function initEvents() {
     recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript;
       searchInput.value = transcript.replace(/[.,]/g, ''); // strip out punctuation
+      openSearchFocus();
       runSearch(searchInput.value);
     };
 
@@ -3301,6 +4063,10 @@ function initEvents() {
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
+      if (document.body.classList.contains('search-focused')) {
+        closeSearchFocus();
+        return;
+      }
       const masteryModal = el('#mastery-modal');
       if (masteryModal && !masteryModal.classList.contains('hidden')) {
         masteryModal.classList.add('hidden');
@@ -3494,12 +4260,9 @@ function initHeaderScrollEffect() {
   apply();
 }
 
-// ---- floating search: transforms into Material Design circle in top-right corner on scroll ----
+// ---- floating search: transforms into Material Design circle in top-right corner on scroll / during drills ----
 function initSearchCollapse() {
   const wrap = el('#search-wrap') || el('.search-wrap');
-  const input = el('#search');
-  const searchIconBtn = el('#search-icon-btn');
-  const searchCloseBtn = el('#search-close-btn');
   if (!wrap) return;
 
   const THRESHOLD = 100; // px scrolled before morphing into top-right Material circle
@@ -3507,6 +4270,9 @@ function initSearchCollapse() {
 
   function apply() {
     ticking = false;
+    const isDrill = document.body.classList.contains('in-session');
+    if (isDrill) return; // In drill session, handled by body.in-session CSS
+
     const y = Math.max(0, window.scrollY || window.pageYOffset || 0);
     const isScrolled = y > THRESHOLD;
     
@@ -3515,7 +4281,7 @@ function initSearchCollapse() {
         wrap.classList.add('floating-circle');
       }
     } else {
-      wrap.classList.remove('floating-circle', 'expanded');
+      wrap.classList.remove('floating-circle');
     }
   }
 
@@ -3526,38 +4292,10 @@ function initSearchCollapse() {
     }
   }, { passive: true });
 
-  // Tapping the floating circle expands it into search mode
-  wrap.addEventListener('click', (e) => {
-    if (wrap.classList.contains('floating-circle') && !wrap.classList.contains('expanded')) {
-      wrap.classList.add('expanded');
-      setTimeout(() => input && input.focus(), 150);
-    }
-  });
-
-  searchIconBtn?.addEventListener('click', (e) => {
-    if (wrap.classList.contains('floating-circle') && !wrap.classList.contains('expanded')) {
-      wrap.classList.add('expanded');
-      setTimeout(() => input && input.focus(), 150);
-      e.stopPropagation();
-    }
-  });
-
-  searchCloseBtn?.addEventListener('click', (e) => {
-    e.stopPropagation();
-    wrap.classList.remove('expanded');
-    if (input) input.value = '';
-    const res = el('#search-results');
-    if (res) res.classList.remove('open');
-  });
-
-  // Clicking outside collapses the expanded floating search bar
-  document.addEventListener('click', (e) => {
-    if (wrap.classList.contains('floating-circle') && wrap.classList.contains('expanded')) {
-      if (!wrap.contains(e.target)) {
-        wrap.classList.remove('expanded');
-        const res = el('#search-results');
-        if (res) res.classList.remove('open');
-      }
+  // Tapping the floating circle or search icon opens Google-style top focused search
+  wrap.addEventListener('click', () => {
+    if (!document.body.classList.contains('search-focused')) {
+      openSearchFocus();
     }
   });
 
