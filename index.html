@@ -109,50 +109,68 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
     border-color .25s ease, transform .32s cubic-bezier(.22,.9,.35,1);
 }
 .topbar.scrolled{
-  padding-top:10px; padding-bottom:10px;
-  background:rgba(18,24,31,.88);
-  -webkit-backdrop-filter:blur(14px) saturate(140%);
-  backdrop-filter:blur(14px) saturate(140%);
-  box-shadow:0 12px 28px -16px rgba(0,0,0,.6);
+  padding-top:8px; padding-bottom:8px;
+  background:rgba(18,24,31,.92);
+  -webkit-backdrop-filter:blur(16px) saturate(150%);
+  backdrop-filter:blur(16px) saturate(150%);
+  box-shadow:0 10px 28px -12px rgba(0,0,0,.7);
   border-bottom-color:var(--rail);
+  align-items:center;
 }
+/* Ensure header stats stays visible while scrolling */
 .topbar.header-hidden{
-  transform:translate3d(0,-100%,0);
-  -webkit-transform:translate3d(0,-100%,0);
-  box-shadow:none;
+  transform:translate3d(0,0,0);
+  -webkit-transform:translate3d(0,0,0);
+  box-shadow:0 10px 28px -12px rgba(0,0,0,.7);
 }
 
-/* ---- Word / Drill / Mastered counters, shown as a compact strip
-   under the brand row. Shrinks in step with the rest of the header
-   once .scrolled kicks in, and rides along with it when the header
-   hides/reveals on scroll. ---- */
+/* ---- Word / Drill / Mastered counters — Always styled as a sleek pill shape ---- */
 .header-stats{
-  display:flex; gap:20px; align-items:baseline;
-  flex-basis:100%;
+  display:inline-flex;
+  align-items:center;
+  gap:2px;
+  background:rgba(26, 34, 46, 0.88);
+  border:1px solid var(--glass-border);
+  border-radius:999px;
+  padding:4px 8px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
   margin-top:10px;
-  transition:margin .25s ease, gap .25s ease;
+  flex-basis:auto;
+  user-select:none;
+  transition:all .25s cubic-bezier(.2,.9,.3,1);
+}
+.header-stats:hover{
+  border-color:var(--brass);
+  box-shadow:0 6px 20px rgba(0,0,0,0.45);
 }
 .header-stats .hs-item{
-  text-align:left;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:4px 10px;
+  margin:0;
+  border-radius:999px;
   cursor:pointer;
-  padding:3px 6px;
-  margin:-3px -6px;
-  border-radius:6px;
   transition:background .2s ease, transform .15s ease;
 }
 .header-stats .hs-item:hover{
-  background:rgba(255,255,255,.07);
-  transform:translateY(-1px);
+  background:rgba(255,255,255,.1);
+  transform:scale(1.02);
 }
 .header-stats .hs-item:active{
-  transform:translateY(0);
+  transform:scale(0.98);
+}
+.header-stats .hs-item + .hs-item{
+  border-left:1px solid rgba(255,255,255,0.12);
+  padding-left:10px;
 }
 .header-stats .hs-n{
-  font-family:var(--mono); font-size:1.05rem; font-weight:600; line-height:1.1;
-  display:block; color:var(--paper);
-  transition:font-size .25s ease;
+  font-family:var(--mono); font-size:0.84rem; font-weight:700; line-height:1;
+  display:inline; color:var(--paper);
 }
-.header-stats .hs-n.mastered{ color:var(--sage); display:flex; align-items:center; gap:5px; }
+.header-stats .hs-n.mastered{ color:var(--sage); display:inline-flex; align-items:center; gap:5px; }
 .header-stats .hs-n.mastered::after{
   content:"";
   display:inline-block;
@@ -162,13 +180,28 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
   box-shadow:0 0 6px var(--sage);
 }
 .header-stats .hs-l{
-  font-size:.54rem; text-transform:uppercase; letter-spacing:.12em; color:var(--ink-muted);
-  transition:font-size .25s ease;
+  font-size:0.56rem; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-muted);
+  line-height:1; display:inline;
 }
-.topbar.scrolled .header-stats{ margin-top:5px; gap:14px; }
-.topbar.scrolled .header-stats .hs-n{ font-size:.85rem; }
-.topbar.scrolled .header-stats .hs-l{ font-size:.48rem; }
-body.in-session .header-stats{ display:none; }
+
+/* Scrolled refinement */
+.topbar.scrolled .header-stats{
+  margin-top:0;
+  margin-left:6px;
+  padding:3px 6px;
+}
+.topbar.scrolled .header-stats .hs-item{
+  padding:3px 8px;
+}
+.topbar.scrolled .header-stats .hs-n{
+  font-size:0.78rem;
+}
+.topbar.scrolled .header-stats .hs-l{
+  font-size:0.52rem;
+}
+
+/* Hidden ONLY inside drill session / study view */
+body.in-session .header-stats{ display:none !important; }
 
 .brand{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
 
@@ -3315,37 +3348,24 @@ function initHeroScrollEffect() {
   apply();
 }
 
-// ---- header scroll effect: shrink logo, hide title, stay fixed on top ----
+// ---- header scroll effect: shrink logo, hide title, transform stats into a floating pill ----
 function initHeaderScrollEffect() {
   const topbar = el('.topbar');
   if (!topbar) return;
 
-  const ENTER = 28;       // scroll past this to collapse (compact header)
-  const EXIT = 14;        // scroll back above this to fully expand again
-  const HIDE_AFTER = 140; // don't start tucking the header away until
-                           // scrolled down at least this far, so it
-                           // doesn't vanish on the first small nudge
-  const DIR_SLOP = 4;     // ignore sub-pixel/jitter deltas as "direction"
+  const ENTER = 28; // scroll past this to collapse into pill header
+  const EXIT = 14;  // scroll back above this to expand again
   let scrolled = false;
-  let hidden = false;
-  let lastY = Math.max(0, window.scrollY || window.pageYOffset || 0);
   let ticking = false;
 
   function apply() {
     ticking = false;
     const y = Math.max(0, window.scrollY || window.pageYOffset || 0);
-    const dy = y - lastY;
 
     if (!scrolled && y > ENTER) scrolled = true;
     else if (scrolled && y < EXIT) scrolled = false;
 
-    if (dy > DIR_SLOP && y > HIDE_AFTER) hidden = true;
-    else if (dy < -DIR_SLOP || y < EXIT) hidden = false;
-
     topbar.classList.toggle('scrolled', scrolled);
-    topbar.classList.toggle('header-hidden', hidden);
-
-    lastY = y;
   }
 
   window.addEventListener('scroll', () => {
