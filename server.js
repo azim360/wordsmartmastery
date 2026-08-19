@@ -9,6 +9,18 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = 3000;
 
+// Prevent stale caching for Service Worker and SPA entrypoint so users get updates instantly
+app.use((req, res, next) => {
+  if (req.path === '/sw.js') {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+  } else if (req.path === '/' || req.path === '/index.html') {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  }
+  next();
+});
+
 // Serve static assets from root and handle icons alias
 app.use(express.static(__dirname));
 app.use('/icons', express.static(__dirname));

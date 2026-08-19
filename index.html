@@ -7,6 +7,18 @@
 <meta name="description" content="793 words across 16 study drills, presented as a library catalog of flashcards.">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#12181f">
+<link rel="icon" type="image/svg+xml" href="icons/logo.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/logo-192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/logo-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/logo-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/logo-180.png">
+<link rel="apple-touch-icon" sizes="192x192" href="icons/logo-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="icons/logo-512.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Word Smart">
+<meta name="application-name" content="Word Smart">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -81,15 +93,20 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
 
 /* Block Selection/Copying on Top Bar */
 .topbar{
-  display:flex; align-items:flex-end; justify-content:space-between;
+  display:flex; align-items:flex-end; justify-content:flex-start;
   gap:24px; margin-bottom:12px; flex-wrap:wrap;
   border-bottom:1px solid var(--rail);
-  padding:14px 0 22px;
+  /* Right padding only needs to clear the fixed search/menu pill */
+  padding:14px 118px 22px 0;
   user-select: none;
   -webkit-user-select: none;
   position:sticky; top:0; z-index:600;
   background:var(--ink);
-  transition:padding .25s ease, background .25s ease, box-shadow .25s ease, border-color .25s ease;
+  will-change:transform;
+  transform:translate3d(0,0,0);
+  -webkit-transform:translate3d(0,0,0);
+  transition:padding .25s ease, background .25s ease, box-shadow .25s ease,
+    border-color .25s ease, transform .32s cubic-bezier(.22,.9,.35,1);
 }
 .topbar.scrolled{
   padding-top:10px; padding-bottom:10px;
@@ -99,6 +116,37 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
   box-shadow:0 12px 28px -16px rgba(0,0,0,.6);
   border-bottom-color:var(--rail);
 }
+.topbar.header-hidden{
+  transform:translate3d(0,-100%,0);
+  -webkit-transform:translate3d(0,-100%,0);
+  box-shadow:none;
+}
+
+/* ---- Word / Drill / Mastered counters, shown as a compact strip
+   under the brand row. Shrinks in step with the rest of the header
+   once .scrolled kicks in, and rides along with it when the header
+   hides/reveals on scroll. ---- */
+.header-stats{
+  display:flex; gap:30px; align-items:baseline;
+  flex-basis:100%;
+  margin-top:16px;
+  transition:margin .25s ease, gap .25s ease;
+}
+.header-stats .hs-item{ text-align:left; }
+.header-stats .hs-n{
+  font-family:var(--mono); font-size:1.3rem; font-weight:600; line-height:1.1;
+  display:block; color:var(--paper);
+  transition:font-size .25s ease;
+}
+.header-stats .hs-n.mastered{ color:var(--sage); }
+.header-stats .hs-l{
+  font-size:.62rem; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-muted);
+  transition:font-size .25s ease;
+}
+.topbar.scrolled .header-stats{ margin-top:8px; gap:20px; }
+.topbar.scrolled .header-stats .hs-n{ font-size:1rem; }
+body.in-session .header-stats{ display:none; }
+
 .brand{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
 
 .brand-logo{ transition:width .25s ease, height .25s ease; flex:none; }
@@ -118,14 +166,20 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
 .brand h1 em{ font-style:italic; color:var(--brass-hi); font-weight:500; }
 .tagline{ font-size:.86rem; color:var(--ink-muted); margin-top:6px; max-width:46ch; }
 
-.header-actions { display:flex; align-items:center; gap:26px; flex-wrap:wrap; margin-left:auto; justify-content:flex-end; }
-.stat-strip{ display:flex; gap:26px; }
-.stat{ text-align:right; }
-.stat .n{ font-family:var(--mono); font-size:1.35rem; color:var(--paper); display:block; line-height:1.1; transition:font-size .25s ease; }
-.stat .l{ font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-muted); transition:font-size .25s ease; }
-.topbar.scrolled .stat-strip{ gap:16px; }
-.topbar.scrolled .stat .n{ font-size:1.02rem; }
-.topbar.scrolled .stat .l{ font-size:.58rem; letter-spacing:.1em; }
+/* Floating, fixed to the viewport's top-right corner — independent of
+   the topbar and unaffected by scrolling, page, or view. */
+.header-actions{
+  position:fixed;
+  top:calc(14px + env(safe-area-inset-top, 0px));
+  right:calc(16px + env(safe-area-inset-right, 0px));
+  z-index:950;
+  display:flex; align-items:center;
+}
+
+/* Hidden while inside a drill/summary session — only the floating
+   search + menu pill stays up, so the brand title/Sign In don't
+   clutter the study screen. */
+body.in-session .topbar{ display:none; }
 
 /* ============ HERO SECTION & LOGO ============ */
 .hero-section {
@@ -139,6 +193,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
   max-width: 100%;
   height: auto;
   margin-bottom: -10px;
+  will-change: transform, opacity;
+  transform: scale(var(--hero-scale, 1)) translateZ(0);
+  opacity: var(--hero-opacity, 1);
 }
 .hero-title {
   font-family: var(--serif);
@@ -157,8 +214,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
   line-height: 1.5;
   margin: 0 auto;
   will-change: transform, opacity;
-  transform: scale(var(--hero-scale, 1)) translateZ(0);
-  opacity: var(--hero-opacity, 1);
+  transform: translateY(calc((1 - var(--tagline-opacity, 1)) * -12px)) translateZ(0);
+  opacity: var(--tagline-opacity, 1);
 }
 .dev-badge {
   font-family: var(--mono);
@@ -281,6 +338,104 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
   backdrop-filter: blur(10px); transition: opacity .25s ease, transform .25s ease;
 }
 .sync-toast.hidden { opacity: 0; pointer-events: none; transform: translateX(-50%) translateY(12px); }
+
+/* ============ UPDATE NOTIFICATION BANNER ============ */
+.update-banner {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2500;
+  width: 92%;
+  max-width: 520px;
+  animation: slideDownUpdate 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.update-banner.hidden {
+  display: none !important;
+}
+@keyframes slideDownUpdate {
+  from { opacity: 0; transform: translateX(-50%) translateY(-24px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+.update-banner-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(27, 37, 48, 0.96);
+  border: 1px solid var(--brass);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 12px 16px;
+  backdrop-filter: blur(16px);
+}
+.update-banner-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(201, 151, 76, 0.16);
+  border: 1px solid var(--brass);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+.update-banner-info {
+  flex: 1;
+  min-width: 0;
+}
+.update-banner-title {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--ink-text);
+}
+.update-banner-desc {
+  font-size: 0.76rem;
+  color: var(--ink-muted);
+  margin-top: 2px;
+  line-height: 1.3;
+}
+.update-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+.update-action-btn {
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.update-action-btn.primary {
+  background: var(--brass);
+  color: var(--ink);
+  padding: 8px 14px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+.update-action-btn.primary:hover {
+  background: var(--brass-hi);
+  transform: scale(1.02);
+}
+.update-action-btn.dismiss {
+  background: transparent;
+  color: var(--ink-muted);
+  font-size: 1.2rem;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 50%;
+}
+.update-action-btn.dismiss:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--ink-text);
+}
 /* =============================================== */
 
 /* ============ SIDE MENU (HAMBURGER) ============ */
@@ -894,6 +1049,190 @@ footer.site-foot{
 }
 .glass:hover{ border-color:var(--brass); }
 
+/* ============ MISTAKES / STUDY AGAIN SECTION ============ */
+.mistakes-banner {
+  margin: 0 auto 38px auto;
+  max-width: 860px;
+  border-radius: 14px;
+  padding: 20px 24px;
+  border: 1px solid rgba(227,181,108,0.25);
+  background: linear-gradient(135deg, rgba(32,42,54,0.92), rgba(24,31,40,0.95));
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  transition: all 0.25s ease;
+}
+.mistakes-banner:hover {
+  border-color: var(--brass);
+}
+.mistakes-banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.mistakes-badge-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1 1 320px;
+}
+.mistakes-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: rgba(176,70,63,0.18);
+  border: 1px solid rgba(176,70,63,0.35);
+  color: var(--stamp-red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+.mistakes-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mistakes-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--serif);
+  font-size: 1.22rem;
+  color: var(--paper);
+  font-weight: 600;
+}
+.mistakes-count-chip {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: var(--stamp-red);
+  color: #fff;
+  font-weight: 600;
+}
+.mistakes-count-chip.zero {
+  background: var(--rail);
+  color: var(--ink-muted);
+}
+.mistakes-desc {
+  font-size: 0.86rem;
+  color: var(--ink-muted);
+  line-height: 1.4;
+}
+.mistakes-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+}
+.mistakes-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+  min-height: 42px;
+}
+.mistakes-btn.study-btn {
+  background: var(--brass);
+  color: var(--ink);
+  border: 1px solid var(--brass-hi);
+}
+.mistakes-btn.study-btn:hover:not(:disabled) {
+  background: var(--brass-hi);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(227,181,108,0.3);
+}
+.mistakes-btn.list-btn {
+  background: var(--panel-2);
+  color: var(--ink-text);
+  border: 1px solid var(--rail);
+}
+.mistakes-btn.list-btn:hover:not(:disabled) {
+  border-color: var(--brass);
+  color: var(--brass-hi);
+  transform: translateY(-2px);
+}
+.mistakes-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Mistakes list dropdown/expansion */
+.mistakes-list-container {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--rail);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mistakes-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  color: var(--brass-hi);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.mistakes-close-list-btn {
+  background: transparent;
+  border: none;
+  color: var(--ink-muted);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+}
+.mistakes-close-list-btn:hover { color: var(--paper); }
+.mistakes-items-scroll {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 10px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.mistake-item-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--panel);
+  border: 1px solid var(--rail);
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.mistake-item-pill:hover {
+  border-color: var(--brass);
+  background: var(--panel-2);
+  transform: translateY(-1px);
+}
+.mistake-item-word {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--paper);
+}
+.mistake-item-meta {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--stamp-red);
+}
+
 @media (prefers-reduced-motion: reduce){
   *{ transition:none !important; animation:none !important; }
 }
@@ -901,6 +1240,25 @@ footer.site-foot{
 </head>
 <body>
 <div class="app">
+
+  <!-- ============ UPDATE NOTIFICATION BANNER ============ -->
+  <div id="update-banner" class="update-banner hidden">
+    <div class="update-banner-card glass">
+      <div class="update-banner-icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brass-hi)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+        </svg>
+      </div>
+      <div class="update-banner-info">
+        <div class="update-banner-title">Update Ready!</div>
+        <div class="update-banner-desc">New improvements &amp; features are ready to install.</div>
+      </div>
+      <div class="update-banner-actions">
+        <button id="update-banner-btn" class="update-action-btn primary" type="button">Update Now</button>
+        <button id="update-banner-dismiss" class="update-action-btn dismiss" type="button" aria-label="Dismiss">&times;</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ============ SIDE MENU (HAMBURGER) ============ -->
   <div id="menu-backdrop" class="menu-backdrop"></div>
@@ -915,6 +1273,18 @@ footer.site-foot{
         <a href="#" class="nav-link" id="nav-sync-menu-btn">
           <span id="side-menu-auth-label">Cloud Sync</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+        </a>
+        <a href="#" class="nav-link" id="nav-mistakes-menu-btn">
+          <span>Mistakes &amp; Review</span>
+          <span id="side-menu-mistakes-badge" class="mistakes-count-chip zero">0</span>
+        </a>
+        <a href="#" class="nav-link" id="nav-check-update">
+          <span>Check for Updates</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+        </a>
+        <a href="#" class="nav-link hidden" id="nav-install-app">
+          <span>Install Web App</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         </a>
         <a href="#" class="nav-link" id="nav-about">About
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
@@ -960,59 +1330,59 @@ footer.site-foot{
       </svg>
       <h1>Word Smart 1 &amp; 2 <em>Mastery</em></h1>
     </div>
-    
-    <div class="header-actions">
-      <div class="stat-strip">
-        <div class="stat"><span class="n" id="stat-words">0</span><span class="l">Words</span></div>
-        <div class="stat"><span class="n" id="stat-drills">0</span><span class="l">Drills</span></div>
-        <div class="stat"><span class="n" id="stat-progress" style="color:var(--sage)">0%</span><span class="l">Mastered</span></div>
+
+    <!-- Sign In button & User Pill -->
+    <button id="nav-login-btn" class="ctrl-btn" style="background: var(--brass); color: var(--ink); border: none; font-weight: 600; margin-left: auto;">Sign In</button>
+
+    <div id="user-pill" class="user-pill hidden" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false" title="Account & Sync" style="margin-left: auto;">
+      <div class="user-avatar" id="user-avatar">?</div>
+      <div class="user-info">
+        <span class="user-name" id="user-name">User</span>
+        <span class="sync-status synced" id="sync-status"><span class="sync-dot"></span><span id="sync-status-text">Synced</span></span>
       </div>
-      
-      <div class="auth-strip">
-        <button id="nav-login-btn" class="ctrl-btn" style="background: var(--brass); color: var(--ink); border: none; font-weight: 600;">Sign In</button>
-
-        <div id="user-pill" class="user-pill hidden" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false" title="Account & Sync">
-          <div class="user-avatar" id="user-avatar">?</div>
-          <div class="user-info">
-            <span class="user-name" id="user-name">User</span>
-            <span class="sync-status synced" id="sync-status"><span class="sync-dot"></span><span id="sync-status-text">Synced</span></span>
-          </div>
-          <div class="user-dropdown hidden" id="user-dropdown">
-            <div class="dropdown-header">
-              <div class="dropdown-email" id="dropdown-user-email">user@example.com</div>
-              <div class="dropdown-sub" id="dropdown-sync-sub">Sync active across devices</div>
-            </div>
-            <div class="dropdown-divider"></div>
-            <button class="dropdown-item" id="manual-sync-btn" type="button">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
-              <span>Sync Now</span>
-            </button>
-            <button class="dropdown-item danger" id="signout-btn" type="button">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
-              <span>Sign Out</span>
-            </button>
-          </div>
+      <div class="user-dropdown hidden" id="user-dropdown">
+        <div class="dropdown-header">
+          <div class="dropdown-email" id="dropdown-user-email">user@example.com</div>
+          <div class="dropdown-sub" id="dropdown-sync-sub">Sync active across devices</div>
         </div>
-
-        <!-- Search + Hamburger fused into a single liquid-glass pill.
-             The topbar is position:sticky, so this pill stays pinned
-             to the top-right corner for the whole scroll. -->
-        <div class="quick-actions glass" id="quick-actions">
-          <button id="header-search-btn" class="quick-action-btn" aria-label="Search">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          </button>
-          <span class="quick-actions-divider" aria-hidden="true"></span>
-          <button id="hamburger-btn" class="quick-action-btn" aria-label="Open menu">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-          </button>
-        </div>
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item" id="manual-sync-btn" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+          <span>Sync Now</span>
+        </button>
+        <button class="dropdown-item danger" id="signout-btn" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+          <span>Sign Out</span>
+        </button>
       </div>
     </div>
+
+    <!-- Word / drill / mastered counters — collapse in step with the
+         rest of the header via .topbar.scrolled, and hide entirely
+         with it in .topbar.header-hidden. -->
+    <div class="header-stats" id="header-stats">
+      <div class="hs-item"><span class="hs-n" id="stat-words">0</span><span class="hs-l">Words</span></div>
+      <div class="hs-item"><span class="hs-n" id="stat-drills">0</span><span class="hs-l">Drills</span></div>
+      <div class="hs-item"><span class="hs-n mastered" id="stat-progress">0%</span><span class="hs-l">Mastered</span></div>
+    </div>
   </header>
+
+  <!-- Floating, fixed search + menu pill -->
+  <div class="header-actions" id="header-actions">
+    <div class="quick-actions glass" id="quick-actions">
+      <button id="header-search-btn" class="quick-action-btn" aria-label="Search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <span class="quick-actions-divider" aria-hidden="true"></span>
+      <button id="hamburger-btn" class="quick-action-btn" aria-label="Open menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
 
   <!-- ============ HOME ============ -->
   <div id="home-view">
@@ -1048,6 +1418,45 @@ footer.site-foot{
         </svg>
       </button>
       <div id="search-results"></div>
+    </div>
+
+    <!-- MISTAKES / STUDY AGAIN SECTION -->
+    <div class="mistakes-banner glass" id="mistakes-banner">
+      <div class="mistakes-banner-content">
+        <div class="mistakes-badge-wrap">
+          <div class="mistakes-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+            </svg>
+          </div>
+          <div class="mistakes-text">
+            <div class="mistakes-title">
+              <span>Mistakes Review</span>
+              <span class="mistakes-count-chip zero" id="mistakes-count-badge">0 Words</span>
+            </div>
+            <div class="mistakes-desc" id="mistakes-desc">Words you marked &ldquo;Study again&rdquo; across all drills for targeted practice.</div>
+          </div>
+        </div>
+        <div class="mistakes-actions">
+          <button class="mistakes-btn study-btn" id="mistakes-study-btn" type="button">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            <span>Practice Mistakes</span>
+          </button>
+          <button class="mistakes-btn list-btn" id="mistakes-list-btn" type="button">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <span>View All</span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Collapsible Mistakes Words Drawer/Preview list -->
+      <div class="mistakes-list-container hidden" id="mistakes-list-container">
+        <div class="mistakes-list-header">
+          <span>All Study Again Vocabulary (<span id="mistakes-list-count">0</span>)</span>
+          <button class="mistakes-close-list-btn" id="mistakes-close-list-btn" type="button" aria-label="Close list">&times;</button>
+        </div>
+        <div class="mistakes-items-scroll" id="mistakes-items-scroll"></div>
+      </div>
     </div>
 
     <!-- Section 1: Word Smart 1 -->
@@ -1249,6 +1658,102 @@ function decryptData(b64Str) {
   return result;
 }
 
+// Auto-migrate legacy user progress from previous versions and caches without data loss
+function migrateLegacyUserData() {
+  try {
+    const KNOWN_STORAGE_KEYS = [
+      'wordsmart1_progress',
+      'wordsmart_progress',
+      'wordsmart_drill_progress',
+      'ws_progress',
+      'drill_progress',
+      'word_smart_progress',
+      'word_smart_1_progress'
+    ];
+
+    let mergedData = {};
+    let foundLegacy = false;
+
+    // 1. Read current active storage
+    const currentRaw = localStorage.getItem(STORAGE_KEY);
+    if (currentRaw) {
+      try {
+        if (currentRaw.startsWith('{')) {
+          mergedData = JSON.parse(currentRaw);
+        } else {
+          mergedData = JSON.parse(decryptData(currentRaw));
+        }
+      } catch (e) {}
+    }
+
+    // 2. Scan all known legacy keys
+    KNOWN_STORAGE_KEYS.forEach(key => {
+      if (key === STORAGE_KEY) return;
+      const raw = localStorage.getItem(key);
+      if (raw) {
+        try {
+          let parsed = null;
+          if (raw.startsWith('{')) {
+            parsed = JSON.parse(raw);
+          } else {
+            try { parsed = JSON.parse(decryptData(raw)); } catch(e) {}
+          }
+          if (parsed && typeof parsed === 'object') {
+            foundLegacy = true;
+            Object.keys(parsed).forEach(drillNum => {
+              mergedData[drillNum] = { ...(parsed[drillNum] || {}), ...(mergedData[drillNum] || {}) };
+            });
+          }
+        } catch(err) {
+          console.warn('Error reading legacy storage key:', key, err);
+        }
+      }
+    });
+
+    // 3. Scan individual drill keys (e.g. ws_drill_1, drill_1)
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (!k) continue;
+      const match = k.match(/^(?:ws_)?drill[_-]?(\d+)$/i);
+      if (match) {
+        const drillNum = parseInt(match[1], 10);
+        const val = localStorage.getItem(k);
+        if (val) {
+          try {
+            const parsed = JSON.parse(val.startsWith('{') ? val : decryptData(val));
+            if (parsed && typeof parsed === 'object') {
+              foundLegacy = true;
+              mergedData[drillNum] = { ...parsed, ...(mergedData[drillNum] || {}) };
+            }
+          } catch(e) {}
+        }
+      }
+    }
+
+    // 4. If legacy data was discovered or unencrypted, encrypt & save to current format
+    if (foundLegacy || (currentRaw && currentRaw.startsWith('{'))) {
+      localStorage.setItem(STORAGE_KEY, encryptData(JSON.stringify(mergedData)));
+      console.log('Legacy user study progress successfully migrated and encrypted.');
+    }
+
+    // 5. Clean up old obsolete cache names from window.caches if any exist
+    if ('caches' in window) {
+      caches.keys().then(names => {
+        names.forEach(name => {
+          if (name !== 'wordsmart-cache-v4') {
+            console.log('Purging obsolete cache storage:', name);
+            caches.delete(name);
+          }
+        });
+      }).catch(() => {});
+    }
+
+    localStorage.setItem('wordsmart_version', '4.0.0');
+  } catch(e) {
+    console.warn('Migration check error:', e);
+  }
+}
+
 function loadAllProgress() {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) return {};
@@ -1295,6 +1800,81 @@ function buildDataIndex(rawData) {
   });
 }
 
+function getAllMistakes() {
+  const allProgress = loadAllProgress();
+  const mistakes = [];
+  ALL_CARDS.forEach(card => {
+    const drillProgress = allProgress[card.drill] || {};
+    if (drillProgress[card.seq] === 'again') {
+      mistakes.push(card);
+    }
+  });
+  return mistakes;
+}
+
+function openMistakesDrill(push = true) {
+  const mistakesCards = getAllMistakes();
+  if (mistakesCards.length === 0) {
+    showToast('No mistakes found! Keep up the great work.', '🎉');
+    return;
+  }
+
+  current = {
+    isMistakesDrill: true,
+    drillNum: 'mistakes',
+    cards: mistakesCards,
+    order: mistakesCards.map((_, i) => i),
+    pos: 0,
+    status: {},
+    view: 'card',
+    flipped: false,
+  };
+
+  mistakesCards.forEach(c => {
+    current.status[c.seq] = 'again';
+  });
+
+  el('#home-view').classList.add('hidden');
+  el('#summary-view').classList.add('hidden');
+  el('#study-view').classList.remove('hidden');
+
+  el('#study-title-h2').textContent = `Mistakes Review`;
+  el('#study-title-range').textContent = `${mistakesCards.length} ${mistakesCards.length === 1 ? 'word' : 'words'} marked "Study again"`;
+
+  setMode('card');
+  renderCard();
+
+  if (push) history.pushState({ view: 'study', drillNum: 'mistakes' }, '', '?drill=mistakes');
+}
+
+function renderMistakesList() {
+  const container = el('#mistakes-list-container');
+  const scroll = el('#mistakes-items-scroll');
+  const countEl = el('#mistakes-list-count');
+  if (!container || !scroll) return;
+
+  const mistakes = getAllMistakes();
+  if (countEl) countEl.textContent = mistakes.length;
+
+  if (mistakes.length === 0) {
+    scroll.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:24px;color:var(--ink-muted);font-size:0.9rem;">No words marked as "Study again" currently.</div>`;
+    return;
+  }
+
+  scroll.innerHTML = mistakes.map((card) => `
+    <div class="mistake-item-pill" data-drill="${card.drill}" data-seq="${card.seq}">
+      <span class="mistake-item-word">${card.word}</span>
+      <span class="mistake-item-meta">Drill ${String(card.drill).padStart(2,'0')} · #${card.seq}</span>
+    </div>
+  `).join('');
+
+  scroll.querySelectorAll('.mistake-item-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      jumpToWord(+pill.dataset.drill, +pill.dataset.seq);
+    });
+  });
+}
+
 function renderHome() {
   el('#stat-words').textContent = ALL_CARDS.length;
   el('#stat-drills').textContent = DRILL_META.length;
@@ -1334,6 +1914,39 @@ function renderHome() {
   const totalPct = ALL_CARDS.length ? Math.floor((totalKnown / ALL_CARDS.length) * 100) : 0;
   const statProgress = el('#stat-progress');
   if (statProgress) statProgress.textContent = totalPct + '%';
+
+  // Mistakes Banner & Side-Menu badge update
+  const mistakes = getAllMistakes();
+  const countBadge = el('#mistakes-count-badge');
+  const menuBadge = el('#side-menu-mistakes-badge');
+  const descEl = el('#mistakes-desc');
+  const studyBtn = el('#mistakes-study-btn');
+  const listBtn = el('#mistakes-list-btn');
+
+  if (countBadge) {
+    countBadge.textContent = `${mistakes.length} ${mistakes.length === 1 ? 'Word' : 'Words'}`;
+    countBadge.classList.toggle('zero', mistakes.length === 0);
+  }
+  if (menuBadge) {
+    menuBadge.textContent = mistakes.length;
+    menuBadge.classList.toggle('zero', mistakes.length === 0);
+  }
+
+  if (mistakes.length === 0) {
+    if (descEl) descEl.textContent = 'No mistakes recorded yet. Words you mark \u201cStudy again\u201d in any drill will gather here for targeted practice.';
+    if (studyBtn) studyBtn.disabled = true;
+    if (listBtn) listBtn.disabled = true;
+  } else {
+    if (descEl) descEl.textContent = `${mistakes.length} ${mistakes.length === 1 ? 'word is' : 'words are'} marked \u201cStudy again\u201d across your drills. Tap below to practice or inspect them.`;
+    if (studyBtn) studyBtn.disabled = false;
+    if (listBtn) listBtn.disabled = false;
+  }
+
+  // Refresh mistakes list if expanded
+  const listContainer = el('#mistakes-list-container');
+  if (listContainer && !listContainer.classList.contains('hidden')) {
+    renderMistakesList();
+  }
 }
 
 // ---- session / History API routing ---------------------------
@@ -1348,6 +1961,11 @@ function closeSession(eventOrPush) {
 }
 
 function openDrill(drillNum, opts = {}, push = true) {
+  if (drillNum === 'mistakes') {
+    openMistakesDrill(push);
+    return;
+  }
+
   const cards = DRILLS[drillNum];
   const order = cards.map((_, i) => i);
   const existingStatus = loadAllProgress()[drillNum] || {};
@@ -1389,7 +2007,11 @@ function showSummary(pushArg = true) {
   const againCount = Object.values(current.status).filter(s => s === 'again').length;
   const unseen = total - knownCount - againCount;
   
-  el('#summary-drill-label').textContent = `Drill ${String(current.drillNum).padStart(2,'0')} complete`;
+  if (current.isMistakesDrill) {
+    el('#summary-drill-label').textContent = 'Mistakes Review complete';
+  } else {
+    el('#summary-drill-label').textContent = `Drill ${String(current.drillNum).padStart(2,'0')} complete`;
+  }
   el('#summary-known').textContent = knownCount;
   el('#summary-again').textContent = againCount;
   el('#summary-unseen').textContent = unseen;
@@ -1398,7 +2020,7 @@ function showSummary(pushArg = true) {
   
   if (knownCount === total && total > 0) {
     triggerReward();
-    el('#summary-drill-label').textContent = `🏆 Drill Perfectly Mastered!`;
+    el('#summary-drill-label').textContent = current.isMistakesDrill ? `🏆 All Mistakes Cleared!` : `🏆 Drill Perfectly Mastered!`;
   }
   
   renderHome(); 
@@ -1563,8 +2185,16 @@ function goPrev() {
 function markCard(status) {
   if (!current) return;
   const card = activeCard();
-  current.status[card.seq] = status;
-  saveDrillProgress(current.drillNum, current.status);
+  if (current.isMistakesDrill) {
+    const allProgress = loadAllProgress();
+    const drillProgress = { ...(allProgress[card.drill] || {}) };
+    drillProgress[card.seq] = status;
+    saveDrillProgress(card.drill, drillProgress);
+    current.status[card.seq] = status;
+  } else {
+    current.status[card.seq] = status;
+    saveDrillProgress(current.drillNum, current.status);
+  }
   goNext();
 }
 
@@ -1591,8 +2221,9 @@ function renderList() {
     const st = current.status[card.seq];
     const row = document.createElement('div');
     row.className = 'list-row';
+    const tag = current.isMistakesDrill ? `Drill ${String(card.drill).padStart(2,'0')} · #${card.seq}` : `#${card.seq}`;
     row.innerHTML = `
-      <span class="list-seq">#${card.seq}</span>
+      <span class="list-seq">${tag}</span>
       <span class="list-word">${card.word}</span>
       <span class="list-status ${st || 'unseen'}">${st ? st : '\u2014'}</span>
     `;
@@ -1676,7 +2307,9 @@ function initEvents() {
     if (!state || state.view === 'home') {
       closeSession(false);
     } else if (state.view === 'study') {
-      if (!current || current.drillNum !== state.drillNum) {
+      if (state.drillNum === 'mistakes') {
+        openMistakesDrill(false);
+      } else if (!current || current.drillNum !== state.drillNum) {
         openDrill(state.drillNum, state.opts || {}, false);
       } else {
         el('#home-view').classList.add('hidden');
@@ -1838,6 +2471,29 @@ function initEvents() {
            e.preventDefault();
            closeSession(true);
        }
+       else if (e.currentTarget.id === 'nav-mistakes-menu-btn') {
+           e.preventDefault();
+           closeMenu();
+           if (el('#study-view').classList.contains('hidden') && el('#summary-view').classList.contains('hidden')) {
+             const banner = el('#mistakes-banner');
+             if (banner) {
+               banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+               const list = el('#mistakes-list-container');
+               if (list) {
+                 list.classList.remove('hidden');
+                 renderMistakesList();
+               }
+             }
+           } else {
+             const mistakes = getAllMistakes();
+             if (mistakes.length > 0) {
+               openMistakesDrill(true);
+             } else {
+               closeSession(true);
+               showToast('No mistakes recorded currently!', '🎉');
+             }
+           }
+       }
        else if (e.currentTarget.id === 'nav-sync-menu-btn') {
            e.preventDefault();
            const user = window.SyncService?.currentUser;
@@ -1845,6 +2501,45 @@ function initEvents() {
              el('#user-pill')?.click();
            } else {
              el('#auth-modal')?.classList.remove('hidden');
+           }
+       }
+       else if (e.currentTarget.id === 'nav-check-update') {
+           e.preventDefault();
+           showToast('Checking for updates…', '🔄', 2000);
+           if ('serviceWorker' in navigator) {
+             navigator.serviceWorker.getRegistration().then(reg => {
+               if (reg) {
+                 reg.update().then(() => {
+                   if (reg.waiting) {
+                     showUpdateNotification(reg.waiting);
+                   } else if (!reg.installing) {
+                     showToast('You are running the latest version!', '✨', 2500);
+                   }
+                 }).catch(() => {
+                   showToast('You are on the latest version.', '✨', 2500);
+                 });
+               } else {
+                 showToast('You are on the latest version.', '✨', 2500);
+               }
+             });
+           } else {
+             showToast('You are on the latest version.', '✨', 2500);
+           }
+           migrateLegacyUserData();
+           renderHome();
+       }
+       else if (e.currentTarget.id === 'nav-install-app') {
+           e.preventDefault();
+           if (deferredInstallPrompt) {
+             deferredInstallPrompt.prompt();
+             deferredInstallPrompt.userChoice.then((choiceResult) => {
+               if (choiceResult.outcome === 'accepted') {
+                 showToast('Installing Word Smart app…', '📲', 2500);
+               }
+               deferredInstallPrompt = null;
+             });
+           } else {
+             showToast('To install: tap Share or Browser Menu -> "Add to Home screen"', '📲', 4000);
            }
        }
        else if (e.currentTarget.id === 'nav-about') {
@@ -1974,22 +2669,59 @@ function initEvents() {
     });
   }
 
+  // === Mistakes Review Events ===
+  el('#mistakes-study-btn')?.addEventListener('click', () => {
+    openMistakesDrill(true);
+  });
+
+  el('#mistakes-list-btn')?.addEventListener('click', () => {
+    const list = el('#mistakes-list-container');
+    if (list) {
+      const willOpen = list.classList.contains('hidden');
+      list.classList.toggle('hidden', !willOpen);
+      if (willOpen) renderMistakesList();
+    }
+  });
+
+  el('#mistakes-close-list-btn')?.addEventListener('click', () => {
+    el('#mistakes-list-container')?.classList.add('hidden');
+  });
+
   el('#card-mode-btn').addEventListener('click', () => setMode('card'));
   el('#list-mode-btn').addEventListener('click', () => setMode('list'));
 
   el('#judge-again').addEventListener('click', () => markCard('again'));
   el('#judge-known').addEventListener('click', () => markCard('known'));
 
-  el('#restart-btn').addEventListener('click', () => openDrill(current.drillNum));
+  el('#restart-btn').addEventListener('click', () => {
+    if (current && current.isMistakesDrill) {
+      openMistakesDrill(true);
+    } else if (current) {
+      openDrill(current.drillNum);
+    }
+  });
+
   el('#summary-review-btn').addEventListener('click', () => {
+    if (!current) return;
     const reviewSeqs = Object.entries(current.status)
       .filter(([,s]) => s === 'again').map(([seq]) => +seq);
-    const cards = DRILLS[current.drillNum];
-    const order = cards
-      .map((c, i) => ({c, i}))
-      .filter(x => reviewSeqs.includes(x.c.seq))
-      .map(x => x.i);
-    openDrill(current.drillNum, { order });
+
+    if (current.isMistakesDrill) {
+      const cards = current.cards.filter(c => reviewSeqs.includes(c.seq));
+      current.cards = cards;
+      current.order = cards.map((_, i) => i);
+      current.pos = 0;
+      el('#summary-view').classList.add('hidden');
+      el('#study-view').classList.remove('hidden');
+      renderCard();
+    } else {
+      const cards = DRILLS[current.drillNum];
+      const order = cards
+        .map((c, i) => ({c, i}))
+        .filter(x => reviewSeqs.includes(x.c.seq))
+        .map(x => x.i);
+      openDrill(current.drillNum, { order });
+    }
   });
 
   document.addEventListener('keydown', (e) => {
@@ -2004,39 +2736,132 @@ function initEvents() {
   });
 }
 
+// ---- PWA Install & Update Lifecycle -------------------------
+let deferredInstallPrompt = null;
+let waitingWorkerInstance = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  const installLink = document.getElementById('nav-install-app');
+  if (installLink) installLink.classList.remove('hidden');
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredInstallPrompt = null;
+  const installLink = document.getElementById('nav-install-app');
+  if (installLink) installLink.classList.add('hidden');
+  showToast('Word Smart app installed successfully!', '🎉', 3500);
+});
+
+function showUpdateNotification(worker) {
+  waitingWorkerInstance = worker;
+  const banner = document.getElementById('update-banner');
+  if (banner) {
+    banner.classList.remove('hidden');
+  }
+}
+
+function applyAppUpdate() {
+  showToast('Updating to latest version…', '🚀', 2500);
+  if (waitingWorkerInstance) {
+    waitingWorkerInstance.postMessage({ type: 'SKIP_WAITING' });
+  } else if (navigator.serviceWorker) {
+    navigator.serviceWorker.getRegistration().then(reg => {
+      if (reg && reg.waiting) {
+        reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+      } else {
+        window.location.reload();
+      }
+    });
+  } else {
+    window.location.reload();
+  }
+}
+
 function registerServiceWorker() {
+  // Wire update banner buttons
+  document.getElementById('update-banner-btn')?.addEventListener('click', applyAppUpdate);
+  document.getElementById('update-banner-dismiss')?.addEventListener('click', () => {
+    document.getElementById('update-banner')?.classList.add('hidden');
+  });
+
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('sw.js').then(reg => {
-        console.log('WORD SMART 1 Service Worker registered.', reg);
+        console.log('Word Smart Service Worker registered.', reg);
+
+        // Immediate check for updates on startup
+        reg.update().catch(() => {});
+
+        // Periodic background update check every 5 minutes
+        setInterval(() => {
+          reg.update().catch(() => {});
+        }, 5 * 60 * 1000);
+
+        // Re-check for updates whenever user returns to the tab / brings app to foreground
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible') {
+            reg.update().catch(() => {});
+          }
+        });
+
+        // If there's an updated worker already waiting, display update notification banner
+        if (reg.waiting) {
+          showUpdateNotification(reg.waiting);
+        }
+
+        // Listen for newly detected update downloads
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          if (!newWorker) return;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed') {
+              if (navigator.serviceWorker.controller) {
+                // New update installed! Show banner to prompt the user to apply update
+                console.log('New app version detected and ready to activate.');
+                showUpdateNotification(newWorker);
+              }
+            }
+          });
+        });
       }).catch(err => console.log('Service Worker registration failed:', err));
+
+      // When the new service worker activates and claims control, reload cleanly to apply updates
+      let hasReloaded = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (hasReloaded) return;
+        hasReloaded = true;
+        console.log('Service Worker controller changed. Reloading to apply fresh version...');
+        showToast('App updated! Loading latest version…', '✨', 1800);
+        setTimeout(() => {
+          window.location.reload();
+        }, 600);
+      });
     });
   }
 }
 
 // ---- hero scroll effect: zoom + fade 'Word Smart 1 & 2 Mastery' ----
-// Only animates transform (scale) and opacity — both are handled by
-// the compositor, not the main thread, so this stays smooth even on
-// low-end phones. (An earlier version also animated filter: blur()
-// on every scroll frame, which forces a full repaint each frame and
-// was the main cause of stutter on mobile — removed.)
 function initHeroScrollEffect() {
   const heroSection = el('.hero-section');
   if (!heroSection || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  const RANGE = 320; // px of scroll over which the effect fully resolves
+  const RANGE = 320; // px of scroll over which title/graphic fully resolve
+  const TAGLINE_RANGE = 140; // tagline fades out over a shorter distance
   let ticking = false;
 
   function apply() {
     ticking = false;
     const y = Math.max(0, window.scrollY || window.pageYOffset || 0);
     const progress = Math.min(1, y / RANGE);
+    const taglineProgress = Math.min(1, y / TAGLINE_RANGE);
     const scale = 1 + progress * 0.5;      // zooms in up to 1.5x
     const opacity = 1 - progress * 0.85;   // fades out most of the way
-    // Set on the shared container so both the title and the notes
-    // beneath it (hero-tagline) inherit the same zoom/fade.
+    const taglineOpacity = 1 - taglineProgress; // fully gone well before the title
     heroSection.style.setProperty('--hero-scale', scale.toFixed(3));
     heroSection.style.setProperty('--hero-opacity', opacity.toFixed(3));
+    heroSection.style.setProperty('--tagline-opacity', taglineOpacity.toFixed(3));
   }
 
   window.addEventListener('scroll', () => {
@@ -2054,13 +2879,32 @@ function initHeaderScrollEffect() {
   const topbar = el('.topbar');
   if (!topbar) return;
 
-  const THRESHOLD = 24; // px scrolled before the header collapses
+  const ENTER = 28;       // scroll past this to collapse (compact header)
+  const EXIT = 14;        // scroll back above this to fully expand again
+  const HIDE_AFTER = 140; // don't start tucking the header away until
+                           // scrolled down at least this far, so it
+                           // doesn't vanish on the first small nudge
+  const DIR_SLOP = 4;     // ignore sub-pixel/jitter deltas as "direction"
+  let scrolled = false;
+  let hidden = false;
+  let lastY = Math.max(0, window.scrollY || window.pageYOffset || 0);
   let ticking = false;
 
   function apply() {
     ticking = false;
     const y = Math.max(0, window.scrollY || window.pageYOffset || 0);
-    topbar.classList.toggle('scrolled', y > THRESHOLD);
+    const dy = y - lastY;
+
+    if (!scrolled && y > ENTER) scrolled = true;
+    else if (scrolled && y < EXIT) scrolled = false;
+
+    if (dy > DIR_SLOP && y > HIDE_AFTER) hidden = true;
+    else if (dy < -DIR_SLOP || y < EXIT) hidden = false;
+
+    topbar.classList.toggle('scrolled', scrolled);
+    topbar.classList.toggle('header-hidden', hidden);
+
+    lastY = y;
   }
 
   window.addEventListener('scroll', () => {
@@ -2240,6 +3084,7 @@ function showToast(message, icon = '☁️', duration = 2800) {
 }
 
 async function boot() {
+  migrateLegacyUserData();
   buildDataIndex(window.LEXICON_DATA);
   renderHome();
   initEvents();
@@ -2255,10 +3100,14 @@ async function boot() {
   // dumped the user back at Home and threw away the URL — breaking
   // forward/backward navigation on phones.
   const params = new URLSearchParams(window.location.search);
-  const drillParam = parseInt(params.get('drill'), 10);
+  const rawDrill = params.get('drill');
+  const drillParam = parseInt(rawDrill, 10);
   const summaryParam = parseInt(params.get('summary'), 10);
 
-  if (!Number.isNaN(drillParam) && DRILLS[drillParam]) {
+  if (rawDrill === 'mistakes') {
+    openMistakesDrill(false);
+    history.replaceState({ view: 'study', drillNum: 'mistakes' }, '', window.location.pathname + '?drill=mistakes');
+  } else if (!Number.isNaN(drillParam) && DRILLS[drillParam]) {
     openDrill(drillParam, {}, false);
     history.replaceState({ view: 'study', drillNum: drillParam }, '', window.location.pathname + '?drill=' + drillParam);
   } else if (!Number.isNaN(summaryParam) && DRILLS[summaryParam]) {

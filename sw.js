@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wordsmart-cache-v3';
+const CACHE_NAME = 'wordsmart-cache-v5';
 const urlsToCache = [
   './',
   './index.html',
@@ -13,53 +13,99 @@ const urlsToCache = [
   './icons/logo-512-maskable.png'
 ];
 
-// Install the service worker and cache the necessary files
+// Install the service worker, pre-cache core assets, and skip waiting immediately
 self.addEventListener('install', event => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
-      .then(() => self.skipWaiting())
+      .then(cache => cache.addAll(urlsToCache).catch(err => console.warn('Cache addAll warning:', err)))
   );
 });
 
-// Serve cached content when offline, falling back to the network,
-// and caching same-origin GET responses as they come in so new
-// pages (drills opened via ?drill=N, fonts, etc.) work offline too
-// after a first visit.
-self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return;
-
-  event.respondWith(
-    caches.match(event.request).then(cached => {
-      if (cached) return cached;
-
-      return fetch(event.request).then(response => {
-        if (!response || response.status !== 200) return response;
-
-        const isSameOrigin = event.request.url.startsWith(self.location.origin);
-        if (isSameOrigin) {
-          const responseClone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
-        }
-        return response;
-      }).catch(() => cached);
-    })
-  );
-});
-
-// Update the cache if a new version is detected, and take control
-// of already-open tabs immediately instead of waiting for reload.
+// Update the cache if a new version is detected, purge all older caches (v1, v2, v3, etc.),
+// and take control of already-open tabs immediately.
 self.addEventListener('activate', event => {
   const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
-          if (cacheWhitelist.indexOf(cacheName) === -1) {
+          if (!cacheWhitelist.includes(cacheName)) {
+            console.log('[SW] Purging old cache version:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
     }).then(() => self.clients.claim())
   );
+});
+
+// Fetch handler:
+// 1. Navigation / HTML requests: Network-First with Cache Fallback
+//    Ensures old users always receive the latest app updates when online.
+// 2. Static Assets (images, fonts, JSON): Stale-While-Revalidate
+//    Ensures fast instant loads with background freshness.
+self.addEventListener('fetch', event => {
+  if (event.request.method !== 'GET') return;
+
+  const url = new URL(event.request.url);
+  const isSameOrigin = url.origin === self.location.origin;
+
+  // Ignore Firebase API / auth calls from caching
+  if (url.hostname.includes('firebaseio.com') ||
+      url.hostname.includes('googleapis.com') ||
+      url.hostname.includes('identitytoolkit') ||
+      url.pathname.startsWith('/api/')) {
+    return;
+  }
+
+  const isNavigation = event.request.mode === 'navigate' ||
+    (event.request.headers.get('accept') && event.request.headers.get('accept').includes('text/html')) ||
+    url.pathname.endsWith('index.html') ||
+    url.pathname === '/';
+
+  if (isNavigation) {
+    // Network-First for HTML
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          if (response && response.status === 200) {
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
+          }
+          return response;
+        })
+        .catch(() => {
+          // Offline fallback to cached index.html
+          return caches.match(event.request)
+            .then(cached => cached || caches.match('./index.html') || caches.match('./'));
+        })
+    );
+    return;
+  }
+
+  // Stale-While-Revalidate for other static assets
+  event.respondWith(
+    caches.match(event.request).then(cached => {
+      const networkFetch = fetch(event.request).then(response => {
+        if (response && response.status === 200 && isSameOrigin) {
+          const responseClone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
+        }
+        return response;
+      }).catch(() => null);
+
+      return cached || networkFetch;
+    })
+  );
+});
+
+// Message listener for client coordination
+self.addEventListener('message', event => {
+  if (!event.data) return;
+  if (event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  } else if (event.data.type === 'CLEAR_OLD_CACHES') {
+    caches.keys().then(names => Promise.all(names.map(n => n !== CACHE_NAME ? caches.delete(n) : null)));
+  }
 });
