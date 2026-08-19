@@ -127,24 +127,47 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
    once .scrolled kicks in, and rides along with it when the header
    hides/reveals on scroll. ---- */
 .header-stats{
-  display:flex; gap:30px; align-items:baseline;
+  display:flex; gap:20px; align-items:baseline;
   flex-basis:100%;
-  margin-top:16px;
+  margin-top:10px;
   transition:margin .25s ease, gap .25s ease;
 }
-.header-stats .hs-item{ text-align:left; }
+.header-stats .hs-item{
+  text-align:left;
+  cursor:pointer;
+  padding:3px 6px;
+  margin:-3px -6px;
+  border-radius:6px;
+  transition:background .2s ease, transform .15s ease;
+}
+.header-stats .hs-item:hover{
+  background:rgba(255,255,255,.07);
+  transform:translateY(-1px);
+}
+.header-stats .hs-item:active{
+  transform:translateY(0);
+}
 .header-stats .hs-n{
-  font-family:var(--mono); font-size:1.3rem; font-weight:600; line-height:1.1;
+  font-family:var(--mono); font-size:1.05rem; font-weight:600; line-height:1.1;
   display:block; color:var(--paper);
   transition:font-size .25s ease;
 }
-.header-stats .hs-n.mastered{ color:var(--sage); }
+.header-stats .hs-n.mastered{ color:var(--sage); display:flex; align-items:center; gap:5px; }
+.header-stats .hs-n.mastered::after{
+  content:"";
+  display:inline-block;
+  width:5px; height:5px;
+  border-radius:50%;
+  background:var(--sage);
+  box-shadow:0 0 6px var(--sage);
+}
 .header-stats .hs-l{
-  font-size:.62rem; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-muted);
+  font-size:.54rem; text-transform:uppercase; letter-spacing:.12em; color:var(--ink-muted);
   transition:font-size .25s ease;
 }
-.topbar.scrolled .header-stats{ margin-top:8px; gap:20px; }
-.topbar.scrolled .header-stats .hs-n{ font-size:1rem; }
+.topbar.scrolled .header-stats{ margin-top:5px; gap:14px; }
+.topbar.scrolled .header-stats .hs-n{ font-size:.85rem; }
+.topbar.scrolled .header-stats .hs-l{ font-size:.48rem; }
 body.in-session .header-stats{ display:none; }
 
 .brand{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
@@ -338,6 +361,154 @@ body.in-session .topbar{ display:none; }
   backdrop-filter: blur(10px); transition: opacity .25s ease, transform .25s ease;
 }
 .sync-toast.hidden { opacity: 0; pointer-events: none; transform: translateX(-50%) translateY(12px); }
+
+/* ============ MASTERY BREAKDOWN POPUP (PIE CHART) ============ */
+.mastery-box {
+  max-width: 440px;
+  padding: 30px 24px 24px;
+  text-align: left;
+}
+.mastery-modal-header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+.mastery-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--brass-hi);
+  background: rgba(201,151,76,0.12);
+  border: 1px solid rgba(201,151,76,0.25);
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 6px;
+}
+.chart-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--panel-2);
+  border: 1px solid var(--rail);
+  border-radius: 14px;
+  padding: 18px 16px;
+  margin-bottom: 16px;
+}
+.donut-chart-wrap {
+  position: relative;
+  width: 125px;
+  height: 125px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.donut-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+.donut-svg circle {
+  fill: none;
+  stroke-width: 16;
+  transition: stroke-dasharray 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), stroke-dashoffset 0.7s ease;
+}
+.donut-center-info {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  text-align: center;
+}
+.donut-center-pct {
+  font-family: var(--mono);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--paper);
+  line-height: 1.1;
+}
+.donut-center-label {
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--sage);
+  margin-top: 2px;
+}
+.chart-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+.legend-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: none;
+  margin-top: 3px;
+}
+.legend-dot.known { background: var(--sage); box-shadow: 0 0 8px rgba(126,160,131,0.6); }
+.legend-dot.again { background: var(--stamp-red); box-shadow: 0 0 8px rgba(176,70,63,0.6); }
+.legend-dot.unseen { background: var(--rail); }
+.legend-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.legend-title {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--ink-text);
+  line-height: 1.2;
+}
+.legend-val {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+.drills-progress-summary {
+  background: var(--panel-2);
+  border: 1px solid var(--rail);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+}
+.dps-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+}
+.dps-bar-track {
+  height: 6px;
+  background: var(--rail);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.dps-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--brass), var(--sage));
+  transition: width 0.6s ease;
+}
+.mastery-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
 /* ============ UPDATE NOTIFICATION BANNER ============ */
 .update-banner {
@@ -1299,6 +1470,73 @@ footer.site-foot{
     </div>
   </div>
 
+  <!-- ============ MASTERY & PROGRESS PIE CHART MODAL ============ -->
+  <div id="mastery-modal" class="auth-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="mastery-modal-title">
+    <div class="auth-box mastery-box glass">
+      <button class="close-auth" id="close-mastery-btn" aria-label="Close">&times;</button>
+      <div class="mastery-modal-header">
+        <span class="mastery-badge">Progress Analytics</span>
+        <h2 id="mastery-modal-title" style="font-family: var(--serif); margin: 6px 0 2px; font-size: 1.5rem; color: var(--paper);">Mastery Breakdown</h2>
+        <p style="font-size: 0.82rem; color: var(--ink-muted); margin: 0;">Detailed status across all 793 words</p>
+      </div>
+
+      <!-- Pie/Donut Chart Container -->
+      <div class="chart-section">
+        <div class="donut-chart-wrap">
+          <svg id="mastery-donut-svg" viewBox="0 0 120 120" class="donut-svg">
+            <circle cx="60" cy="60" r="48" stroke="var(--rail)" />
+            <circle id="donut-arc-again" cx="60" cy="60" r="48" stroke="var(--stamp-red)" stroke-dasharray="0 301.6" stroke-dashoffset="0" />
+            <circle id="donut-arc-known" cx="60" cy="60" r="48" stroke="var(--sage)" stroke-dasharray="0 301.6" stroke-dashoffset="0" />
+          </svg>
+          <div class="donut-center-info">
+            <span class="donut-center-pct" id="donut-center-pct">0%</span>
+            <span class="donut-center-label">Mastered</span>
+          </div>
+        </div>
+
+        <!-- Legend / Stats List -->
+        <div class="chart-legend">
+          <div class="legend-item" id="legend-known-row">
+            <span class="legend-dot known"></span>
+            <div class="legend-info">
+              <span class="legend-title">Got It (Mastered)</span>
+              <span class="legend-val" id="legend-known-count">0 / 793 (0%)</span>
+            </div>
+          </div>
+          <div class="legend-item" id="legend-again-row">
+            <span class="legend-dot again"></span>
+            <div class="legend-info">
+              <span class="legend-title">Study Again (Mistakes)</span>
+              <span class="legend-val" id="legend-again-count">0 words (0%)</span>
+            </div>
+          </div>
+          <div class="legend-item" id="legend-unseen-row">
+            <span class="legend-dot unseen"></span>
+            <div class="legend-info">
+              <span class="legend-title">Unseen / To Study</span>
+              <span class="legend-val" id="legend-unseen-count">793 words (100%)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mini Drill Progress Summary -->
+      <div class="drills-progress-summary">
+        <div class="dps-header">
+          <span>Drills Fully Mastered</span>
+          <span id="dps-drills-stat" style="font-family: var(--mono); color: var(--brass-hi); font-weight: 600;">0 of 16 Drills</span>
+        </div>
+        <div class="dps-bar-track">
+          <div class="dps-bar-fill" id="dps-bar-fill" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <div class="mastery-actions">
+        <button id="mastery-action-btn" class="oauth-btn" style="background: var(--brass); color: var(--ink); font-weight:600; border:none;" type="button">Study Vocabulary</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ============ AUTHENTICATION MODAL ============ -->
   <div id="auth-modal" class="auth-overlay hidden">
     <div class="auth-box">
@@ -1360,10 +1598,10 @@ footer.site-foot{
     <!-- Word / drill / mastered counters — collapse in step with the
          rest of the header via .topbar.scrolled, and hide entirely
          with it in .topbar.header-hidden. -->
-    <div class="header-stats" id="header-stats">
-      <div class="hs-item"><span class="hs-n" id="stat-words">0</span><span class="hs-l">Words</span></div>
-      <div class="hs-item"><span class="hs-n" id="stat-drills">0</span><span class="hs-l">Drills</span></div>
-      <div class="hs-item"><span class="hs-n mastered" id="stat-progress">0%</span><span class="hs-l">Mastered</span></div>
+    <div class="header-stats" id="header-stats" title="Click to view Mastery Breakdown &amp; Pie Chart">
+      <div class="hs-item clickable" id="hs-item-words" title="793 Total Words"><span class="hs-n" id="stat-words">0</span><span class="hs-l">Words</span></div>
+      <div class="hs-item clickable" id="hs-item-drills" title="16 Study Drills"><span class="hs-n" id="stat-drills">0</span><span class="hs-l">Drills</span></div>
+      <div class="hs-item clickable" id="hs-item-mastered" title="Click for Mastery Breakdown &amp; Pie Chart"><span class="hs-n mastered" id="stat-progress">0%</span><span class="hs-l">Mastered</span></div>
     </div>
   </header>
 
@@ -1949,6 +2187,113 @@ function renderHome() {
   }
 }
 
+// ---- Mastery Breakdown & Pie Chart Logic --------------------
+function getMasteryStats() {
+  const allProgress = loadAllProgress();
+  const total = ALL_CARDS.length;
+  let totalKnown = 0;
+  let totalAgain = 0;
+  let completedDrills = 0;
+
+  DRILL_META.forEach(meta => {
+    const drillProgress = allProgress[meta.num] || {};
+    const knownCount = Object.values(drillProgress).filter(s => s === 'known').length;
+    const againCount = Object.values(drillProgress).filter(s => s === 'again').length;
+    totalKnown += knownCount;
+    totalAgain += againCount;
+    if (knownCount === meta.count && meta.count > 0) {
+      completedDrills++;
+    }
+  });
+
+  const unseenCount = Math.max(0, total - totalKnown - totalAgain);
+  const knownPct = total ? Math.floor((totalKnown / total) * 100) : 0;
+  const againPct = total ? Math.floor((totalAgain / total) * 100) : 0;
+  const unseenPct = Math.max(0, 100 - knownPct - againPct);
+
+  return {
+    total,
+    totalKnown,
+    totalAgain,
+    unseenCount,
+    knownPct,
+    againPct,
+    unseenPct,
+    completedDrills,
+    totalDrills: DRILL_META.length
+  };
+}
+
+function openMasteryModal() {
+  const stats = getMasteryStats();
+  const modal = el('#mastery-modal');
+  if (!modal) return;
+
+  const centerPct = el('#donut-center-pct');
+  if (centerPct) centerPct.textContent = `${stats.knownPct}%`;
+
+  const knownCountEl = el('#legend-known-count');
+  if (knownCountEl) knownCountEl.textContent = `${stats.totalKnown} / ${stats.total} (${stats.knownPct}%)`;
+
+  const againCountEl = el('#legend-again-count');
+  if (againCountEl) againCountEl.textContent = `${stats.totalAgain} words (${stats.againPct}%)`;
+
+  const unseenCountEl = el('#legend-unseen-count');
+  if (unseenCountEl) unseenCountEl.textContent = `${stats.unseenCount} words (${stats.unseenPct}%)`;
+
+  const drillsStat = el('#dps-drills-stat');
+  if (drillsStat) drillsStat.textContent = `${stats.completedDrills} of ${stats.totalDrills} Drills`;
+
+  const barFill = el('#dps-bar-fill');
+  if (barFill) barFill.style.width = `${(stats.completedDrills / stats.totalDrills) * 100}%`;
+
+  // Circumference: radius=48 -> C = 2 * PI * 48 = 301.59289
+  const C = 301.59;
+  const knownArc = (stats.totalKnown / stats.total) * C;
+  const againArc = (stats.totalAgain / stats.total) * C;
+
+  const knownCircle = el('#donut-arc-known');
+  const againCircle = el('#donut-arc-again');
+
+  if (knownCircle) {
+    knownCircle.style.strokeDasharray = `${knownArc} ${C}`;
+    knownCircle.style.strokeDashoffset = `0`;
+  }
+  if (againCircle) {
+    againCircle.style.strokeDasharray = `${againArc} ${C}`;
+    againCircle.style.strokeDashoffset = `-${knownArc}`;
+  }
+
+  const actionBtn = el('#mastery-action-btn');
+  if (actionBtn) {
+    if (stats.totalAgain > 0) {
+      actionBtn.textContent = `Practice ${stats.totalAgain} Mistakes`;
+      actionBtn.onclick = () => {
+        modal.classList.add('hidden');
+        openMistakesDrill(true);
+      };
+    } else {
+      actionBtn.textContent = `Study Vocabulary`;
+      actionBtn.onclick = () => {
+        modal.classList.add('hidden');
+        const allProgress = loadAllProgress();
+        let targetDrill = 1;
+        for (let meta of DRILL_META) {
+          const drillCards = DRILLS[meta.num] || [];
+          const notAllKnown = drillCards.some(c => (allProgress[meta.num] || {})[c.seq] !== 'known');
+          if (notAllKnown) {
+            targetDrill = meta.num;
+            break;
+          }
+        }
+        openDrill(targetDrill);
+      };
+    }
+  }
+
+  modal.classList.remove('hidden');
+}
+
 // ---- session / History API routing ---------------------------
 function closeSession(eventOrPush) {
   const push = typeof eventOrPush === 'boolean' ? eventOrPush : true;
@@ -2303,6 +2648,7 @@ function initEvents() {
     el('#side-menu').classList.remove('open');
     el('#menu-backdrop').classList.remove('open');
     el('#auth-modal').classList.add('hidden');
+    el('#mastery-modal')?.classList.add('hidden');
 
     if (!state || state.view === 'home') {
       closeSession(false);
@@ -2625,6 +2971,36 @@ function initEvents() {
       window.SyncService.signOutUser();
     }
   });
+
+  // === Mastery Modal & Pie Chart Popups ===
+  const masteryModal = el('#mastery-modal');
+  const closeMasteryBtn = el('#close-mastery-btn');
+  const headerStats = el('#header-stats');
+
+  headerStats?.addEventListener('click', () => {
+    openMasteryModal();
+  });
+
+  el('#hs-item-words')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openMasteryModal();
+  });
+  el('#hs-item-drills')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openMasteryModal();
+  });
+  el('#hs-item-mastered')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openMasteryModal();
+  });
+
+  closeMasteryBtn?.addEventListener('click', () => {
+    masteryModal?.classList.add('hidden');
+  });
+
+  masteryModal?.addEventListener('click', (e) => {
+    if (e.target === masteryModal) masteryModal.classList.add('hidden');
+  });
   // ==================================
 
   const copyBtn = el('#copy-number');
@@ -2725,6 +3101,22 @@ function initEvents() {
   });
 
   document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const masteryModal = el('#mastery-modal');
+      if (masteryModal && !masteryModal.classList.contains('hidden')) {
+        masteryModal.classList.add('hidden');
+        return;
+      }
+      const authModal = el('#auth-modal');
+      if (authModal && !authModal.classList.contains('hidden')) {
+        authModal.classList.add('hidden');
+        return;
+      }
+      if (current && !el('#study-view').classList.contains('hidden')) {
+        closeSession();
+        return;
+      }
+    }
     if (!current || el('#study-view').classList.contains('hidden')) return;
     if (document.activeElement === el('#search')) return;
     if (e.code === 'ArrowRight') goNext();
@@ -2732,7 +3124,6 @@ function initEvents() {
     else if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); flipCard(); }
     else if (e.key === '1') markCard('again');
     else if (e.key === '2') markCard('known');
-    else if (e.key === 'Escape') closeSession();
   });
 }
 
