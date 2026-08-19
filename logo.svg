@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="bg" cx="30%" cy="18%" r="90%">
+      <stop offset="0%" stop-color="#202c3a"/>
+      <stop offset="55%" stop-color="#161f29"/>
+      <stop offset="100%" stop-color="#12181f"/>
+    </radialGradient>
+    <linearGradient id="pageGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e3b56c"/>
+      <stop offset="100%" stop-color="#c9974c"/>
+    </linearGradient>
+  </defs>
+
+  <!-- background -->
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+
+  <!-- open book -->
+  <g transform="translate(256 268)">
+    <path d="M -6 -108 C -60 -124 -128 -122 -178 -100 C -186 -96 -190 -90 -190 -82
+             L -190 96 C -190 106 -180 112 -170 108 C -122 88 -60 88 -6 108
+             C -2 110 -2 -106 -6 -108 Z"
+          fill="#eae6da"/>
+    <path d="M 6 -108 C 60 -124 128 -122 178 -100 C 186 -96 190 -90 190 -82
+             L 190 96 C 190 106 180 112 170 108 C 122 88 60 88 6 108
+             C 2 110 2 -106 6 -108 Z"
+          fill="#f2ecda"/>
+
+    <!-- spine shadow -->
+    <path d="M -6 -108 L -6 108 L 6 108 L 6 -108 Z" fill="#d8cfae" opacity="0.55"/>
+
+    <!-- text lines, left page -->
+    <path d="M -158 -58 L -44 -76 M -158 -22 L -60 -38 M -158 14 L -50 -2 M -158 50 L -70 30"
+          stroke="#9aa7b4" stroke-width="7" stroke-linecap="round" opacity="0.55"/>
+
+    <!-- text lines, right page -->
+    <path d="M 44 -76 L 158 -58 M 60 -38 L 158 -22 M 50 -2 L 158 14 M 70 30 L 158 50"
+          stroke="#9aa7b4" stroke-width="7" stroke-linecap="round" opacity="0.55"/>
+  </g>
+
+  <!-- brass spark -->
+  <path d="M 256 66 L 268 118 L 320 130 L 268 142 L 256 194 L 244 142 L 192 130 L 244 118 Z"
+        fill="url(#pageGrad)"/>
+  <circle cx="256" cy="130" r="150" fill="none" stroke="#c9974c" stroke-width="3" opacity="0.14"/>
+</svg>
