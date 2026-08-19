@@ -193,11 +193,43 @@ body.in-session .header-stats{ display:none; }
    the topbar and unaffected by scrolling, page, or view. */
 .header-actions{
   position:fixed;
-  top:calc(14px + env(safe-area-inset-top, 0px));
+  top:calc(12px + env(safe-area-inset-top, 0px));
   right:calc(16px + env(safe-area-inset-right, 0px));
   z-index:950;
-  display:flex; align-items:center;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:6px;
 }
+
+.account-actions-wrap{
+  display:flex;
+  justify-content:flex-end;
+  position:relative;
+}
+body.in-session .account-actions-wrap{ display:none !important; }
+
+.account-login-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:3px 10px;
+  height:26px;
+  border-radius:999px;
+  font-family:var(--sans);
+  font-size:0.72rem;
+  font-weight:600;
+  color:var(--paper);
+  cursor:pointer;
+  transition:all 0.2s ease;
+  user-select:none;
+}
+.account-login-btn:hover{
+  border-color:var(--brass);
+  color:var(--brass-hi);
+  transform:translateY(-1px);
+}
+.account-login-btn.hidden{ display:none !important; }
 
 /* Hidden while inside a drill/summary session — only the floating
    search + menu pill stays up, so the brand title/Sign In don't
@@ -298,58 +330,69 @@ body.in-session .topbar{ display:none; }
 }
 .email-form button:hover { filter: brightness(1.1); }
 
-/* User Profile Pill & Dropdown */
+/* User Profile Pill & Dropdown (Compact & refined) */
 .user-pill {
-  display: flex; align-items: center; gap: 8px;
-  background: var(--panel-2); border: 1px solid var(--rail);
-  border-radius: 999px; padding: 4px 12px 4px 5px;
+  display: inline-flex; align-items: center; gap: 5px;
+  border-radius: 999px; padding: 2px 7px 2px 3px;
+  height: 26px; box-sizing: border-box;
   cursor: pointer; position: relative; user-select: none;
-  transition: border-color .2s ease, background .2s ease;
+  transition: border-color .2s ease, transform .15s ease;
 }
 .user-pill:hover, .user-pill.open {
-  border-color: var(--brass); background: var(--panel);
+  border-color: var(--brass);
 }
+.user-pill.hidden { display: none !important; }
+
 .user-avatar {
-  width: 28px; height: 28px; border-radius: 50%;
+  width: 20px; height: 20px; border-radius: 50%;
   background: var(--brass); color: var(--ink);
   display: flex; align-items: center; justify-content: center;
-  font-size: 0.8rem; font-weight: 700; overflow: hidden;
+  font-size: 0.65rem; font-weight: 700; overflow: hidden;
   flex-shrink: 0;
 }
 .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
-.user-info { display: flex; flex-direction: column; text-align: left; line-height: 1.15; }
-.user-name { font-size: 0.8rem; font-weight: 600; color: var(--ink-text); max-width: 90px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.user-info { display: flex; flex-direction: column; text-align: left; line-height: 1.1; }
+.user-name { font-size: 0.7rem; font-weight: 600; color: var(--paper); max-width: 68px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sync-status {
-  display: flex; align-items: center; gap: 4px; font-size: 0.68rem; color: var(--ink-muted);
+  display: flex; align-items: center; gap: 3px; font-size: 0.58rem; color: var(--ink-muted);
 }
 .sync-dot {
-  width: 6px; height: 6px; border-radius: 50%; background: var(--sage);
+  width: 4px; height: 4px; border-radius: 50%; background: var(--sage);
   display: inline-block; transition: background .3s ease;
 }
 .sync-status.syncing .sync-dot { background: var(--brass-hi); animation: pulse 1s infinite; }
 .sync-status.offline .sync-dot { background: var(--rust); }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
+.user-chevron {
+  color: var(--ink-muted);
+  transition: transform 0.2s ease;
+  flex: none;
+}
+.user-pill.open .user-chevron {
+  transform: rotate(180deg);
+  color: var(--brass-hi);
+}
+
 .user-dropdown {
-  position: absolute; top: calc(100% + 8px); right: 0;
-  background: var(--panel); border: 1px solid var(--rail);
-  border-radius: 12px; min-width: 220px; padding: 8px;
-  box-shadow: var(--shadow); z-index: 1060;
-  display: flex; flex-direction: column; gap: 4px;
+  position: absolute; top: calc(100% + 5px); right: 0;
+  border-radius: 10px; min-width: 185px; padding: 6px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.65); z-index: 1060;
+  display: flex; flex-direction: column; gap: 2px;
 }
 .user-dropdown.hidden { display: none !important; }
-.dropdown-header { padding: 8px 10px; border-radius: 6px; }
-.dropdown-email { font-size: 0.82rem; font-weight: 600; color: var(--ink-text); word-break: break-all; }
-.dropdown-sub { font-size: 0.72rem; color: var(--ink-muted); margin-top: 2px; }
-.dropdown-divider { height: 1px; background: var(--rail); margin: 4px 0; }
+.dropdown-header { padding: 4px 8px; border-radius: 4px; }
+.dropdown-email { font-size: 0.74rem; font-weight: 600; color: var(--paper); word-break: break-all; }
+.dropdown-sub { font-size: 0.64rem; color: var(--ink-muted); margin-top: 1px; }
+.dropdown-divider { height: 1px; background: var(--rail); margin: 3px 0; }
 .dropdown-item {
-  display: flex; align-items: center; gap: 8px; padding: 8px 10px;
+  display: flex; align-items: center; gap: 6px; padding: 5px 8px;
   border-radius: 6px; border: none; background: transparent;
-  color: var(--ink-text); font-size: 0.82rem; cursor: pointer;
-  text-align: left; width: 100%; transition: background .15s ease;
+  color: var(--paper); font-size: 0.74rem; cursor: pointer;
+  text-align: left; width: 100%; transition: background .15s ease, color .15s ease;
 }
-.dropdown-item:hover { background: var(--panel-2); color: var(--brass-hi); }
-.dropdown-item.danger:hover { color: var(--rust); }
+.dropdown-item:hover { background: rgba(255,255,255,0.08); color: var(--brass-hi); }
+.dropdown-item.danger:hover { color: var(--stamp-red); background: rgba(209,79,79,0.12); }
 
 /* Cross Device Sync Toast */
 .sync-toast {
@@ -1155,7 +1198,7 @@ footer.site-foot{
   .card-word { font-size: clamp(2.4rem, 8vw, 3.2rem); }
   .stage{ gap:6px; }
   .nav-btn{ width:38px; height:38px; }
-  .header-actions{ gap: 16px; justify-content: flex-end; }
+  .header-actions{ gap: 5px; align-items: flex-end; }
   .stat-strip{ gap:16px; }
   .kbd-hint{ display:none; }
   .swipe-hint{ display:block; }
@@ -1177,7 +1220,7 @@ footer.site-foot{
   .brand-logo{ width:20px; height:20px; }
   .topbar.scrolled .brand-logo{ width:16px; height:16px; }
   .brand h1{ font-size:1rem; max-width:150px; line-height:1.2; max-height:2.6em; }
-  .header-actions{ gap:10px; }
+  .header-actions{ gap:5px; }
   .stat-strip{ gap:12px; }
   .stat .n{ font-size:.86rem; }
   .stat .l{ font-size:.52rem; letter-spacing:.08em; }
@@ -1569,32 +1612,6 @@ footer.site-foot{
       <h1>Word Smart 1 &amp; 2 <em>Mastery</em></h1>
     </div>
 
-    <!-- Sign In button & User Pill -->
-    <button id="nav-login-btn" class="ctrl-btn" style="background: var(--brass); color: var(--ink); border: none; font-weight: 600; margin-left: auto;">Sign In</button>
-
-    <div id="user-pill" class="user-pill hidden" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false" title="Account & Sync" style="margin-left: auto;">
-      <div class="user-avatar" id="user-avatar">?</div>
-      <div class="user-info">
-        <span class="user-name" id="user-name">User</span>
-        <span class="sync-status synced" id="sync-status"><span class="sync-dot"></span><span id="sync-status-text">Synced</span></span>
-      </div>
-      <div class="user-dropdown hidden" id="user-dropdown">
-        <div class="dropdown-header">
-          <div class="dropdown-email" id="dropdown-user-email">user@example.com</div>
-          <div class="dropdown-sub" id="dropdown-sync-sub">Sync active across devices</div>
-        </div>
-        <div class="dropdown-divider"></div>
-        <button class="dropdown-item" id="manual-sync-btn" type="button">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
-          <span>Sync Now</span>
-        </button>
-        <button class="dropdown-item danger" id="signout-btn" type="button">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
-          <span>Sign Out</span>
-        </button>
-      </div>
-    </div>
-
     <!-- Word / drill / mastered counters — collapse in step with the
          rest of the header via .topbar.scrolled, and hide entirely
          with it in .topbar.header-hidden. -->
@@ -1605,7 +1622,7 @@ footer.site-foot{
     </div>
   </header>
 
-  <!-- Floating, fixed search + menu pill -->
+  <!-- Floating, fixed search + menu pill + account menu placed below -->
   <div class="header-actions" id="header-actions">
     <div class="quick-actions glass" id="quick-actions">
       <button id="header-search-btn" class="quick-action-btn" aria-label="Search">
@@ -1619,6 +1636,39 @@ footer.site-foot{
           <line x1="3" y1="18" x2="21" y2="18"></line>
         </svg>
       </button>
+    </div>
+
+    <!-- Account Menu placed below hamburger and search pill -->
+    <div class="account-actions-wrap" id="account-actions-wrap">
+      <button id="nav-login-btn" class="account-login-btn glass" type="button" aria-label="Sign In">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <span>Sign In</span>
+      </button>
+
+      <div id="user-pill" class="user-pill glass hidden" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false" title="Account & Sync">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <div class="user-info">
+          <span class="user-name" id="user-name">User</span>
+          <span class="sync-status synced" id="sync-status"><span class="sync-dot"></span><span id="sync-status-text">Synced</span></span>
+        </div>
+        <svg class="user-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        
+        <div class="user-dropdown glass hidden" id="user-dropdown">
+          <div class="dropdown-header">
+            <div class="dropdown-email" id="dropdown-user-email">user@example.com</div>
+            <div class="dropdown-sub" id="dropdown-sync-sub">Sync active across devices</div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item" id="manual-sync-btn" type="button">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+            <span>Sync Now</span>
+          </button>
+          <button class="dropdown-item danger" id="signout-btn" type="button">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
