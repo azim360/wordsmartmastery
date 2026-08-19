@@ -1,0 +1,6 @@
+{
+  "name": "Word Smart 1 & 2 Mastery",
+  "description": "793 words across 16 study drills, presented as a library catalog of flashcards.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

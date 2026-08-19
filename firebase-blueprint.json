@@ -1,0 +1,82 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The Firebase Auth UID of the user",
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        },
+        "email": {
+          "type": "string",
+          "description": "User's email address"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User's display name",
+          "maxLength": 100
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "User's profile photo URL",
+          "maxLength": 500
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when profile was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when profile was last updated"
+        }
+      },
+      "required": ["userId", "createdAt", "updatedAt"]
+    },
+    "DrillProgress": {
+      "title": "DrillProgress",
+      "description": "User study progress and card mastery for a specific drill",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Owner user UID",
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        },
+        "drillNum": {
+          "type": "integer",
+          "description": "The drill number (1 to 32)"
+        },
+        "status": {
+          "type": "object",
+          "description": "Map of card sequence numbers to their mastery status ('known' or 'again')"
+        },
+        "knownCount": {
+          "type": "integer",
+          "description": "Total number of cards marked as known in this drill"
+        },
+        "againCount": {
+          "type": "integer",
+          "description": "Total number of cards marked as study again in this drill"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when drill progress was last modified"
+        }
+      },
+      "required": ["userId", "drillNum", "status", "knownCount", "againCount", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private user account profile document"
+    },
+    "/users/{userId}/drills/{drillId}": {
+      "schema": { "$ref": "#/entities/DrillProgress" },
+      "description": "Sub-collection of drill progress records for cross-device syncing"
+    }
+  }
+}

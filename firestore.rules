@@ -1,0 +1,71 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidUserProfile(data) {
+      return data.keys().hasAll(['userId', 'createdAt', 'updatedAt']) &&
+        data.userId is string && data.userId.size() <= 128 &&
+        data.createdAt is string && data.createdAt.size() <= 64 &&
+        data.updatedAt is string && data.updatedAt.size() <= 64 &&
+        (!('email' in data) || (data.email is string && data.email.size() <= 256)) &&
+        (!('displayName' in data) || (data.displayName is string && data.displayName.size() <= 100)) &&
+        (!('photoURL' in data) || (data.photoURL is string && data.photoURL.size() <= 500));
+    }
+
+    function isValidDrillProgress(data) {
+      return data.keys().hasAll(['userId', 'drillNum', 'status', 'knownCount', 'againCount', 'updatedAt']) &&
+        data.userId is string && data.userId.size() <= 128 &&
+        data.drillNum is int && data.drillNum >= 1 && data.drillNum <= 64 &&
+        data.status is map &&
+        data.knownCount is int && data.knownCount >= 0 && data.knownCount <= 1000 &&
+        data.againCount is int && data.againCount >= 0 && data.againCount <= 1000 &&
+        data.updatedAt is string && data.updatedAt.size() <= 64;
+    }
+
+    // User profile documents
+    match /users/{userId} {
+      allow get: if isOwner(userId) && isValidId(userId);
+      allow create: if isOwner(userId) && isValidId(userId) &&
+        isValidUserProfile(incoming()) && incoming().userId == request.auth.uid;
+      allow update: if isOwner(userId) && isValidId(userId) &&
+        isValidUserProfile(incoming()) && incoming().userId == existing().userId;
+      allow delete: if isOwner(userId) && isValidId(userId);
+
+      // Drill progress sub-collection
+      match /drills/{drillId} {
+        allow get, list: if isOwner(userId) && isValidId(userId);
+        allow create: if isOwner(userId) && isValidId(userId) && isValidId(drillId) &&
+          isValidDrillProgress(incoming()) && incoming().userId == request.auth.uid;
+        allow update: if isOwner(userId) && isValidId(userId) && isValidId(drillId) &&
+          isValidDrillProgress(incoming()) && incoming().userId == existing().userId;
+        allow delete: if isOwner(userId) && isValidId(userId) && isValidId(drillId);
+      }
+    }
+  }
+}

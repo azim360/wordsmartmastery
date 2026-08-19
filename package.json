@@ -1,0 +1,15 @@
+{
+  "name": "wordsmartmastery",
+  "version": "1.0.0",
+  "description": "793 words across 16 study drills, presented as a library catalog of flashcards.",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "echo 'Static assets ready'",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "firebase": "^11.4.0"
+  }
+}
