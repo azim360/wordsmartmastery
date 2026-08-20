@@ -22,6 +22,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Firebase App and Auth SDKs for Google Workspace & Drive OAuth -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <style>
 /* ============================================================
    WORD SMART 1 FLASH CARDS — Vocabulary Drill Catalog
@@ -855,6 +858,124 @@ body.scroll-locked {
   color: var(--ink-muted); font-size: 1.8rem; cursor: pointer; line-height: 1; padding: 0;
 }
 .close-auth:hover { color: var(--brass-hi); }
+.gsi-material-button {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-appearance: none;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid #747775;
+  border-radius: 9px;
+  box-sizing: border-box;
+  color: #1f1f1f;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  height: 44px;
+  letter-spacing: 0.2px;
+  outline: none;
+  overflow: hidden;
+  padding: 0 16px;
+  position: relative;
+  text-align: center;
+  transition: background-color .2s, border-color .2s, box-shadow .2s, transform .15s;
+  vertical-align: middle;
+  white-space: nowrap;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  margin-bottom: 12px;
+}
+.gsi-material-button:hover {
+  background-color: #f7f9fa;
+  border-color: #d2e3fc;
+  box-shadow: 0 4px 14px rgba(66, 133, 244, 0.35);
+  transform: translateY(-1px);
+}
+.gsi-material-button:active {
+  transform: translateY(0);
+  background-color: #ebebeb;
+}
+.gsi-material-button-content-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+}
+.gsi-material-button-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.gsi-material-button-contents {
+  color: #1f1f1f;
+  font-weight: 600;
+}
+
+.drive-folder-card {
+  background: rgba(18, 24, 31, 0.6);
+  border: 1px solid rgba(66, 133, 244, 0.3);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 16px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.drive-folder-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.drive-folder-meta {
+  flex: 1;
+  min-width: 0;
+}
+.drive-folder-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--paper);
+}
+.drive-folder-id {
+  font-size: 0.68rem;
+  color: var(--ink-muted);
+  font-family: var(--mono);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.drive-interrogate-btn {
+  background: rgba(66, 133, 244, 0.15);
+  border: 1px solid rgba(66, 133, 244, 0.4);
+  color: #8ab4f8;
+  border-radius: 7px;
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+.drive-interrogate-btn:hover {
+  background: rgba(66, 133, 244, 0.28);
+  border-color: #8ab4f8;
+  color: #fff;
+}
+
 .oauth-btn {
   width: 100%; padding: 13px; border-radius: 9px; border: 1px solid var(--rail);
   background: var(--panel-2); color: var(--ink-text); font-size: 0.95rem; font-weight: 500;
@@ -864,11 +985,11 @@ body.scroll-locked {
 .oauth-btn:hover { background: #fff; color: #000; border-color: #fff; transform: translateY(-1px); }
 .oauth-btn:active { transform: translateY(0); }
 .auth-divider {
-  margin: 24px 0; border-bottom: 1px solid var(--rail); position: relative;
+  margin: 18px 0; border-bottom: 1px solid var(--rail); position: relative;
 }
 .auth-divider span {
   position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
-  background: var(--panel); padding: 0 14px; font-size: 0.8rem; color: var(--ink-muted);
+  background: var(--panel); padding: 0 14px; font-size: 0.76rem; color: var(--ink-muted);
 }
 .email-form { display: flex; flex-direction: column; gap: 14px; }
 .email-form input {
@@ -963,6 +1084,10 @@ body.scroll-locked {
   max-width: 440px;
   padding: 30px 24px 24px;
   text-align: left;
+  max-height: min(90dvh, 620px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 .mastery-modal-header {
   text-align: center;
@@ -1205,23 +1330,473 @@ body.scroll-locked {
 }
 /* =============================================== */
 
+/* ============ NOTIFICATION BADGE & HAMBURGER HIGHLIGHT ============ */
+.hamburger-wrap {
+  position: relative;
+}
+
+.hamburger-notice-badge {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 8px;
+  height: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hamburger-notice-badge.hidden {
+  display: none !important;
+}
+
+.notice-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brass-hi);
+  box-shadow: 0 0 6px var(--brass-hi), 0 0 2px rgba(0, 0, 0, 0.8);
+  position: relative;
+  z-index: 2;
+}
+
+.notice-ping {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: rgba(201, 151, 76, 0.45);
+  animation: noticePing 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+  z-index: 1;
+}
+
+/* Urgent / Update Available notice mode */
+.hamburger-notice-badge.is-update .notice-dot {
+  background: #38bdf8;
+  box-shadow: 0 0 6px #38bdf8, 0 0 2px rgba(0, 0, 0, 0.8);
+}
+.hamburger-notice-badge.is-update .notice-ping {
+  background: rgba(56, 189, 248, 0.45);
+}
+
+@keyframes noticePing {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  75%, 100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.nav-link-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-link-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.menu-notice-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-family: var(--sans);
+  line-height: 1;
+  transition: all 0.2s ease;
+}
+
+.menu-notice-chip.install {
+  background: rgba(201, 151, 76, 0.16);
+  border: 1px solid rgba(201, 151, 76, 0.4);
+  color: var(--brass-hi);
+}
+
+.menu-notice-chip.installed {
+  background: rgba(126, 160, 131, 0.15);
+  border: 1px solid rgba(126, 160, 131, 0.35);
+  color: var(--sage);
+}
+
+.menu-notice-chip.update {
+  background: rgba(56, 189, 248, 0.16);
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  color: #38bdf8;
+  animation: pulse 1.6s infinite;
+}
+
+.menu-notice-chip.hidden {
+  display: none !important;
+}
+
+/* ============ SMARTPHONE & WEB APP INSTALLATION STYLES ============ */
+.quick-install-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 10px;
+  height: 32px;
+  border-radius: 999px;
+  background: rgba(201, 151, 76, 0.14);
+  border: 1px solid rgba(201, 151, 76, 0.35);
+  color: var(--brass-hi);
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: none;
+  user-select: none;
+}
+.quick-install-btn:hover {
+  background: var(--brass);
+  color: var(--ink);
+  border-color: var(--brass);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(201, 151, 76, 0.3);
+}
+.quick-install-btn:active {
+  transform: translateY(0);
+}
+.quick-install-btn.installed {
+  background: rgba(126, 160, 131, 0.15);
+  border-color: rgba(126, 160, 131, 0.35);
+  color: var(--sage);
+  pointer-events: none;
+}
+.quick-install-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brass-hi);
+  box-shadow: 0 0 6px var(--brass-hi);
+  animation: pulse 1.5s infinite;
+}
+.topbar.scrolled .quick-install-btn {
+  height: 28px;
+  padding: 0 8px;
+  font-size: 0.72rem;
+}
+
+/* Smartphone Floating Quick Install Banner */
+.mobile-install-banner {
+  position: fixed;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(480px, calc(100vw - 20px));
+  z-index: 990;
+  animation: slideUpInstall 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.mobile-install-banner.hidden {
+  display: none !important;
+}
+@keyframes slideUpInstall {
+  from { opacity: 0; transform: translateX(-50%) translateY(28px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.mobile-install-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(22, 30, 40, 0.96);
+  border: 1px solid var(--brass);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.75), 0 0 20px rgba(201, 151, 76, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 10px 14px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.mobile-install-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--panel-2);
+  border: 1px solid rgba(201, 151, 76, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+.mobile-install-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mobile-install-info {
+  flex: 1;
+  min-width: 0;
+}
+.mobile-install-title {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--paper);
+  line-height: 1.2;
+}
+.mobile-install-sub {
+  font-size: 0.74rem;
+  color: var(--ink-muted);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mobile-install-action-btn {
+  background: linear-gradient(135deg, var(--brass), var(--brass-hi));
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex: none;
+  box-shadow: 0 2px 8px rgba(201, 151, 76, 0.35);
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+.mobile-install-action-btn:hover {
+  filter: brightness(1.1);
+  transform: scale(1.03);
+}
+.mobile-install-action-btn:active {
+  transform: scale(0.98);
+}
+.mobile-install-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--ink-muted);
+  font-size: 1.3rem;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  flex: none;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+.mobile-install-close-btn:hover {
+  color: var(--ink-text);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Hide floating install banner during active drill sessions or if already installed */
+body.in-session .mobile-install-banner,
+body.is-installed .mobile-install-banner {
+  display: none !important;
+}
+
+/* Installation Guide Modal */
+.install-box {
+  max-width: 460px;
+  padding: 30px 24px 22px;
+  text-align: left;
+  max-height: min(90dvh, 640px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+.install-modal-header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+.install-app-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  background: var(--panel-2);
+  border: 1.5px solid var(--brass);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45), 0 0 16px rgba(201, 151, 76, 0.25);
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+.install-app-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.install-perks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 18px;
+  padding: 10px;
+  background: var(--panel-2);
+  border: 1px solid var(--rail);
+  border-radius: 12px;
+}
+.install-perk-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+  font-size: 0.68rem;
+  color: var(--ink-text);
+  font-weight: 500;
+}
+.install-perk-item .perk-icon {
+  font-size: 1.15rem;
+}
+
+.install-native-section {
+  margin-bottom: 16px;
+}
+.primary-install-btn {
+  background: linear-gradient(135deg, var(--brass), var(--brass-hi)) !important;
+  color: var(--ink) !important;
+  font-weight: 700 !important;
+  border: none !important;
+  box-shadow: 0 4px 16px rgba(201, 151, 76, 0.35);
+  gap: 8px !important;
+}
+.primary-install-btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.install-guide-tabs {
+  display: flex;
+  gap: 6px;
+  background: var(--panel-2);
+  border: 1px solid var(--rail);
+  padding: 3px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+}
+.install-tab-btn {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.install-tab-btn.active {
+  background: var(--rail);
+  color: var(--paper);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.install-guide-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(18, 24, 31, 0.5);
+  border: 1px solid var(--rail);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 18px;
+}
+.install-guide-panel.hidden {
+  display: none !important;
+}
+
+.install-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--ink-text);
+}
+.step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(201, 151, 76, 0.18);
+  border: 1px solid var(--brass);
+  color: var(--brass-hi);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  margin-top: 1px;
+}
+.step-desc {
+  flex: 1;
+}
+.step-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--panel-2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 1px 7px;
+  border-radius: 6px;
+  font-size: 0.76rem;
+  color: var(--paper);
+  font-weight: 600;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.step-chip svg {
+  color: var(--brass-hi);
+  vertical-align: middle;
+}
+
+.install-footer {
+  display: flex;
+  justify-content: center;
+}
+.secondary-btn {
+  background: var(--panel-2) !important;
+  color: var(--ink-text) !important;
+  border: 1px solid var(--rail) !important;
+  padding: 10px 24px !important;
+}
+.secondary-btn:hover {
+  background: var(--rail) !important;
+  color: var(--paper) !important;
+}
+
 /* ============ SIDE MENU (HAMBURGER) ============ */
 /* Search + hamburger live together in one fused liquid-glass pill
    (see .quick-actions below); .glass supplies the blurred surface. */
 .quick-actions{
   display:flex; align-items:center; gap:2px;
-  border-radius:999px; padding:4px; flex:none;
+  border-radius:999px; padding:2px; flex:none;
 }
 .quick-action-btn{
   background:transparent; border:none; color:var(--ink-text); cursor:pointer;
-  width:38px; height:38px; border-radius:50%; display:flex;
+  width:28px; height:28px; border-radius:50%; display:flex;
   align-items:center; justify-content:center;
   transition:background .2s ease, color .2s ease;
 }
 .quick-action-btn:hover{ background:rgba(255,255,255,.1); color:var(--brass-hi); }
 .quick-action-btn:active{ background:rgba(255,255,255,.16); }
-.quick-actions-divider{ width:1px; height:20px; background:var(--glass-border); flex:none; }
-.topbar.scrolled .quick-action-btn{ width:34px; height:34px; }
+.quick-actions-divider{ width:1px; height:16px; background:var(--glass-border); flex:none; }
+.topbar.scrolled .quick-action-btn{ width:26px; height:26px; }
 
 .menu-backdrop {
   position: fixed; inset: 0; background: rgba(18, 24, 31, 0.6); z-index: 1050;
@@ -1236,18 +1811,103 @@ body.scroll-locked {
   box-shadow: -10px 0 40px rgba(0,0,0,0.5); transform: translateX(100%);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex; flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 .side-menu.open { transform: translateX(0); }
 
 .side-menu .menu-content { padding: 40px 30px; display: flex; flex-direction: column; flex: 1; position: relative; }
-.nav-links { display: flex; flex-direction: column; gap: 12px; margin-top: 30px; }
+.nav-links { display: flex; flex-direction: column; gap: 8px; margin-top: 24px; }
 .nav-link { 
-  color: var(--ink-text); text-decoration: none; font-size: 1.1rem; font-family: var(--sans);
+  color: var(--ink-text); text-decoration: none; font-size: 1.05rem; font-family: var(--sans);
   font-weight: 500; transition: color 0.2s ease, padding-left 0.2s ease; 
-  border-bottom: 1px solid var(--rail); padding: 12px 0;
+  border-bottom: 1px solid var(--rail); padding: 11px 0;
   display: flex; align-items: center; justify-content: space-between;
 }
-.nav-link:hover { color: var(--brass-hi); padding-left: 8px; border-color: var(--brass); }
+.nav-link:hover { color: var(--brass-hi); padding-left: 6px; border-color: var(--brass); }
+
+.menu-section-divider {
+  height: 1px;
+  background: var(--rail);
+  margin: 12px 0 4px;
+  opacity: 0.8;
+}
+
+.menu-section-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-muted);
+  font-family: var(--sans);
+  margin: 3px 0 1px;
+}
+
+.menu-subnote {
+  font-size: 0.65rem;
+  color: var(--ink-muted);
+  font-family: var(--sans);
+  line-height: 1.35;
+  margin: 1px 0 4px;
+  opacity: 0.85;
+}
+
+.nav-mirror-link {
+  padding: 5px 0 !important;
+  font-size: 0.78rem !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 6px !important;
+  text-decoration: none !important;
+}
+.nav-mirror-link .nav-link-left {
+  gap: 8px !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+.nav-mirror-link .nav-link-col {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1px !important;
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+}
+.nav-mirror-link .nav-link-title {
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--ink-text);
+  white-space: nowrap;
+}
+.nav-mirror-link .nav-link-url {
+  font-size: 0.58rem;
+  color: var(--ink-muted);
+  font-family: var(--mono, monospace);
+  letter-spacing: -0.01em;
+  opacity: 0.8;
+  word-break: break-all;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
+  display: block;
+}
+.nav-mirror-link .nav-link-right {
+  flex-shrink: 0 !important;
+}
+.nav-mirror-link:hover .nav-link-title {
+  color: var(--brass-hi);
+}
+.nav-mirror-link:hover .nav-link-url {
+  color: var(--brass);
+}
+
+.nav-community-link:hover .nav-link-left span {
+  color: var(--brass-hi);
+}
 /* =============================================== */
 
 /* ============ SEARCH PILL & MATERIAL CIRCLE MORPH ============ */
@@ -1317,35 +1977,56 @@ body.scroll-locked {
 /* Material Design circle transformed state in top right corner while scrolling */
 .search-wrap.floating-circle{
   position: fixed;
-  top: calc(9px + env(safe-area-inset-top, 0px));
-  right: calc(max(16px, (100vw - 1180px) / 2 + 56px));
+  top: calc(10px + env(safe-area-inset-top, 0px));
+  right: calc(max(18px, (100vw - 1180px) / 2 + 18px));
   left: auto;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
+  min-height: 36px;
   border-radius: 50%;
-  background: rgba(26, 34, 46, 0.96);
-  border: 1px solid var(--brass);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.5), 0 0 12px rgba(201,151,76,0.3);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(22, 28, 38, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
   z-index: 950;
   cursor: pointer;
   padding: 0;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.2s ease,
+              background 0.2s ease,
+              border-color 0.2s ease,
+              opacity 0.2s ease;
 }
 .search-wrap.floating-circle:hover{
   transform: scale(1.08);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.6), 0 0 16px rgba(201,151,76,0.45);
+  background: rgba(22, 28, 38, 0.45);
+  border-color: var(--brass-hi);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), 0 0 14px rgba(227, 181, 108, 0.3);
+}
+.search-wrap.floating-circle:active{
+  transform: scale(0.92);
 }
 .search-wrap.floating-circle:not(.focused) #search,
-.search-wrap.floating-circle:not(.focused) #voice-search-btn{
-  display: none;
+.search-wrap.floating-circle:not(.focused) #voice-search-btn,
+.search-wrap.floating-circle:not(.focused) #search-close-btn,
+.search-wrap.floating-circle:not(.focused) #search-results{
+  display: none !important;
 }
 .search-wrap.floating-circle .search-icon-btn{
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  color: var(--brass-hi);
+  margin: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: var(--brass-hi) !important;
+  border-radius: 50%;
+  background: transparent !important;
 }
 
 .search-close-btn{
@@ -2032,7 +2713,14 @@ footer.site-foot{
   .topbar.scrolled .stat .l{ font-size:.46rem; letter-spacing:.06em; }
   .auth-strip{ gap:8px; }
   #nav-login-btn{ padding:6px 10px; font-size:.76rem; }
-  .quick-action-btn{ width:34px; height:34px; }
+  .quick-action-btn{ width:28px; height:28px; }
+  .search-wrap.floating-circle{
+    top: calc(8px + env(safe-area-inset-top, 0px));
+    right: calc(40px + env(safe-area-inset-right, 0px));
+    width: 32px;
+    height: 32px;
+    min-height: 32px;
+  }
 }
 
 @media (max-width:380px){
@@ -2251,6 +2939,93 @@ footer.site-foot{
   color: var(--stamp-red);
 }
 
+/* ============================================================
+   GOOGLE MATERIAL TOUCH ANIMATION & INK RIPPLE ENGINE
+   ============================================================ */
+/* Remove default gray tap highlights across all mobile web browsers */
+*, *::before, *::after {
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.md-ripple-host {
+  position: relative !important;
+  overflow: hidden !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+
+/* Tactile touch press compression */
+.btn, .quick-action-btn, .quick-install-btn, .mobile-install-action-btn,
+.install-tab-btn, .tile, .result-row, .mistake-item-pill,
+.mode-toggle button, .tag, .stat-chip, .step-chip, .badge-pill,
+.nav-link, .nav-mirror-link, .nav-community-link, #flip-btn {
+  transition: transform 0.16s cubic-bezier(0.2, 0, 0, 1),
+              box-shadow 0.16s cubic-bezier(0.2, 0, 0, 1),
+              background 0.2s ease,
+              border-color 0.2s ease;
+  will-change: transform;
+}
+
+.md-touch-active {
+  transform: scale(0.972) !important;
+}
+
+/* Specific component press scales */
+.tile.md-touch-active {
+  transform: scale(0.978) translateY(1px) !important;
+  box-shadow: 0 4px 14px -4px rgba(0,0,0,0.5) !important;
+}
+
+.flashcard.md-touch-active {
+  transform: scale(0.985) !important;
+}
+
+.nav-link.md-touch-active, .nav-mirror-link.md-touch-active {
+  background: rgba(227, 181, 108, 0.08) !important;
+  padding-left: 4px !important;
+}
+
+/* Material Expanding Ripple Wave */
+.md-ripple-wave {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10;
+  transform: scale(0);
+  opacity: 1;
+  background: radial-gradient(circle, rgba(227, 181, 108, 0.42) 0%, rgba(227, 181, 108, 0.18) 55%, rgba(227, 181, 108, 0) 100%);
+  animation: mdRippleExpand 0.48s cubic-bezier(0.1, 0, 0.15, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* Ripple color variations */
+.md-ripple-wave.light-ink {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.20) 55%, rgba(255, 255, 255, 0) 100%);
+}
+
+.md-ripple-wave.dark-ink {
+  background: radial-gradient(circle, rgba(18, 24, 31, 0.28) 0%, rgba(18, 24, 31, 0.12) 55%, rgba(18, 24, 31, 0) 100%);
+}
+
+.md-ripple-wave.fading {
+  opacity: 0;
+  transition: opacity 0.36s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes mdRippleExpand {
+  0% {
+    transform: scale(0);
+    opacity: 0.85;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0.9;
+  }
+}
+
 @media (prefers-reduced-motion: reduce){
   *{ transition:none !important; animation:none !important; }
 }
@@ -2278,6 +3053,8 @@ footer.site-foot{
     </div>
   </div>
 
+
+
   <!-- ============ SEARCH BACKDROP (DARK OVERLAY) ============ -->
   <div id="search-backdrop" class="search-backdrop"></div>
 
@@ -2288,35 +3065,250 @@ footer.site-foot{
       <button class="close-auth" id="close-menu-btn" style="position:absolute; top:24px; right:24px;">&times;</button>
       <h2 style="font-family: var(--serif); color: var(--brass-hi); margin-top: 0; font-size: 1.5rem;">Menu</h2>
       <nav class="nav-links">
-        <a href="#" class="nav-link" id="nav-home">Home 
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
-        </a>
-        <a href="#" class="nav-link" id="nav-sync-menu-btn">
-          <span id="side-menu-auth-label">Cloud Sync</span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
-        </a>
-        <a href="#" class="nav-link" id="nav-mistakes-menu-btn">
-          <span>Mistakes &amp; Review</span>
-          <span id="side-menu-mistakes-badge" class="mistakes-count-chip zero">0</span>
+        <a href="#" class="nav-link" id="nav-install-app">
+          <span class="nav-link-left">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span id="side-menu-install-title">Install Smartphone App</span>
+          </span>
+          <span class="nav-link-right">
+            <span id="side-menu-install-badge" class="menu-notice-chip install">Install</span>
+          </span>
         </a>
         <a href="#" class="nav-link" id="nav-check-update">
-          <span>Check for Updates</span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+          <span class="nav-link-left">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+            <span>Check for Updates</span>
+          </span>
+          <span class="nav-link-right">
+            <span id="side-menu-update-badge" class="menu-notice-chip update hidden">Update Available</span>
+          </span>
         </a>
-        <a href="#" class="nav-link hidden" id="nav-install-app">
-          <span>Install Web App</span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <a href="#" class="nav-link" id="nav-sync-menu-btn">
+          <span class="nav-link-left">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <span id="side-menu-auth-label">Cloud Sync</span>
+          </span>
+          <span class="nav-link-right"></span>
         </a>
-        <a href="#" class="nav-link" id="nav-about">About
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        <a href="#" class="nav-link" id="nav-mistakes-menu-btn">
+          <span class="nav-link-left">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <span>Mistakes &amp; Review</span>
+          </span>
+          <span class="nav-link-right">
+            <span id="side-menu-mistakes-badge" class="mistakes-count-chip zero">0</span>
+          </span>
         </a>
-        <a href="#" class="nav-link" id="nav-features">Features
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        <a href="#" class="nav-link" id="nav-about">
+          <span class="nav-link-left">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <span>About</span>
+          </span>
+          <span class="nav-link-right"></span>
         </a>
-        <a href="#support-footer" class="nav-link" id="nav-support">Support
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        <a href="#support-footer" class="nav-link" id="nav-support">
+          <span class="nav-link-left">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            <span>Support</span>
+          </span>
+          <span class="nav-link-right"></span>
+        </a>
+
+        <!-- Community & Discussion Groups -->
+        <div class="menu-section-divider"></div>
+        <div class="menu-section-label">Community &amp; Groups</div>
+
+        <a href="https://t.me/+yJUhZb9kYj00ZTM1" target="_blank" rel="noopener noreferrer" class="nav-link nav-community-link" id="nav-telegram-group">
+          <span class="nav-link-left">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="color: #29b6f6; flex-shrink: 0;">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.72-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+            </svg>
+            <span>Telegram Group</span>
+          </span>
+          <span class="nav-link-right">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity: 0.5;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </span>
+        </a>
+
+        <a href="https://chat.whatsapp.com/G8jD4BLJVUuKNCAUhRQQ3s?s=sh&p=a&ilr=1" target="_blank" rel="noopener noreferrer" class="nav-link nav-community-link" id="nav-whatsapp-group">
+          <span class="nav-link-left">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="color: #25d366; flex-shrink: 0;">
+              <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.97.57 3.88 1.66 5.53L2 22.5l5.22-1.74c1.58.98 3.4 1.5 5.27 1.5 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.78 13.98c-.24.68-1.38 1.25-1.92 1.33-.5.07-1.13.1-3.32-.81-2.8-1.16-4.59-4.04-4.73-4.22-.14-.19-1.14-1.52-1.14-2.9 0-1.38.72-2.06.98-2.34.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.42-.07.66.5.24.58.82 2 .89 2.15.07.15.12.33.02.53-.1.19-.15.31-.3.48-.15.17-.31.38-.45.51-.15.14-.3.3-.13.6.17.29.77 1.27 1.65 2.05 1.13 1 2.09 1.31 2.38 1.46.3.15.47.13.65-.08.18-.21.76-.89.96-1.19.2-.3.4-.25.68-.15.27.1 1.74.82 2.04.97.3.15.5.22.57.35.08.12.08.7-.16 1.38z"/>
+            </svg>
+            <span>WhatsApp Group</span>
+          </span>
+          <span class="nav-link-right">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity: 0.5;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </span>
+        </a>
+
+        <!-- Alternative Mirrors / Backup Links -->
+        <div class="menu-section-divider"></div>
+        <div class="menu-section-label">Drive &amp; Mirror Links</div>
+        <div class="menu-subnote">Sequenced flashcard images and backup links:</div>
+
+        <a href="https://drive.google.com/drive/folders/1Ksu-Ek_ooG8VgZ3tsKw7_G5vBl7k77dI?usp=sharing" target="_blank" rel="noopener noreferrer" class="nav-link nav-mirror-link" id="nav-mirror-drive" title="Google Drive Image Folder Mirror">
+          <span class="nav-link-left">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4285F4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+              <path d="M19 15V9l-7-7-7 7v6l7 7 7-7z"/>
+              <path d="M12 2v20"/>
+            </svg>
+            <span class="nav-link-col">
+              <span class="nav-link-title">Google Drive Folder</span>
+              <span class="nav-link-url">folders/1Ksu-Ek_ooG8VgZ3tsKw7_G5vBl7k77dI</span>
+            </span>
+          </span>
+          <span class="nav-link-right">
+            <span class="menu-notice-chip" style="background: rgba(66, 133, 244, 0.18); color: #8ab4f8; border: 1px solid rgba(66, 133, 244, 0.4);">Connected</span>
+          </span>
+        </a>
+
+        <a href="https://wordsmartmastery.netlify.app/" target="_blank" rel="noopener noreferrer" class="nav-link nav-mirror-link" id="nav-mirror-netlify" title="Open Netlify Mirror">
+          <span class="nav-link-left">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#00c7b7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+            <span class="nav-link-col">
+              <span class="nav-link-title">Netlify Mirror</span>
+              <span class="nav-link-url">wordsmartmastery.netlify.app</span>
+            </span>
+          </span>
+          <span class="nav-link-right">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity: 0.45;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </span>
+        </a>
+
+        <a href="https://azim360.github.io/wordsmartmastery/" target="_blank" rel="noopener noreferrer" class="nav-link nav-mirror-link" id="nav-mirror-github" title="Open GitHub Pages Mirror">
+          <span class="nav-link-left">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="color: #c9974c; flex-shrink: 0;">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+            <span class="nav-link-col">
+              <span class="nav-link-title">GitHub Pages Mirror</span>
+              <span class="nav-link-url">azim360.github.io/wordsmartmastery</span>
+            </span>
+          </span>
+          <span class="nav-link-right">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity: 0.45;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </span>
+        </a>
+
+        <a href="https://wordsmartmastery.vercel.app/" target="_blank" rel="noopener noreferrer" class="nav-link nav-mirror-link" id="nav-mirror-vercel" title="Open Vercel Mirror">
+          <span class="nav-link-left">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="color: #ffffff; flex-shrink: 0;">
+              <polygon points="12 2 24 22 0 22"></polygon>
+            </svg>
+            <span class="nav-link-col">
+              <span class="nav-link-title">Vercel Mirror</span>
+              <span class="nav-link-url">wordsmartmastery.vercel.app</span>
+            </span>
+          </span>
+          <span class="nav-link-right">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity: 0.45;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </span>
         </a>
       </nav>
+    </div>
+  </div>
+
+  <!-- ============ SMARTPHONE INSTALLATION GUIDE MODAL ============ -->
+  <div id="install-modal" class="auth-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="install-modal-title">
+    <div class="auth-box install-box glass">
+      <button class="close-auth" id="close-install-btn" aria-label="Close">&times;</button>
+      <div class="install-modal-header">
+        <div class="install-app-badge">
+          <img src="icons/logo-192.png" alt="Word Smart App Icon" class="install-app-logo" />
+        </div>
+        <h2 id="install-modal-title" style="font-family: var(--serif); margin: 8px 0 3px; font-size: 1.45rem; color: var(--paper);">Install Word Smart</h2>
+        <p style="font-size: 0.84rem; color: var(--ink-muted); margin: 0;">Add to your smartphone home screen for the full app experience</p>
+      </div>
+
+      <!-- Feature highlights -->
+      <div class="install-perks">
+        <div class="install-perk-item">
+          <span class="perk-icon">⚡</span>
+          <span>100% Offline</span>
+        </div>
+        <div class="install-perk-item">
+          <span class="perk-icon">📱</span>
+          <span>Fullscreen</span>
+        </div>
+        <div class="install-perk-item">
+          <span class="perk-icon">🔄</span>
+          <span>Cloud Sync</span>
+        </div>
+      </div>
+
+      <!-- Native 1-Tap Trigger Section (shown when browser prompt is available) -->
+      <div id="install-native-action" class="install-native-section hidden">
+        <button id="native-install-prompt-btn" class="oauth-btn primary-install-btn" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Install App Now (1-Tap)</span>
+        </button>
+      </div>
+
+      <!-- Platform-Specific Instructions Tabs -->
+      <div class="install-guide-tabs">
+        <button class="install-tab-btn active" id="tab-ios" type="button">iPhone / iPad (iOS)</button>
+        <button class="install-tab-btn" id="tab-android" type="button">Android / Chrome</button>
+      </div>
+
+      <!-- iOS Safari Instructions -->
+      <div id="guide-ios" class="install-guide-panel">
+        <div class="install-step">
+          <span class="step-num">1</span>
+          <div class="step-desc">
+            In <strong>Safari</strong>, tap the <strong>Share</strong> button
+            <span class="step-chip">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> Share
+            </span> in the bottom toolbar.
+          </div>
+        </div>
+        <div class="install-step">
+          <span class="step-num">2</span>
+          <div class="step-desc">
+            Scroll down the share sheet and tap <span class="step-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add to Home Screen</span>.
+          </div>
+        </div>
+        <div class="install-step">
+          <span class="step-num">3</span>
+          <div class="step-desc">
+            Tap <strong>Add</strong> in the top-right corner to finish!
+          </div>
+        </div>
+      </div>
+
+      <!-- Android Instructions -->
+      <div id="guide-android" class="install-guide-panel hidden">
+        <div class="install-step">
+          <span class="step-num">1</span>
+          <div class="step-desc">
+            In <strong>Chrome</strong> or your mobile browser, tap the <strong>three dots (⋮)</strong> menu in the top-right corner.
+          </div>
+        </div>
+        <div class="install-step">
+          <span class="step-num">2</span>
+          <div class="step-desc">
+            Tap <span class="step-chip">Install app</span> or <span class="step-chip">Add to Home screen</span>.
+          </div>
+        </div>
+        <div class="install-step">
+          <span class="step-num">3</span>
+          <div class="step-desc">
+            Confirm the prompt to add the Word Smart icon to your phone home screen.
+          </div>
+        </div>
+      </div>
+
+      <div class="install-footer">
+        <button id="install-done-btn" class="oauth-btn secondary-btn" type="button">Got It</button>
+      </div>
     </div>
   </div>
 
@@ -2391,18 +3383,55 @@ footer.site-foot{
   <div id="auth-modal" class="auth-overlay hidden">
     <div class="auth-box">
       <button class="close-auth" id="close-auth-btn">&times;</button>
-      <h2 style="font-family: var(--serif); margin-top: 0; font-size: 1.6rem;">Cross-Device Sync</h2>
-      <p style="font-size: 0.88rem; color: var(--ink-muted); margin-bottom: 24px; line-height: 1.4;">Sign in to seamlessly sync your flashcard study progress and mastery across all your phones, tablets, and computers.</p>
-      
-      <button class="oauth-btn" id="google-login-btn" type="button">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-        </svg>
-        <span>Continue with Google</span>
+      <h2 style="font-family: var(--serif); margin-top: 0; font-size: 1.5rem;">User Account &amp; Sync</h2>
+      <p style="font-size: 0.86rem; color: var(--ink-muted); margin-bottom: 16px; line-height: 1.4;">Sign in to sync your study progress and mirror flashcard images from your Google Drive folder.</p>
+
+      <!-- Google Sign In with Drive permissions -->
+      <button class="gsi-material-button" id="google-signin-btn" type="button">
+        <div class="gsi-material-button-content-wrapper">
+          <div class="gsi-material-button-icon">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" style="display: block;">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+              <path fill="none" d="M0 0h48v48H0z"></path>
+            </svg>
+          </div>
+          <span class="gsi-material-button-contents" id="google-btn-label">Continue with Google</span>
+        </div>
       </button>
+
+      <!-- Google Drive Folder Mirror Info Card -->
+      <div class="drive-folder-card">
+        <div class="drive-folder-header">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4285F4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 15V9l-7-7-7 7v6l7 7 7-7z"/>
+            <path d="M12 2v20"/>
+          </svg>
+          <div class="drive-folder-meta">
+            <div class="drive-folder-name">Drive Folder Mirror</div>
+            <div class="drive-folder-id" title="1Ksu-Ek_ooG8VgZ3tsKw7_G5vBl7k77dI">1Ksu-Ek_ooG8VgZ3tsKw7_G5vBl7k77dI</div>
+          </div>
+        </div>
+        <button type="button" class="drive-interrogate-btn" id="drive-interrogate-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+          <span id="drive-interrogate-label">Interrogate &amp; Mirror Drive</span>
+        </button>
+      </div>
+
+      <div class="auth-divider"><span>or use email &amp; password</span></div>
+      
+      <div class="install-guide-tabs" style="margin-bottom: 16px;">
+        <button type="button" class="install-tab-btn active" id="auth-tab-signin">Sign In</button>
+        <button type="button" class="install-tab-btn" id="auth-tab-signup">Create Account</button>
+      </div>
+
+      <form id="supabase-auth-form" class="email-form" onsubmit="return false;">
+        <input type="email" id="auth-email-input" placeholder="Enter your email" required autocomplete="email" />
+        <input type="password" id="auth-password-input" placeholder="Enter password (min 6 chars)" required minlength="6" autocomplete="current-password" />
+        <button type="submit" id="auth-submit-btn">Sign In to Sync</button>
+      </form>
 
       <div id="auth-status-msg" style="margin-top: 14px; font-size: 0.8rem; min-height: 18px; color: var(--ink-muted);"></div>
     </div>
@@ -2419,14 +3448,19 @@ footer.site-foot{
       <h1>Word Smart 1 &amp; 2 <em>Mastery</em></h1>
     </div>
 
-    <!-- Quick actions (Menu) -->
+    <!-- Quick actions (Menu with Notification Highlight) -->
     <div class="quick-actions glass" id="quick-actions">
-      <button id="hamburger-btn" class="quick-action-btn" aria-label="Open menu">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="3" y1="12" x2="21" y2="12"></line>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <line x1="3" y1="18" x2="21" y2="18"></line>
+      <button id="hamburger-btn" class="quick-action-btn hamburger-wrap" aria-label="Open menu" title="Menu &amp; Updates">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <circle cx="12" cy="5" r="2.2"></circle>
+          <circle cx="12" cy="12" r="2.2"></circle>
+          <circle cx="12" cy="19" r="2.2"></circle>
         </svg>
+        <!-- Dynamic notice highlight badge on menu button -->
+        <span id="hamburger-notice-dot" class="hamburger-notice-badge hidden" aria-label="New notification">
+          <span class="notice-ping"></span>
+          <span class="notice-dot"></span>
+        </span>
       </button>
     </div>
   </header>
@@ -2919,6 +3953,8 @@ function openMistakesDrill(push = true) {
     return;
   }
 
+  saveHomeScroll();
+
   current = {
     isMistakesDrill: true,
     drillNum: 'mistakes',
@@ -3054,7 +4090,45 @@ function renderHome() {
   if (listContainer && !listContainer.classList.contains('hidden')) {
     renderMistakesList();
   }
+
+  // Update Hamburger Notice indicator on home refresh
+  if (typeof updateHamburgerNotification === 'function') {
+    updateHamburgerNotification();
+  }
 }
+
+// ---- Global Scroll Lock Manager for Menus, Popups & Overlays ---
+const activeScrollLocks = new Set();
+
+function lockScroll(key = 'default') {
+  activeScrollLocks.add(key);
+  document.documentElement.classList.add('scroll-locked');
+  document.body.classList.add('scroll-locked');
+}
+
+function unlockScroll(key = 'default') {
+  activeScrollLocks.delete(key);
+  if (activeScrollLocks.size === 0) {
+    document.documentElement.classList.remove('scroll-locked');
+    document.body.classList.remove('scroll-locked');
+  }
+}
+
+function forceUnlockScroll() {
+  activeScrollLocks.clear();
+  document.documentElement.classList.remove('scroll-locked');
+  document.body.classList.remove('scroll-locked');
+}
+
+// Block background dragging / scrolling on mobile devices when popups/menus are active
+document.addEventListener('touchmove', (e) => {
+  if (activeScrollLocks.size > 0) {
+    const scrollableTarget = e.target.closest('.side-menu, .auth-box, .mastery-box, .install-box, #search-results, .mistakes-items-scroll');
+    if (!scrollableTarget) {
+      e.preventDefault();
+    }
+  }
+}, { passive: false });
 
 // ---- Mastery Breakdown & Pie Chart Logic --------------------
 function getMasteryStats() {
@@ -3091,6 +4165,14 @@ function getMasteryStats() {
     completedDrills,
     totalDrills: DRILL_META.length
   };
+}
+
+function closeMasteryModal() {
+  const modal = el('#mastery-modal');
+  if (modal && !modal.classList.contains('hidden')) {
+    modal.classList.add('hidden');
+    unlockScroll('mastery');
+  }
 }
 
 function openMasteryModal() {
@@ -3138,13 +4220,13 @@ function openMasteryModal() {
     if (stats.totalAgain > 0) {
       actionBtn.textContent = `Practice ${stats.totalAgain} Mistakes`;
       actionBtn.onclick = () => {
-        modal.classList.add('hidden');
+        closeMasteryModal();
         openMistakesDrill(true);
       };
     } else {
       actionBtn.textContent = `Study Vocabulary`;
       actionBtn.onclick = () => {
-        modal.classList.add('hidden');
+        closeMasteryModal();
         const allProgress = loadAllProgress();
         let targetDrill = 1;
         for (let meta of DRILL_META) {
@@ -3161,9 +4243,37 @@ function openMasteryModal() {
   }
 
   modal.classList.remove('hidden');
+  lockScroll('mastery');
 }
 
-// ---- session / History API routing ---------------------------
+// ---- session / History API routing & scroll memory -----------
+let homeScrollY = 0;
+
+function saveHomeScroll() {
+  const homeView = el('#home-view');
+  if (homeView && !homeView.classList.contains('hidden') && !document.body.classList.contains('in-session')) {
+    homeScrollY = Math.max(0, window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0);
+    try {
+      sessionStorage.setItem('ws_home_scroll_y', String(homeScrollY));
+    } catch (e) {}
+  }
+}
+
+function restoreHomeScroll() {
+  const targetY = homeScrollY || 0;
+  // Restore immediately and after the frame layout settles
+  requestAnimationFrame(() => {
+    window.scrollTo({ top: targetY, behavior: 'instant' });
+    window.dispatchEvent(new Event('scroll'));
+    setTimeout(() => {
+      if (el('#home-view') && !el('#home-view').classList.contains('hidden')) {
+        window.scrollTo({ top: targetY, behavior: 'instant' });
+        window.dispatchEvent(new Event('scroll'));
+      }
+    }, 40);
+  });
+}
+
 function closeSession(eventOrPush) {
   const push = typeof eventOrPush === 'boolean' ? eventOrPush : true;
   current = null;
@@ -3179,7 +4289,11 @@ function closeSession(eventOrPush) {
   el('#summary-view').classList.add('hidden');
   el('#home-view').classList.remove('hidden');
   renderHome();
+  if (typeof updateSearchCollapseState === 'function') {
+    updateSearchCollapseState();
+  }
   if (push) history.pushState({ view: 'home' }, '', window.location.pathname);
+  restoreHomeScroll();
 }
 
 function openDrill(drillNum, opts = {}, push = true) {
@@ -3187,6 +4301,8 @@ function openDrill(drillNum, opts = {}, push = true) {
     openMistakesDrill(push);
     return;
   }
+
+  saveHomeScroll();
 
   const cards = DRILLS[drillNum];
   const order = cards.map((_, i) => i);
@@ -3497,6 +4613,7 @@ function triggerReward() {
 // ---- Google-Style Top Search & Dark Backdrop Overlay -----------
 function openSearchFocus() {
   document.body.classList.add('search-focused');
+  lockScroll('search');
   const wrap = el('#search-wrap') || el('.search-wrap');
   const input = el('#search');
   const closeBtn = el('#search-close-btn');
@@ -3514,6 +4631,7 @@ function openSearchFocus() {
 
 function closeSearchFocus() {
   document.body.classList.remove('search-focused');
+  unlockScroll('search');
   const wrap = el('#search-wrap') || el('.search-wrap');
   const input = el('#search');
   const box = el('#search-results');
@@ -3583,6 +4701,7 @@ function initEvents() {
     el('#menu-backdrop').classList.remove('open');
     el('#auth-modal').classList.add('hidden');
     el('#mastery-modal')?.classList.add('hidden');
+    forceUnlockScroll();
 
     if (!state || state.view === 'home') {
       closeSession(false);
@@ -3766,11 +4885,13 @@ function initEvents() {
   const openMenu = () => {
     sideMenu.classList.add('open');
     menuBackdrop.classList.add('open');
+    lockScroll('menu');
   };
 
   const closeMenu = () => {
     sideMenu.classList.remove('open');
     menuBackdrop.classList.remove('open');
+    unlockScroll('menu');
   };
 
   hamburgerBtn?.addEventListener('click', openMenu);
@@ -3779,11 +4900,7 @@ function initEvents() {
   
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-       if (e.currentTarget.id === 'nav-home') {
-           e.preventDefault();
-           closeSession(true);
-       }
-       else if (e.currentTarget.id === 'nav-mistakes-menu-btn') {
+       if (e.currentTarget.id === 'nav-mistakes-menu-btn') {
            e.preventDefault();
            closeMenu();
            if (el('#study-view').classList.contains('hidden') && el('#summary-view').classList.contains('hidden')) {
@@ -3812,7 +4929,7 @@ function initEvents() {
            if (user) {
              el('#user-pill')?.click();
            } else {
-             el('#auth-modal')?.classList.remove('hidden');
+             openAuthModal();
            }
        }
        else if (e.currentTarget.id === 'nav-check-update') {
@@ -3842,25 +4959,14 @@ function initEvents() {
        }
        else if (e.currentTarget.id === 'nav-install-app') {
            e.preventDefault();
-           if (deferredInstallPrompt) {
-             deferredInstallPrompt.prompt();
-             deferredInstallPrompt.userChoice.then((choiceResult) => {
-               if (choiceResult.outcome === 'accepted') {
-                 showToast('Installing Word Smart app…', '📲', 2500);
-               }
-               deferredInstallPrompt = null;
-             });
-           } else {
-             showToast('To install: tap Share or Browser Menu -> "Add to Home screen"', '📲', 4000);
-           }
+           triggerQuickInstall();
        }
        else if (e.currentTarget.id === 'nav-about') {
            e.preventDefault();
            showToast('Word Smart Mastery: 793 GRE/SAT words across 16 drills', '📖', 3500);
        }
-       else if (e.currentTarget.id === 'nav-features') {
-           e.preventDefault();
-           showToast('Features: Real-time cloud sync, swipe cards, voice search & study drills', '⚡', 3500);
+       else if (e.currentTarget.id === 'nav-telegram-group' || e.currentTarget.id === 'nav-whatsapp-group' || e.currentTarget.id.startsWith('nav-mirror-')) {
+           // External community and mirror links - allow natural link opening in new tab
        }
        closeMenu();
     });
@@ -3879,32 +4985,129 @@ function initEvents() {
   el('#nav-next').addEventListener('click', goNext);
   el('#shuffle-btn').addEventListener('click', shuffleDeck);
 
+  // === Smartphone Quick Install & Menu Notifications Logic ===
+  const installModal = el('#install-modal');
+  const closeInstallBtn = el('#close-install-btn');
+  const installDoneBtn = el('#install-done-btn');
+  const nativePromptBtn = el('#native-install-prompt-btn');
+  const tabIos = el('#tab-ios');
+  const tabAndroid = el('#tab-android');
+
+  closeInstallBtn?.addEventListener('click', () => closeInstallModal());
+  installDoneBtn?.addEventListener('click', () => closeInstallModal());
+  nativePromptBtn?.addEventListener('click', () => triggerQuickInstall());
+
+  tabIos?.addEventListener('click', () => setInstallTab('ios'));
+  tabAndroid?.addEventListener('click', () => setInstallTab('android'));
+
+  installModal?.addEventListener('click', (e) => {
+    if (e.target === installModal) closeInstallModal();
+  });
+
   // === Authentication & Sync UI Logic ===
   const loginBtn = el('#nav-login-btn');
   const authModal = el('#auth-modal');
   const closeAuthBtn = el('#close-auth-btn');
-  const googleBtn = el('#google-login-btn');
+  const authTabSignin = el('#auth-tab-signin');
+  const authTabSignup = el('#auth-tab-signup');
+  const authForm = el('#supabase-auth-form');
+  const authEmailInput = el('#auth-email-input');
+  const authPasswordInput = el('#auth-password-input');
+  const authSubmitBtn = el('#auth-submit-btn');
+  const authStatusMsg = el('#auth-status-msg');
   const userPill = el('#user-pill');
   const userDropdown = el('#user-dropdown');
   const manualSyncBtn = el('#manual-sync-btn');
   const signoutBtn = el('#signout-btn');
 
+  let currentAuthMode = 'signin'; // 'signin' or 'signup'
+
+  const setAuthMode = (mode) => {
+    currentAuthMode = mode;
+    if (mode === 'signup') {
+      authTabSignup?.classList.add('active');
+      authTabSignin?.classList.remove('active');
+      if (authSubmitBtn) authSubmitBtn.textContent = 'Create Account & Sync';
+    } else {
+      authTabSignin?.classList.add('active');
+      authTabSignup?.classList.remove('active');
+      if (authSubmitBtn) authSubmitBtn.textContent = 'Sign In to Sync';
+    }
+    if (authStatusMsg) authStatusMsg.textContent = '';
+  };
+
+  authTabSignin?.addEventListener('click', () => setAuthMode('signin'));
+  authTabSignup?.addEventListener('click', () => setAuthMode('signup'));
+
+  const openAuthModal = () => {
+    authModal?.classList.remove('hidden');
+    setAuthMode('signin');
+    if (authEmailInput) authEmailInput.focus();
+    lockScroll('auth');
+  };
+
+  const closeAuthModal = () => {
+    authModal?.classList.add('hidden');
+    unlockScroll('auth');
+  };
+
   loginBtn?.addEventListener('click', (e) => {
     e.stopPropagation();
-    authModal?.classList.remove('hidden');
+    openAuthModal();
   });
   
-  closeAuthBtn?.addEventListener('click', () => {
-    authModal?.classList.add('hidden');
-  });
+  closeAuthBtn?.addEventListener('click', closeAuthModal);
 
   authModal?.addEventListener('click', (e) => {
-    if (e.target === authModal) authModal.classList.add('hidden');
+    if (e.target === authModal) closeAuthModal();
   });
 
-  googleBtn?.addEventListener('click', async () => {
-    if (window.SyncService && typeof window.SyncService.signInWithGoogle === 'function') {
-      await window.SyncService.signInWithGoogle();
+  authForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = authEmailInput?.value?.trim();
+    const password = authPasswordInput?.value;
+
+    if (!email || !password) return;
+
+    if (authStatusMsg) {
+      authStatusMsg.textContent = currentAuthMode === 'signup' ? 'Creating account in Supabase...' : 'Verifying credentials...';
+      authStatusMsg.style.color = 'var(--ink-muted)';
+    }
+    if (authSubmitBtn) authSubmitBtn.disabled = true;
+
+    try {
+      if (window.SyncService && typeof window.SyncService.loginWithSupabase === 'function') {
+        const result = await window.SyncService.loginWithSupabase(email, password, currentAuthMode);
+        if (result && result.success) {
+          if (authForm) authForm.reset();
+          closeAuthModal();
+        }
+      }
+    } catch (err) {
+      if (authStatusMsg) {
+        authStatusMsg.textContent = err.message || 'Authentication failed';
+        authStatusMsg.style.color = 'var(--rust)';
+      }
+    } finally {
+      if (authSubmitBtn) authSubmitBtn.disabled = false;
+    }
+  });
+
+  // Google Sign-In & Drive Interrogate Button Handlers
+  const googleSigninBtn = el('#google-signin-btn');
+  const driveInterrogateBtn = el('#drive-interrogate-btn');
+
+  googleSigninBtn?.addEventListener('click', async (e) => {
+    e.preventDefault();
+    if (window.DriveService && typeof window.DriveService.loginAndInterrogate === 'function') {
+      await window.DriveService.loginAndInterrogate();
+    }
+  });
+
+  driveInterrogateBtn?.addEventListener('click', async (e) => {
+    e.preventDefault();
+    if (window.DriveService && typeof window.DriveService.interrogateFolder === 'function') {
+      await window.DriveService.interrogateFolder();
     }
   });
 
@@ -3955,12 +5158,10 @@ function initEvents() {
     openMasteryModal();
   });
 
-  closeMasteryBtn?.addEventListener('click', () => {
-    masteryModal?.classList.add('hidden');
-  });
+  closeMasteryBtn?.addEventListener('click', closeMasteryModal);
 
   masteryModal?.addEventListener('click', (e) => {
-    if (e.target === masteryModal) masteryModal.classList.add('hidden');
+    if (e.target === masteryModal) closeMasteryModal();
   });
   // ==================================
 
@@ -4067,14 +5268,24 @@ function initEvents() {
         closeSearchFocus();
         return;
       }
+      const installModalEl = el('#install-modal');
+      if (installModalEl && !installModalEl.classList.contains('hidden')) {
+        closeInstallModal();
+        return;
+      }
+      const sideMenu = el('#side-menu');
+      if (sideMenu && sideMenu.classList.contains('open')) {
+        closeMenu();
+        return;
+      }
       const masteryModal = el('#mastery-modal');
       if (masteryModal && !masteryModal.classList.contains('hidden')) {
-        masteryModal.classList.add('hidden');
+        closeMasteryModal();
         return;
       }
       const authModal = el('#auth-modal');
       if (authModal && !authModal.classList.contains('hidden')) {
-        authModal.classList.add('hidden');
+        closeAuthModal();
         return;
       }
       if (current && !el('#study-view').classList.contains('hidden')) {
@@ -4096,26 +5307,175 @@ function initEvents() {
 let deferredInstallPrompt = null;
 let waitingWorkerInstance = null;
 
+function isAppInstalled() {
+  return window.matchMedia('(display-mode: standalone)').matches ||
+         window.navigator.standalone === true ||
+         (document.referrer && document.referrer.startsWith('android-app://'));
+}
+
+function isIOSDevice() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+         (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+
+function openInstallModal(preferredTab = null) {
+  const modal = el('#install-modal');
+  if (!modal) return;
+
+  const isIos = preferredTab ? (preferredTab === 'ios') : isIOSDevice();
+  setInstallTab(isIos ? 'ios' : 'android');
+
+  const nativeSec = el('#install-native-action');
+  if (nativeSec) {
+    nativeSec.classList.toggle('hidden', !deferredInstallPrompt);
+  }
+
+  modal.classList.remove('hidden');
+  lockScroll('install');
+  if (history.state?.view !== 'install_modal') {
+    history.pushState({ view: 'install_modal' }, '', location.href);
+  }
+}
+
+function closeInstallModal(viaPopstate = false) {
+  const modal = el('#install-modal');
+  if (!modal || modal.classList.contains('hidden')) return;
+  modal.classList.add('hidden');
+  unlockScroll('install');
+  if (!viaPopstate && history.state?.view === 'install_modal') {
+    history.back();
+  }
+}
+
+function setInstallTab(platform) {
+  const tabIos = el('#tab-ios');
+  const tabAndroid = el('#tab-android');
+  const guideIos = el('#guide-ios');
+  const guideAndroid = el('#guide-android');
+
+  if (platform === 'ios') {
+    tabIos?.classList.add('active');
+    tabAndroid?.classList.remove('active');
+    guideIos?.classList.remove('hidden');
+    guideAndroid?.classList.add('hidden');
+  } else {
+    tabAndroid?.classList.add('active');
+    tabIos?.classList.remove('active');
+    guideAndroid?.classList.remove('hidden');
+    guideIos?.classList.add('hidden');
+  }
+}
+
+function triggerQuickInstall() {
+  if (isAppInstalled()) {
+    showToast('Word Smart is already running as an installed app!', '✨', 2500);
+    return;
+  }
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        showToast('Installing Word Smart app…', '📲', 2500);
+        dismissMobileInstallBanner();
+      }
+      deferredInstallPrompt = null;
+      updateInstallUIState();
+    });
+  } else {
+    openInstallModal();
+  }
+}
+
+function dismissMobileInstallBanner() {
+  const banner = el('#mobile-install-banner');
+  if (banner) {
+    banner.classList.add('hidden');
+  }
+  sessionStorage.setItem('wordsmart_install_banner_dismissed', '1');
+}
+
+let isAppUpdateAvailable = false;
+
+function updateHamburgerNotification() {
+  const badge = el('#hamburger-notice-dot');
+  if (!badge) return;
+
+  const installed = isAppInstalled();
+  const installAvailable = !installed;
+  const updateAvailable = isAppUpdateAvailable;
+  
+  // Also check if there are major unreviewed mistakes (> 0)
+  const mistakesCount = typeof getAllMistakes === 'function' ? getAllMistakes().length : 0;
+  const hasMajorMistakesNotice = mistakesCount >= 5;
+
+  const hasNotice = updateAvailable || installAvailable || hasMajorMistakesNotice;
+
+  badge.classList.toggle('hidden', !hasNotice);
+
+  if (updateAvailable) {
+    badge.classList.add('is-update');
+    badge.setAttribute('title', 'Update ready to install!');
+  } else {
+    badge.classList.remove('is-update');
+    if (installAvailable) {
+      badge.setAttribute('title', 'Install Word Smart App on your smartphone / desktop');
+    } else {
+      badge.setAttribute('title', 'Menu notifications & review');
+    }
+  }
+}
+
+function updateInstallUIState() {
+  const installed = isAppInstalled();
+  document.body.classList.toggle('is-installed', installed);
+
+  const installTitle = el('#side-menu-install-title');
+  const installBadge = el('#side-menu-install-badge');
+  const updateBadge = el('#side-menu-update-badge');
+
+  if (installBadge) {
+    if (installed) {
+      installBadge.textContent = 'Installed ✓';
+      installBadge.className = 'menu-notice-chip installed';
+    } else {
+      installBadge.textContent = 'Install';
+      installBadge.className = 'menu-notice-chip install';
+    }
+  }
+
+  if (installTitle) {
+    installTitle.textContent = installed ? 'Word Smart App (Installed)' : 'Install Smartphone App';
+  }
+
+  if (updateBadge) {
+    updateBadge.classList.toggle('hidden', !isAppUpdateAvailable);
+  }
+
+  updateHamburgerNotification();
+}
+
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredInstallPrompt = e;
-  const installLink = document.getElementById('nav-install-app');
-  if (installLink) installLink.classList.remove('hidden');
+  updateInstallUIState();
+  const nativeSec = el('#install-native-action');
+  if (nativeSec) nativeSec.classList.remove('hidden');
 });
 
 window.addEventListener('appinstalled', () => {
   deferredInstallPrompt = null;
-  const installLink = document.getElementById('nav-install-app');
-  if (installLink) installLink.classList.add('hidden');
+  updateInstallUIState();
   showToast('Word Smart app installed successfully!', '🎉', 3500);
 });
 
 function showUpdateNotification(worker) {
   waitingWorkerInstance = worker;
+  isAppUpdateAvailable = true;
   const banner = document.getElementById('update-banner');
   if (banner) {
     banner.classList.remove('hidden');
   }
+  updateInstallUIState();
 }
 
 function applyAppUpdate() {
@@ -4261,11 +5621,12 @@ function initHeaderScrollEffect() {
 }
 
 // ---- floating search: transforms into Material Design circle in top-right corner on scroll / during drills ----
+let updateSearchCollapseState = null;
 function initSearchCollapse() {
   const wrap = el('#search-wrap') || el('.search-wrap');
   if (!wrap) return;
 
-  const THRESHOLD = 100; // px scrolled before morphing into top-right Material circle
+  const THRESHOLD = 80; // px scrolled before morphing into top-right Material circle
   let ticking = false;
 
   function apply() {
@@ -4273,7 +5634,7 @@ function initSearchCollapse() {
     const isDrill = document.body.classList.contains('in-session');
     if (isDrill) return; // In drill session, handled by body.in-session CSS
 
-    const y = Math.max(0, window.scrollY || window.pageYOffset || 0);
+    const y = Math.max(0, window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0);
     const isScrolled = y > THRESHOLD;
     
     if (isScrolled) {
@@ -4285,12 +5646,16 @@ function initSearchCollapse() {
     }
   }
 
+  updateSearchCollapseState = apply;
+
   window.addEventListener('scroll', () => {
     if (!ticking) {
       ticking = true;
       requestAnimationFrame(apply);
     }
   }, { passive: true });
+
+  window.addEventListener('resize', apply, { passive: true });
 
   // Tapping the floating circle or search icon opens Google-style top focused search
   wrap.addEventListener('click', () => {
@@ -4416,6 +5781,174 @@ function initFullscreenCardView() {
   });
 }
 
+// ============ GOOGLE MATERIAL TOUCH ANIMATION ENGINE ============
+function initMaterialTouchAnimation() {
+  const SELECTOR = [
+    'button',
+    'a',
+    '.tile',
+    '.btn',
+    '.flashcard',
+    '.result-row',
+    '.mistake-item-pill',
+    '.install-tab-btn',
+    '.quick-action-btn',
+    '.quick-install-btn',
+    '.mobile-install-action-btn',
+    '.mode-toggle button',
+    '.tag',
+    '.stat-chip',
+    '.step-chip',
+    '.badge-pill',
+    '.nav-link',
+    '.nav-mirror-link',
+    '.nav-community-link',
+    '.menu-notice-chip',
+    '.mistakes-count-chip',
+    '.close-auth',
+    '.oauth-btn',
+    '.fullscreen-btn',
+    '.theme-pill',
+    '.speed-chip',
+    '.search-pill',
+    '#flip-btn',
+    '#card-mode-btn',
+    '#list-mode-btn',
+    '#again-btn',
+    '#good-btn',
+    '#easy-btn',
+    '#menu-btn',
+    '#back-btn',
+    '#close-menu-btn'
+  ].join(', ');
+
+  const activeRipples = new WeakMap();
+
+  function getInteractiveHost(target) {
+    if (!target || typeof target.closest !== 'function') return null;
+    const host = target.closest(SELECTOR);
+    if (!host || host.disabled || host.getAttribute('aria-disabled') === 'true') return null;
+    return host;
+  }
+
+  function createRipple(e) {
+    const host = getInteractiveHost(e.target);
+    if (!host) return;
+
+    // Check if reduced motion
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    host.classList.add('md-ripple-host');
+    host.classList.add('md-touch-active');
+
+    const rect = host.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return;
+
+    let clientX = e.clientX;
+    let clientY = e.clientY;
+
+    if (clientX === undefined && e.touches && e.touches.length > 0) {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    }
+
+    if (clientX === undefined) {
+      clientX = rect.left + rect.width / 2;
+      clientY = rect.top + rect.height / 2;
+    }
+
+    const x = Math.max(0, Math.min(rect.width, clientX - rect.left));
+    const y = Math.max(0, Math.min(rect.height, clientY - rect.top));
+
+    // Calculate maximum distance to corners for full circle coverage
+    const maxCornerDist = Math.hypot(
+      Math.max(x, rect.width - x),
+      Math.max(y, rect.height - y)
+    );
+    const diameter = Math.round(maxCornerDist * 2.2);
+    const radius = diameter / 2;
+
+    const ripple = document.createElement('span');
+    ripple.className = 'md-ripple-wave';
+
+    // Surface color detection for adaptive ink
+    const isLightSurface = host.classList.contains('flashcard') ||
+                           host.classList.contains('search-pill') ||
+                           host.closest('.card-front') ||
+                           host.closest('.card-back');
+    const isSolidPrimary = host.classList.contains('btn-primary') ||
+                           host.classList.contains('mobile-install-action-btn') ||
+                           host.classList.contains('quick-install-btn');
+
+    if (isLightSurface) {
+      ripple.classList.add('dark-ink');
+    } else if (isSolidPrimary) {
+      ripple.classList.add('light-ink');
+    }
+
+    ripple.style.width = `${diameter}px`;
+    ripple.style.height = `${diameter}px`;
+    ripple.style.left = `${Math.round(x - radius)}px`;
+    ripple.style.top = `${Math.round(y - radius)}px`;
+
+    host.appendChild(ripple);
+
+    const record = activeRipples.get(host) || [];
+    record.push(ripple);
+    activeRipples.set(host, record);
+  }
+
+  function removeRipple(e) {
+    const host = getInteractiveHost(e.target) || (e.currentTarget && getInteractiveHost(e.currentTarget));
+    if (!host) {
+      document.querySelectorAll('.md-touch-active').forEach(el => el.classList.remove('md-touch-active'));
+      return;
+    }
+
+    host.classList.remove('md-touch-active');
+    const ripples = activeRipples.get(host);
+    if (!ripples || ripples.length === 0) return;
+
+    ripples.forEach(ripple => {
+      if (ripple && ripple.parentNode) {
+        ripple.classList.add('fading');
+        setTimeout(() => {
+          if (ripple.parentNode) {
+            ripple.parentNode.removeChild(ripple);
+          }
+        }, 380);
+      }
+    });
+
+    activeRipples.delete(host);
+  }
+
+  function cancelAllRipples() {
+    document.querySelectorAll('.md-touch-active').forEach(el => el.classList.remove('md-touch-active'));
+    document.querySelectorAll('.md-ripple-wave:not(.fading)').forEach(ripple => {
+      ripple.classList.add('fading');
+      setTimeout(() => {
+        if (ripple.parentNode) ripple.parentNode.removeChild(ripple);
+      }, 380);
+    });
+  }
+
+  // Pointer & Touch events with high responsiveness on smartphone screens
+  if (window.PointerEvent) {
+    document.addEventListener('pointerdown', createRipple, { passive: true, capture: true });
+    document.addEventListener('pointerup', removeRipple, { passive: true, capture: true });
+    document.addEventListener('pointercancel', cancelAllRipples, { passive: true, capture: true });
+  } else {
+    document.addEventListener('touchstart', createRipple, { passive: true, capture: true });
+    document.addEventListener('touchend', removeRipple, { passive: true, capture: true });
+    document.addEventListener('touchcancel', cancelAllRipples, { passive: true, capture: true });
+    document.addEventListener('mousedown', createRipple, { passive: true, capture: true });
+    document.addEventListener('mouseup', removeRipple, { passive: true, capture: true });
+  }
+
+  window.addEventListener('scroll', cancelAllRipples, { passive: true });
+}
+
 // Toast helper for user notifications
 let toastTimer = null;
 function showToast(message, icon = '☁️', duration = 2800) {
@@ -4433,6 +5966,26 @@ function showToast(message, icon = '☁️', duration = 2800) {
 }
 
 async function boot() {
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+
+  try {
+    const cachedY = sessionStorage.getItem('ws_home_scroll_y');
+    if (cachedY) homeScrollY = Math.max(0, parseFloat(cachedY) || 0);
+  } catch (e) {}
+
+  window.addEventListener('scroll', () => {
+    const homeView = el('#home-view');
+    if (homeView && !homeView.classList.contains('hidden') && !document.body.classList.contains('in-session')) {
+      const y = Math.max(0, window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0);
+      homeScrollY = y;
+      try {
+        sessionStorage.setItem('ws_home_scroll_y', String(y));
+      } catch (e) {}
+    }
+  }, { passive: true });
+
   migrateLegacyUserData();
   buildDataIndex(window.LEXICON_DATA);
   renderHome();
@@ -4441,7 +5994,9 @@ async function boot() {
   initHeaderScrollEffect();
   initSearchCollapse();
   initFullscreenCardView();
+  initMaterialTouchAnimation();
   registerServiceWorker();
+  updateInstallUIState();
 
   // Restore the correct screen on load instead of always forcing
   // Home. Without this, a shared "?drill=3" link, a bookmark, or a
@@ -4465,41 +6020,18 @@ async function boot() {
     history.replaceState({ view: 'summary', drillNum: summaryParam }, '', window.location.pathname + '?summary=' + summaryParam);
   } else {
     history.replaceState({ view: 'home' }, '', window.location.pathname);
+    if (homeScrollY > 0) {
+      restoreHomeScroll();
+    }
   }
 }
 
 boot();
 </script>
 
-<!-- ============ CROSS-DEVICE FIREBASE SYNC ============ -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDocs, collection, onSnapshot, getDocFromServer } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
-
-function handleFirestoreError(error, operationType, path) {
-  const errInfo = {
-    operationType,
-    path,
-    code: error?.code || 'unknown',
-    message: error?.message || 'A database error occurred'
-  };
-  console.error('Firestore Error:', errInfo);
-  if (error?.code === 'permission-denied') {
-    showToast('Permission denied. Please check your sign-in status.', '⚠️');
-  } else if (error?.code === 'unavailable') {
-    setSyncStatus('offline', 'Offline');
-  } else {
-    showToast(error?.message || 'Sync error occurred', '⚠️');
-  }
-  return errInfo;
-}
-
-let firebaseApp = null;
-let auth = null;
-let db = null;
-let googleProvider = null;
-let unsubscribeDrills = null;
+<!-- ============ CROSS-DEVICE SUPABASE SYNC & LOGIN STORAGE ============ -->
+<script>
+const USER_SESSION_KEY = 'wordsmart_supabase_user';
 let isRemoteUpdate = false;
 
 function setSyncStatus(state, label) {
@@ -4511,45 +6043,12 @@ function setSyncStatus(state, label) {
   syncStatusText.textContent = label;
 }
 
-async function initFirebase() {
+function getStoredUser() {
   try {
-    const res = await fetch('/api/firebase-config');
-    if (!res.ok) throw new Error('Could not fetch Firebase configuration');
-    const config = await res.json();
-    
-    firebaseApp = initializeApp(config);
-    auth = getAuth(firebaseApp);
-    db = getFirestore(firebaseApp, config.firestoreDatabaseId || undefined);
-    googleProvider = new GoogleAuthProvider();
-
-    // Verify connection
-    try {
-      await getDocFromServer(doc(db, 'test', 'connection'));
-    } catch (_) {
-      // Normal if test doc doesn't exist
-    }
-
-    onAuthStateChanged(auth, async (user) => {
-      window.SyncService.currentUser = user;
-      updateAuthUI(user);
-
-      if (user) {
-        setSyncStatus('syncing', 'Syncing...');
-        await saveUserProfile(user);
-        await subscribeToCloudDrills(user.uid);
-        showToast(`Signed in as ${user.displayName || user.email}`, '✨');
-      } else {
-        if (unsubscribeDrills) {
-          unsubscribeDrills();
-          unsubscribeDrills = null;
-        }
-        setSyncStatus('synced', 'Local Only');
-      }
-    });
-
-  } catch (err) {
-    console.warn('Firebase initialization note:', err);
-    setSyncStatus('offline', 'Local Mode');
+    const raw = localStorage.getItem(USER_SESSION_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
   }
 }
 
@@ -4562,27 +6061,23 @@ function updateAuthUI(user) {
   const userEmail = document.getElementById('dropdown-user-email');
   const sideMenuAuthLabel = document.getElementById('side-menu-auth-label');
 
-  if (user) {
+  if (user && user.id) {
     loginBtn?.classList.add('hidden');
     userPill?.classList.remove('hidden');
     authModal?.classList.add('hidden');
     if (sideMenuAuthLabel) {
-      sideMenuAuthLabel.textContent = user.displayName ? `Account (${user.displayName.split(' ')[0]})` : 'Account (Synced)';
+      sideMenuAuthLabel.textContent = user.email ? `Account (${user.email.split('@')[0]})` : 'Account (Synced)';
     }
 
     if (userAvatar) {
-      if (user.photoURL) {
-        userAvatar.innerHTML = `<img src="${user.photoURL}" alt="${user.displayName || 'User'}" referrerpolicy="no-referrer" />`;
-      } else {
-        const initial = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
-        userAvatar.textContent = initial;
-      }
+      const initial = (user.email || 'U').charAt(0).toUpperCase();
+      userAvatar.textContent = initial;
     }
     if (userName) {
-      userName.textContent = user.displayName ? user.displayName.split(' ')[0] : (user.email ? user.email.split('@')[0] : 'User');
+      userName.textContent = user.email ? user.email.split('@')[0] : 'User';
     }
     if (userEmail) {
-      userEmail.textContent = user.email || user.displayName || 'Signed In';
+      userEmail.textContent = user.email || 'Signed In';
     }
   } else {
     loginBtn?.classList.remove('hidden');
@@ -4590,116 +6085,6 @@ function updateAuthUI(user) {
     if (sideMenuAuthLabel) {
       sideMenuAuthLabel.textContent = 'Cloud Sync';
     }
-  }
-}
-
-async function saveUserProfile(user) {
-  if (!db || !user) return;
-  const userDocRef = doc(db, 'users', user.uid);
-  try {
-    const profileData = {
-      userId: user.uid,
-      email: user.email || '',
-      displayName: user.displayName || '',
-      photoURL: user.photoURL || '',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    };
-    await setDoc(userDocRef, profileData, { merge: true });
-  } catch (err) {
-    handleFirestoreError(err, 'write', `users/${user.uid}`);
-  }
-}
-
-async function subscribeToCloudDrills(uid) {
-  if (!db || !uid) return;
-  if (unsubscribeDrills) unsubscribeDrills();
-
-  const drillsColRef = collection(db, 'users', uid, 'drills');
-
-  try {
-    const localData = loadAllProgress();
-    const localDrillKeys = Object.keys(localData);
-
-    const snapshot = await getDocs(drillsColRef);
-    const remoteDrillMap = {};
-    snapshot.forEach(docSnap => {
-      remoteDrillMap[docSnap.id] = docSnap.data();
-    });
-
-    let mergedData = { ...localData };
-
-    // Check remote docs and merge
-    for (const [docId, remoteRecord] of Object.entries(remoteDrillMap)) {
-      const drillNum = remoteRecord.drillNum;
-      if (!drillNum) continue;
-
-      const localDrill = localData[drillNum] || {};
-      const remoteDrill = remoteRecord.status || {};
-      const combined = { ...localDrill, ...remoteDrill };
-      mergedData[drillNum] = combined;
-    }
-
-    // Check if there are local drills not yet on remote
-    for (const k of localDrillKeys) {
-      const drillNum = parseInt(k, 10);
-      const docId = `drill_${drillNum}`;
-      if (!remoteDrillMap[docId] && Object.keys(localData[k] || {}).length > 0) {
-        const statusObj = localData[k];
-        const knownCount = Object.values(statusObj).filter(s => s === 'known').length;
-        const againCount = Object.values(statusObj).filter(s => s === 'again').length;
-        const drillDocRef = doc(db, 'users', uid, docId);
-        await setDoc(drillDocRef, {
-          userId: uid,
-          drillNum: drillNum,
-          status: statusObj,
-          knownCount,
-          againCount,
-          updatedAt: new Date().toISOString()
-        });
-      }
-    }
-
-    // Save merged data locally
-    isRemoteUpdate = true;
-    localStorage.setItem(STORAGE_KEY, encryptData(JSON.stringify(mergedData)));
-    refreshAppUI();
-    isRemoteUpdate = false;
-    setSyncStatus('synced', 'Synced');
-
-    // Subscribe to live changes across devices
-    unsubscribeDrills = onSnapshot(drillsColRef, (liveSnap) => {
-      let changes = false;
-      const currentLocal = loadAllProgress();
-      liveSnap.forEach(docSnap => {
-        const data = docSnap.data();
-        if (data && data.drillNum) {
-          const drillNum = data.drillNum;
-          const remoteStatus = data.status || {};
-          const localStatus = currentLocal[drillNum] || {};
-          
-          if (JSON.stringify(remoteStatus) !== JSON.stringify(localStatus)) {
-            currentLocal[drillNum] = remoteStatus;
-            changes = true;
-          }
-        }
-      });
-
-      if (changes) {
-        isRemoteUpdate = true;
-        localStorage.setItem(STORAGE_KEY, encryptData(JSON.stringify(currentLocal)));
-        refreshAppUI();
-        isRemoteUpdate = false;
-        showToast('Updated from another device', '🔄');
-        setSyncStatus('synced', 'Synced');
-      }
-    }, (err) => {
-      handleFirestoreError(err, 'listen', `users/${uid}/drills`);
-    });
-
-  } catch (err) {
-    handleFirestoreError(err, 'read', `users/${uid}/drills`);
-    setSyncStatus('synced', 'Local Only');
   }
 }
 
@@ -4718,88 +6103,358 @@ function refreshAppUI() {
 }
 
 window.SyncService = {
-  currentUser: null,
-  async signInWithGoogle() {
-    const authStatus = document.getElementById('auth-status-msg');
-    const googleBtn = document.getElementById('google-login-btn');
-    try {
-      if (!auth || !googleProvider) throw new Error('Authentication not initialized');
-      if (authStatus) {
-        authStatus.textContent = 'Connecting to Google...';
-        authStatus.style.color = 'var(--ink-muted)';
-      }
-      if (googleBtn) googleBtn.disabled = true;
+  currentUser: getStoredUser(),
 
-      const result = await signInWithPopup(auth, googleProvider);
-      if (authStatus) authStatus.textContent = '';
-      return result.user;
+  async init() {
+    const user = getStoredUser();
+    this.currentUser = user;
+    updateAuthUI(user);
+
+    if (user && user.id) {
+      setSyncStatus('syncing', 'Syncing...');
+      await this.fetchRemoteProgress(user.id);
+    } else {
+      setSyncStatus('synced', 'Local Only');
+    }
+  },
+
+  async loginWithSupabase(email, password, action = 'signin') {
+    const authStatus = document.getElementById('auth-status-msg');
+    try {
+      const res = await fetch('/api/supabase/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, action })
+      });
+
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        throw new Error(data.error || 'Authentication failed');
+      }
+
+      const user = data.user;
+      this.currentUser = user;
+      localStorage.setItem(USER_SESSION_KEY, JSON.stringify(user));
+      updateAuthUI(user);
+
+      showToast(action === 'signup' ? 'Account created & synced!' : `Signed in as ${user.email}`, '✨');
+      
+      // Sync local progress with cloud on login
+      setSyncStatus('syncing', 'Syncing...');
+      await this.fetchRemoteProgress(user.id);
+      await this.syncAll(false);
+
+      return { success: true, user };
     } catch (err) {
-      console.error('Sign-in error:', err);
+      console.error('Supabase auth error:', err);
       if (authStatus) {
-        authStatus.textContent = err.message || 'Sign in cancelled or failed';
+        authStatus.textContent = err.message || 'Authentication failed';
         authStatus.style.color = 'var(--rust)';
       }
-      showToast('Sign in failed: ' + (err.message || 'Unknown error'), '⚠️');
-    } finally {
-      if (googleBtn) googleBtn.disabled = false;
+      showToast(err.message || 'Login failed', '⚠️');
+      throw err;
     }
   },
 
   async signOutUser() {
-    if (!auth) return;
+    this.currentUser = null;
+    localStorage.removeItem(USER_SESSION_KEY);
+    updateAuthUI(null);
+    setSyncStatus('synced', 'Local Only');
+    showToast('Signed out of cloud sync', '👋');
+  },
+
+  async fetchRemoteProgress(userId) {
+    if (!userId) return;
     try {
-      await signOut(auth);
-      showToast('Signed out of cloud sync', '👋');
+      const res = await fetch(`/api/supabase/progress/${encodeURIComponent(userId)}`);
+      if (!res.ok) return;
+      const data = await res.json();
+      
+      if (data && data.progress) {
+        const remoteProgress = data.progress;
+        const localProgress = loadAllProgress();
+        
+        let merged = { ...localProgress };
+        Object.keys(remoteProgress).forEach(drillNum => {
+          merged[drillNum] = { ...(localProgress[drillNum] || {}), ...(remoteProgress[drillNum] || {}) };
+        });
+
+        isRemoteUpdate = true;
+        localStorage.setItem(STORAGE_KEY, encryptData(JSON.stringify(merged)));
+        refreshAppUI();
+        isRemoteUpdate = false;
+        setSyncStatus('synced', 'Synced');
+      } else {
+        // Upload initial local data if remote is empty
+        await this.syncAll(false);
+      }
     } catch (err) {
-      console.error('Sign out error:', err);
+      console.warn('Could not fetch Supabase progress:', err);
+      setSyncStatus('synced', 'Local Only');
     }
   },
 
   async saveDrill(drillNum, statusObj) {
     if (isRemoteUpdate) return;
-    const user = auth?.currentUser;
-    if (!user || !db) return;
+    const user = this.currentUser;
+    if (!user || !user.id) return;
 
     setSyncStatus('syncing', 'Syncing...');
-
     try {
-      const knownCount = Object.values(statusObj).filter(s => s === 'known').length;
-      const againCount = Object.values(statusObj).filter(s => s === 'again').length;
-      const drillDocRef = doc(db, 'users', user.uid, `drill_${drillNum}`);
+      const allProgress = loadAllProgress();
+      allProgress[drillNum] = statusObj;
 
-      await setDoc(drillDocRef, {
-        userId: user.uid,
-        drillNum: drillNum,
-        status: statusObj,
-        knownCount: knownCount,
-        againCount: againCount,
-        updatedAt: new Date().toISOString()
-      }, { merge: true });
+      await fetch('/api/supabase/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user.id,
+          email: user.email,
+          progressData: allProgress
+        })
+      });
 
       setSyncStatus('synced', 'Synced');
     } catch (err) {
-      handleFirestoreError(err, 'write', `users/${user.uid}/drills/drill_${drillNum}`);
+      console.warn('Sync save error:', err);
       setSyncStatus('offline', 'Sync Error');
     }
   },
 
   async syncAll(showManualToast = false) {
-    const user = auth?.currentUser;
-    if (!user) {
+    const user = this.currentUser;
+    if (!user || !user.id) {
       showToast('Sign in to sync your cards across devices', '☁️');
       document.getElementById('auth-modal')?.classList.remove('hidden');
       return;
     }
+
     setSyncStatus('syncing', 'Syncing...');
-    await subscribeToCloudDrills(user.uid);
-    if (showManualToast) {
-      showToast('Flashcard progress up to date!', '✅');
+    try {
+      const allProgress = loadAllProgress();
+      const res = await fetch('/api/supabase/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user.id,
+          email: user.email,
+          progressData: allProgress
+        })
+      });
+
+      if (res.ok) {
+        setSyncStatus('synced', 'Synced');
+        if (showManualToast) {
+          showToast('Vocabulary progress saved to Supabase!', '✅');
+        }
+      } else {
+        setSyncStatus('offline', 'Sync Error');
+      }
+    } catch (err) {
+      console.error('Supabase sync error:', err);
+      setSyncStatus('offline', 'Sync Error');
     }
   }
 };
 
-// Start Firebase
-initFirebase();
+// ============ GOOGLE DRIVE MIRROR & OAUTH SERVICE ============
+window.DriveService = {
+  folderId: '1Ksu-Ek_ooG8VgZ3tsKw7_G5vBl7k77dI',
+  accessToken: null,
+  isInitialized: false,
+  firebaseApp: null,
+
+  async init() {
+    try {
+      const res = await fetch('/api/firebase-config');
+      if (!res.ok) return;
+      const config = await res.json();
+      if (window.firebase && !firebase.apps.length) {
+        this.firebaseApp = firebase.initializeApp(config);
+        this.isInitialized = true;
+      }
+      this.loadCachedMirror();
+    } catch (e) {
+      console.warn('Drive service init notice:', e);
+    }
+  },
+
+  loadCachedMirror() {
+    try {
+      const cached = localStorage.getItem('wordsmart_drive_mirror');
+      if (cached) {
+        const data = JSON.parse(cached);
+        if (data && Array.isArray(data.files)) {
+          this.applyMirroredFiles(data.files, false);
+        }
+      }
+    } catch (e) {}
+  },
+
+  async loginAndInterrogate() {
+    const statusMsg = document.getElementById('auth-status-msg');
+    const btnLabel = document.getElementById('google-btn-label');
+    const interrogateLabel = document.getElementById('drive-interrogate-label');
+
+    if (statusMsg) {
+      statusMsg.textContent = 'Connecting to Google Drive...';
+      statusMsg.style.color = 'var(--ink-muted)';
+    }
+
+    try {
+      if (!this.isInitialized && window.firebase) {
+        await this.init();
+      }
+
+      if (!window.firebase) {
+        throw new Error('Firebase Auth SDK not ready');
+      }
+
+      const provider = new firebase.auth.GoogleAuthProvider();
+      provider.addScope('https://www.googleapis.com/auth/drive.readonly');
+      provider.setCustomParameters({ prompt: 'select_account' });
+
+      if (btnLabel) btnLabel.textContent = 'Authenticating...';
+
+      const result = await firebase.auth().signInWithPopup(provider);
+      const credential = result.credential;
+      const token = credential?.accessToken;
+      const user = result.user;
+
+      if (token) {
+        this.accessToken = token;
+      }
+
+      if (user) {
+        const userInfo = {
+          id: user.uid,
+          email: user.email,
+          name: user.displayName || (user.email ? user.email.split('@')[0] : 'User'),
+          photo: user.photoURL
+        };
+        if (window.SyncService) {
+          window.SyncService.currentUser = userInfo;
+          localStorage.setItem(USER_SESSION_KEY, JSON.stringify(userInfo));
+          updateAuthUI(userInfo);
+        }
+      }
+
+      if (btnLabel) btnLabel.textContent = 'Continue with Google';
+
+      if (token) {
+        if (interrogateLabel) interrogateLabel.textContent = 'Interrogating Drive...';
+        const mirrorResult = await this.interrogateFolder(token);
+        if (interrogateLabel) interrogateLabel.textContent = `Mirrored (${mirrorResult.total} items)`;
+        showToast(`Drive Mirrored: ${mirrorResult.total} flashcards mapped!`, '📂', 3500);
+      } else {
+        showToast(`Signed in as ${user.email}`, '✨');
+      }
+
+      document.getElementById('auth-modal')?.classList.add('hidden');
+      unlockScroll('auth');
+    } catch (err) {
+      console.error('Google Drive Auth Error:', err);
+      if (statusMsg) {
+        statusMsg.textContent = err.message || 'Google Sign-In failed';
+        statusMsg.style.color = 'var(--rust)';
+      }
+      if (btnLabel) btnLabel.textContent = 'Continue with Google';
+      showToast(err.message || 'Google Auth Error', '⚠️');
+    }
+  },
+
+  async interrogateFolder(token) {
+    const authToken = token || this.accessToken;
+    if (!authToken) {
+      return this.loginAndInterrogate();
+    }
+
+    const statusMsg = document.getElementById('auth-status-msg');
+    const interrogateLabel = document.getElementById('drive-interrogate-label');
+    if (interrogateLabel) interrogateLabel.textContent = 'Interrogating Drive...';
+
+    try {
+      const res = await fetch('/api/drive/mirror-folder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`
+        },
+        body: JSON.stringify({ folderId: this.folderId })
+      });
+
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        throw new Error(data.error || 'Failed to interrogate Drive folder');
+      }
+
+      if (data.files && Array.isArray(data.files)) {
+        localStorage.setItem('wordsmart_drive_mirror', JSON.stringify({
+          folderId: this.folderId,
+          updatedAt: new Date().toISOString(),
+          files: data.files
+        }));
+        this.applyMirroredFiles(data.files, true);
+      }
+
+      if (interrogateLabel) interrogateLabel.textContent = `Mirrored (${data.files?.length || 0} items)`;
+      return { total: data.files?.length || 0, files: data.files };
+    } catch (err) {
+      console.error('Drive Interrogation Error:', err);
+      if (interrogateLabel) interrogateLabel.textContent = 'Interrogate & Mirror Drive';
+      if (statusMsg) {
+        statusMsg.textContent = err.message || 'Drive mirror failed';
+        statusMsg.style.color = 'var(--rust)';
+      }
+      throw err;
+    }
+  },
+
+  applyMirroredFiles(files, showFeedback = false) {
+    if (!files || !files.length || !Array.isArray(ALL_CARDS) || !ALL_CARDS.length) return;
+
+    // Create lookup map by normalized word and file name
+    const nameMap = new Map();
+    files.forEach((f, idx) => {
+      const cleanName = (f.name || '').replace(/\.[^/.]+$/, '').trim().toUpperCase();
+      nameMap.set(cleanName, f.id);
+      const wordOnly = cleanName.replace(/^[0-9\s#._-]+/, '').trim();
+      if (wordOnly) nameMap.set(wordOnly, f.id);
+    });
+
+    let mappedCount = 0;
+    ALL_CARDS.forEach((card, idx) => {
+      const cardWord = (card.word || '').trim().toUpperCase();
+      if (nameMap.has(cardWord)) {
+        card.id = nameMap.get(cardWord);
+        mappedCount++;
+      } else if (idx < files.length) {
+        card.id = files[idx].id;
+        mappedCount++;
+      }
+    });
+
+    if (DRILLS && typeof DRILLS === 'object') {
+      Object.keys(DRILLS).forEach(dNum => {
+        DRILLS[dNum]?.forEach((c, idx) => {
+          const w = (c.word || '').trim().toUpperCase();
+          if (nameMap.has(w)) {
+            c.id = nameMap.get(w);
+          }
+        });
+      });
+    }
+
+    if (current && typeof renderCard === 'function') {
+      renderCard();
+    }
+  }
+};
+
+// Initialize Supabase & Google Drive Sync on startup
+window.SyncService.init();
+window.DriveService.init();
 </script>
 
 <div id="sync-toast" class="sync-toast hidden" role="status" aria-live="polite">

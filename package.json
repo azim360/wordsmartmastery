@@ -9,6 +9,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.112.3",
     "express": "^4.21.2",
     "firebase": "^11.4.0"
   }

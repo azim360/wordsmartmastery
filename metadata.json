@@ -1,6 +1,6 @@
 {
   "name": "Word Smart 1 & 2 Mastery",
-  "description": "793 words across 16 study drills, presented as a library catalog of flashcards.",
+  "description": "1,629 words across 33 study drills in Word Smart 1 & Word Smart 2, presented as a library catalog of flashcards with spaced review and Google Drive image mirroring.",
   "requestFramePermissions": ["microphone"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
